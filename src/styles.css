@@ -82,12 +82,12 @@
   --border: oklch(0.3 0.006 270);
   --input: oklch(0.3 0.006 270);
   --ring: oklch(0.91 0.22 125);
-  --tier-plankton: oklch(0.82 0.005 270);
-  --tier-clever: oklch(0.78 0.08 295);
-  --tier-schooler: oklch(0.78 0.11 230);
-  --tier-rare: oklch(0.88 0.16 90);
-  --tier-deep: oklch(0.76 0.17 50);
-  --tier-million: oklch(0.91 0.22 125);
+  --tier-pencil: oklch(0.82 0.005 270);
+  --tier-paperclip: oklch(0.78 0.08 295);
+  --tier-notebook: oklch(0.78 0.11 230);
+  --tier-backpack: oklch(0.88 0.16 90);
+  --tier-goldstar: oklch(0.76 0.17 50);
+  --tier-valedictorian: oklch(0.91 0.22 125);
   --grid-line: oklch(1 0 0 / 4%);
   --chart-1: oklch(0.91 0.22 125);
   --chart-2: oklch(0.78 0.08 295);
@@ -107,12 +107,12 @@
 @theme inline {
   --font-display: "Unbounded", system-ui, sans-serif;
   --font-sans: "Space Grotesk", system-ui, sans-serif;
-  --color-tier-plankton: var(--tier-plankton);
-  --color-tier-clever: var(--tier-clever);
-  --color-tier-schooler: var(--tier-schooler);
-  --color-tier-rare: var(--tier-rare);
-  --color-tier-deep: var(--tier-deep);
-  --color-tier-million: var(--tier-million);
+  --color-tier-pencil: var(--tier-pencil);
+  --color-tier-paperclip: var(--tier-paperclip);
+  --color-tier-notebook: var(--tier-notebook);
+  --color-tier-backpack: var(--tier-backpack);
+  --color-tier-goldstar: var(--tier-goldstar);
+  --color-tier-valedictorian: var(--tier-valedictorian);
 }
 
 @utility grid-bg {

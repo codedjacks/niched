@@ -8,7 +8,7 @@ const country = QUESTIONS.find((q) => q.id === "country")!;
 
 describe("scoring", () => {
   it("tier points match spec", () => {
-    expect([TIERS.plankton, TIERS.clever, TIERS.schooler, TIERS.rare, TIERS.deep, TIERS.million].map((t) => t.points)).toEqual([10, 15, 30, 60, 85, 100]);
+    expect([TIERS.pencil, TIERS.paperclip, TIERS.notebook, TIERS.backpack, TIERS.goldstar, TIERS.valedictorian].map((t) => t.points)).toEqual([10, 15, 30, 60, 85, 100]);
     expect(MAX_SCORE).toBe(700);
   });
   it("normalizes case, spaces, punctuation", () => {

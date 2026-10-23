@@ -3,12 +3,12 @@ import type { TierId } from "@/game/types";
 import { cn } from "@/lib/utils";
 
 const tierCls: Record<TierId, string> = {
-  plankton: "bg-tier-plankton text-background",
-  clever: "bg-tier-clever text-background",
-  schooler: "bg-tier-schooler text-background",
-  rare: "bg-tier-rare text-background",
-  deep: "bg-tier-deep text-background",
-  million: "bg-tier-million text-background shadow-[0_0_24px_-4px_var(--tier-million)]",
+  pencil: "bg-tier-pencil text-background",
+  paperclip: "bg-tier-paperclip text-background",
+  notebook: "bg-tier-notebook text-background",
+  backpack: "bg-tier-backpack text-background",
+  goldstar: "bg-tier-goldstar text-background",
+  valedictorian: "bg-tier-valedictorian text-background shadow-[0_0_24px_-4px_var(--tier-valedictorian)]",
 };
 
 export function TierBadge({ tier, className }: { tier: TierId; className?: string }) {
