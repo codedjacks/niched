@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useCountdown, useCountUp } from "@/game/hooks";
 import { useServerFn } from "@tanstack/react-start";
-import { validateAnswer, normalize, TIERS, TIER_ORDER } from "@/game/scoring";
+import { validateAnswer, normalize, curatedRarity, TIERS, TIER_ORDER, type RaritySource } from "@/game/scoring";
 import { judgeAnswer } from "@/game/judge.functions";
 import type { Mode, Outcome, Question, RoundAnswer } from "@/game/types";
 import { cn } from "@/lib/utils";
@@ -9,8 +9,8 @@ import { Progress, TierBadge } from "./ui";
 
 export const SECONDS = 25;
 
-export function Play({ questions, mode, onDone, onQuit }: {
-  questions: Question[]; mode: Mode; onDone: (a: RoundAnswer[]) => void; onQuit: () => void;
+export function Play({ questions, mode, rarity = curatedRarity, onDone, onQuit }: {
+  questions: Question[]; mode: Mode; rarity?: RaritySource; onDone: (a: RoundAnswer[]) => void; onQuit: () => void;
 }) {
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState<RoundAnswer[]>([]);
@@ -55,8 +55,8 @@ export function Play({ questions, mode, onDone, onQuit }: {
   const submit = async (e?: React.FormEvent) => {
     e?.preventDefault();
     if (locked.current || checking) return;
-    const v = validateAnswer(q, value, tried.current);
-    if (v.ok) return finish({ kind: "correct", display: v.display, tier: v.tier, points: v.points });
+    const v = validateAnswer(q, value, tried.current, rarity);
+    if (v.ok) return finish({ kind: "correct", display: v.display, tier: v.tier, points: v.points, didYouMean: v.didYouMean, typed: value.trim() });
     const raw = value;
     const fail = (msg: string) => { setError(msg); setShakeKey((k) => k + 1); setValue(""); };
     if (v.reason === "empty") return fail("Type an answer first");
@@ -69,7 +69,10 @@ export function Play({ questions, mode, onDone, onQuit }: {
     try {
       const r = await judge({ data: { questionId: qid, answer: raw } });
       if (locked.current || qid !== questions[idx]?.id) return;
-      if (r.ok) return finish({ kind: "correct", display: r.display, tier: r.tier, points: r.points });
+      if (r.ok) {
+        const tier = rarity.tierFor(q, normalize(r.display), r.tier);
+        return finish({ kind: "correct", display: r.display, tier, points: TIERS[tier].points, didYouMean: normalize(r.display) !== normalize(raw), typed: raw.trim() });
+      }
       fail(r.message);
     } catch {
       fail("Answer checker is busy — try another answer");
@@ -195,7 +198,13 @@ function Reveal({ o, last, onNext }: { o: Outcome; last: boolean; onNext: () => 
   return (
     <div role="status" aria-live="polite">
       <div className="relative overflow-hidden rounded-lg border-2 border-primary bg-card p-6 text-center">
-        <div className="font-display text-2xl font-bold sm:text-3xl">{o.display}</div>
+        {o.didYouMean && (
+          <div className="mb-1 font-hand text-xl text-secondary">
+            you wrote “{o.typed}” — did you mean…
+          </div>
+        )}
+        <div className="font-display text-2xl font-bold sm:text-3xl">{o.display}{o.didYouMean ? "?" : ""}</div>
+        {o.didYouMean && <div className="mt-1 font-sans text-xs text-muted-foreground">Close enough — we'll count it.</div>}
         <div className="mt-1 font-sans text-xs uppercase tracking-widest text-muted-foreground">
           {done ? "Graded!" : "Grading rarity…"}
         </div>

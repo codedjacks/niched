@@ -26,26 +26,76 @@ export function normalize(input: string): string {
 }
 
 /**
- * Rarity source abstraction. Today: curated tiers. Later: swap in a provider
- * backed by real answer-frequency data (e.g. share of players who gave the answer).
+ * Rarity source abstraction. Answers are identified by canonical key = normalize(display).
+ * `fallback` is the curated (or AI-estimated) tier, used when no real data applies.
  */
 export interface RaritySource {
-  tierFor(question: Question, key: string): TierId | null;
+  tierFor(question: Question, canonicalKey: string, fallback: TierId): TierId;
 }
 export const curatedRarity: RaritySource = {
-  tierFor: (q, key) => q.answers.get(key)?.tier ?? null,
+  tierFor: (_q, _k, fallback) => fallback,
 };
-/** Map a real frequency (0..1 share of players) to a tier, for future use. */
+
+/** Map a real frequency (0..1 share of players who gave this answer) to a tier. */
 export function tierFromFrequency(share: number): TierId {
-  if (share >= 0.2) return "pencil";
-  if (share >= 0.08) return "notebook";
-  if (share >= 0.03) return "backpack";
-  if (share >= 0.005) return "goldstar";
+  if (share >= 0.25) return "pencil";
+  if (share >= 0.12) return "paperclip";
+  if (share >= 0.06) return "notebook";
+  if (share >= 0.025) return "backpack";
+  if (share >= 0.008) return "goldstar";
   return "valedictorian";
 }
 
+/** Minimum correct answers recorded for a question before real frequencies replace curated tiers. */
+export const MIN_SAMPLES = 25;
+export type QuestionCounts = { total: number; counts: Record<string, number> };
+
+/** Real answer-frequency rarity, with curated fallback while a question has too few plays. */
+export function frequencyRarity(data: Record<string, QuestionCounts>, min = MIN_SAMPLES): RaritySource {
+  return {
+    tierFor: (q, key, fallback) => {
+      const d = data[q.id];
+      if (!d || d.total < min) return fallback;
+      return tierFromFrequency((d.counts[key] ?? 0) / d.total);
+    },
+  };
+}
+export function usesRealData(data: Record<string, QuestionCounts> | undefined, qid: string, min = MIN_SAMPLES) {
+  return (data?.[qid]?.total ?? 0) >= min;
+}
+
+/** Levenshtein distance (small strings only). */
+export function editDistance(a: string, b: string): number {
+  const dp = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    let prev = dp[0]!;
+    dp[0] = i;
+    for (let j = 1; j <= b.length; j++) {
+      const tmp = dp[j]!;
+      dp[j] = Math.min(dp[j]! + 1, dp[j - 1]! + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1));
+      prev = tmp;
+    }
+  }
+  return dp[b.length]!;
+}
+/** Allowed typos scale with length: 0 for <=4 chars (Iran/Iraq), 1 for <=7, 2 for <=12, else 3. */
+export function typoAllowance(len: number) {
+  return len <= 4 ? 0 : len <= 7 ? 1 : len <= 12 ? 2 : 3;
+}
+/** Closest curated key within typo allowance, or null. */
+export function fuzzyMatch(q: Question, key: string): string | null {
+  let best: string | null = null;
+  let bestD = Infinity;
+  for (const k of q.answers.keys()) {
+    if (Math.abs(k.length - key.length) > 3) continue;
+    const d = editDistance(key, k);
+    if (d <= typoAllowance(Math.min(k.length, key.length)) && d < bestD) { best = k; bestD = d; }
+  }
+  return best;
+}
+
 export type Validation =
-  | { ok: true; display: string; tier: TierId; points: number }
+  | { ok: true; display: string; tier: TierId; points: number; didYouMean: boolean }
   | { ok: false; reason: "empty" | "invalid" | "duplicate" };
 
 export function validateAnswer(
@@ -57,7 +107,10 @@ export function validateAnswer(
   const key = normalize(raw);
   if (!key) return { ok: false, reason: "empty" };
   if (tried.has(key)) return { ok: false, reason: "duplicate" };
-  const tier = source.tierFor(q, key);
-  if (!tier) return { ok: false, reason: "invalid" };
-  return { ok: true, display: q.answers.get(key)!.display, tier, points: TIERS[tier].points };
+  const exact = q.answers.get(key);
+  const matchKey = exact ? key : fuzzyMatch(q, key);
+  if (!matchKey) return { ok: false, reason: "invalid" };
+  const entry = q.answers.get(matchKey)!;
+  const tier = source.tierFor(q, normalize(entry.display), entry.tier);
+  return { ok: true, display: entry.display, tier, points: TIERS[tier].points, didYouMean: !exact };
 }

@@ -7,6 +7,10 @@ import { GeoBackground } from "@/components/game/ui";
 import { dailyQuestions, dateKey, practiceQuestions } from "@/game/selection";
 import { emptyStats, liveStreak, loadStats, recordDaily, recordPractice, saveStats, type Stats } from "@/game/storage";
 import type { Mode, Question, RoundAnswer } from "@/game/types";
+import { useServerFn } from "@tanstack/react-start";
+import { getAnswerCounts, submitRound } from "@/game/leaderboard.functions";
+import { frequencyRarity, normalize, type QuestionCounts } from "@/game/scoring";
+import { playerId, playerName } from "@/game/player";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -36,10 +40,17 @@ function Index() {
   const doneToday = stats.lastDailyDate === today;
   const todayScore = doneToday && stats.todayAnswers ? stats.todayAnswers.reduce((s, a) => s + a.outcome.points, 0) : null;
 
+  const [counts, setCounts] = useState<Record<string, QuestionCounts>>({});
+  const fetchCounts = useServerFn(getAnswerCounts);
+  const submit = useServerFn(submitRound);
+
   const start = (mode: Mode) => {
     const d = dateKey();
     setToday(d);
-    setScreen({ s: "play", mode, questions: mode === "daily" ? dailyQuestions(d) : practiceQuestions(), key: Date.now() });
+    const questions = mode === "daily" ? dailyQuestions(d) : practiceQuestions();
+    setCounts({});
+    fetchCounts({ data: { questionIds: questions.map((q) => q.id) } }).then(setCounts).catch(() => {});
+    setScreen({ s: "play", mode, questions, key: Date.now() });
   };
 
   const onDone = useCallback((answers: RoundAnswer[]) => {
@@ -51,9 +62,17 @@ function Index() {
       const prevBest = cur.mode === "daily" ? prev.bestDaily : prev.bestPractice;
       saveStats(next);
       setStats(next);
+      const day = dateKey();
+      if (cur.mode === "practice" || prev.lastDailyDate !== day) {
+        submit({ data: {
+          playerId: playerId(), name: playerName(), mode: cur.mode, day, score,
+          tiers: answers.map((a) => (a.outcome.kind === "correct" ? a.outcome.tier : "none")),
+          answers: answers.flatMap((a) => (a.outcome.kind === "correct" ? [{ questionId: a.questionId, key: normalize(a.outcome.display) }] : [])),
+        } }).catch(() => {});
+      }
       return { s: "results", mode: cur.mode, answers, newBest: score > prevBest && score > 0 };
     });
-  }, []);
+  }, [submit]);
 
   return (
     <>
@@ -64,7 +83,7 @@ function Index() {
           onViewToday={() => stats.todayAnswers && setScreen({ s: "results", mode: "daily", answers: stats.todayAnswers, newBest: false })} />
       )}
       {screen.s === "play" && (
-        <Play key={screen.key} questions={screen.questions} mode={screen.mode} onDone={onDone} onQuit={() => setScreen({ s: "home" })} />
+        <Play key={screen.key} questions={screen.questions} mode={screen.mode} rarity={frequencyRarity(counts)} onDone={onDone} onQuit={() => setScreen({ s: "home" })} />
       )}
       {screen.s === "results" && (
         <Results answers={screen.answers} mode={screen.mode} date={today} streak={liveStreak(stats, today)}
