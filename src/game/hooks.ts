@@ -3,17 +3,21 @@ import { useEffect, useRef, useState } from "react";
 /** Countdown that calls onExpire once; cleans up its interval. */
 export function useCountdown(seconds: number, running: boolean, resetKey: unknown, onExpire: () => void) {
   const [left, setLeft] = useState(seconds);
+  const remaining = useRef(seconds);
   const cb = useRef(onExpire);
   cb.current = onExpire;
+  // Reset runs before the ticking effect, so a new question always starts from the full duration.
   useEffect(() => {
+    remaining.current = seconds;
     setLeft(seconds);
   }, [resetKey, seconds]);
   useEffect(() => {
     if (!running) return;
-    const deadline = Date.now() + left * 1000;
+    const deadline = Date.now() + remaining.current * 1000;
     let fired = false;
     const id = setInterval(() => {
       const rem = Math.max(0, (deadline - Date.now()) / 1000);
+      remaining.current = rem;
       setLeft(rem);
       if (rem <= 0 && !fired) {
         fired = true;
@@ -22,8 +26,7 @@ export function useCountdown(seconds: number, running: boolean, resetKey: unknow
       }
     }, 100);
     return () => clearInterval(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [running, resetKey]);
+  }, [running, resetKey, seconds]);
   return left;
 }
 
