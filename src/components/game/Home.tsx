@@ -69,7 +69,7 @@ export function Home({ stats, streak, doneToday, todayScore, onDaily, onPractice
       <section className="mt-10 animate-rise [animation-delay:240ms]">
         <h2 className="font-display text-sm font-bold uppercase tracking-widest text-muted-foreground">How scoring works</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          Every valid answer earns points by rarity tier. Obvious picks are worth little; deep cuts are worth a lot. 25 seconds per question. Max {MAX_SCORE}.
+          Every valid answer earns points by rarity tier — from a plain Pencil up to Valedictorian. The more obscure your answer, the more it's worth. 25 seconds per question. Max {MAX_SCORE}.
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           {TIER_ORDER.map((t) => (
@@ -80,7 +80,7 @@ export function Home({ stats, streak, doneToday, todayScore, onDaily, onPractice
           ))}
         </div>
         <p className="mt-3 text-xs text-muted-foreground/70">
-          "Too Clever" = technically right, cheeky picks. Rarity tiers are hand-curated for now, not live player stats.
+          "Valedictorian" = the rarest picks in the class. Rarity tiers are hand-curated for now, not live player stats.
         </p>
       </section>
     </main>
