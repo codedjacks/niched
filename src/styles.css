@@ -5,19 +5,10 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ * Niched design system — "night classroom": deep chalkboard green,
+ * chalk-cream text, highlighter-yellow primary, red-pen pink accents.
+ * Surfaces read as index cards / stickers with tape and hard offset shadows.
  */
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -59,54 +50,59 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-marker: var(--marker);
 }
 
 :root {
-  --radius: 1rem;
-  --background: oklch(0.16 0.005 270);
-  --foreground: oklch(0.97 0.005 100);
-  --card: oklch(0.21 0.006 270);
-  --card-foreground: oklch(0.97 0.005 100);
-  --popover: oklch(0.21 0.006 270);
-  --popover-foreground: oklch(0.97 0.005 100);
-  --primary: oklch(0.91 0.22 125);
-  --primary-foreground: oklch(0.16 0.005 270);
-  --secondary: oklch(0.78 0.08 295);
-  --secondary-foreground: oklch(0.16 0.005 270);
-  --muted: oklch(0.26 0.006 270);
-  --muted-foreground: oklch(0.7 0.01 270);
-  --accent: oklch(0.84 0.005 270);
-  --accent-foreground: oklch(0.16 0.005 270);
+  --radius: 0.75rem;
+  --background: oklch(0.24 0.02 168);
+  --foreground: oklch(0.96 0.012 95);
+  --card: oklch(0.28 0.022 168);
+  --card-foreground: oklch(0.96 0.012 95);
+  --popover: oklch(0.28 0.022 168);
+  --popover-foreground: oklch(0.96 0.012 95);
+  --primary: oklch(0.91 0.2 118);
+  --primary-foreground: oklch(0.22 0.02 168);
+  --secondary: oklch(0.74 0.19 22);
+  --secondary-foreground: oklch(0.96 0.012 95);
+  --marker: oklch(0.74 0.11 250);
+  --muted: oklch(0.34 0.02 168);
+  --muted-foreground: oklch(0.76 0.02 168);
+  --accent: oklch(0.88 0.02 168);
+  --accent-foreground: oklch(0.22 0.02 168);
   --destructive: oklch(0.68 0.2 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.3 0.006 270);
-  --input: oklch(0.3 0.006 270);
-  --ring: oklch(0.91 0.22 125);
-  --tier-pencil: oklch(0.82 0.005 270);
-  --tier-paperclip: oklch(0.78 0.08 295);
-  --tier-notebook: oklch(0.78 0.11 230);
+  --border: oklch(0.44 0.02 168);
+  --input: oklch(0.44 0.02 168);
+  --ring: oklch(0.91 0.2 118);
+  --tier-pencil: oklch(0.9 0.01 95);
+  --tier-paperclip: oklch(0.8 0.08 295);
+  --tier-notebook: oklch(0.8 0.11 230);
   --tier-backpack: oklch(0.88 0.16 90);
-  --tier-goldstar: oklch(0.76 0.17 50);
-  --tier-valedictorian: oklch(0.91 0.22 125);
-  --grid-line: oklch(1 0 0 / 4%);
-  --chart-1: oklch(0.91 0.22 125);
-  --chart-2: oklch(0.78 0.08 295);
-  --chart-3: oklch(0.84 0.005 270);
+  --tier-goldstar: oklch(0.78 0.17 55);
+  --tier-valedictorian: oklch(0.91 0.2 118);
+  --grid-line: oklch(0.96 0.012 95 / 6%);
+  --rule-line: oklch(0.96 0.012 95 / 8%);
+  --ink: oklch(0.14 0.02 168);
+  --chart-1: oklch(0.91 0.2 118);
+  --chart-2: oklch(0.74 0.19 22);
+  --chart-3: oklch(0.74 0.11 250);
   --chart-4: oklch(0.88 0.16 90);
-  --chart-5: oklch(0.76 0.17 50);
-  --sidebar: oklch(0.21 0.006 270);
-  --sidebar-foreground: oklch(0.97 0.005 100);
-  --sidebar-primary: oklch(0.91 0.22 125);
-  --sidebar-primary-foreground: oklch(0.16 0.005 270);
-  --sidebar-accent: oklch(0.26 0.006 270);
-  --sidebar-accent-foreground: oklch(0.97 0.005 100);
-  --sidebar-border: oklch(0.3 0.006 270);
-  --sidebar-ring: oklch(0.91 0.22 125);
+  --chart-5: oklch(0.78 0.17 55);
+  --sidebar: oklch(0.28 0.022 168);
+  --sidebar-foreground: oklch(0.96 0.012 95);
+  --sidebar-primary: oklch(0.91 0.2 118);
+  --sidebar-primary-foreground: oklch(0.22 0.02 168);
+  --sidebar-accent: oklch(0.34 0.02 168);
+  --sidebar-accent-foreground: oklch(0.96 0.012 95);
+  --sidebar-border: oklch(0.44 0.02 168);
+  --sidebar-ring: oklch(0.91 0.2 118);
 }
 
 @theme inline {
-  --font-display: "Unbounded", system-ui, sans-serif;
-  --font-sans: "Space Grotesk", system-ui, sans-serif;
+  --font-display: "Silkscreen", system-ui, sans-serif;
+  --font-sans: "Space Mono", ui-monospace, monospace;
+  --font-hand: "Caveat", cursive;
   --color-tier-pencil: var(--tier-pencil);
   --color-tier-paperclip: var(--tier-paperclip);
   --color-tier-notebook: var(--tier-notebook);
@@ -122,16 +118,55 @@
   background-size: 48px 48px;
 }
 
-@keyframes pop-in { 0% { transform: scale(.85); opacity: 0 } 60% { transform: scale(1.04); opacity: 1 } 100% { transform: scale(1) } }
+/* ruled notebook lines for index-card surfaces */
+@utility ruled {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 27px,
+    var(--rule-line) 27px 28px
+  );
+}
+
+/* hard offset shadow — sticker/stamp feel */
+@utility shadow-pop {
+  box-shadow: 5px 5px 0 0 var(--ink);
+}
+@utility shadow-pop-sm {
+  box-shadow: 3px 3px 0 0 var(--ink);
+}
+@utility shadow-pop-marker {
+  box-shadow: 6px 6px 0 0 var(--secondary);
+}
+
+/* a strip of masking tape, absolutely positioned at the top center of its card */
+@utility tape {
+  position: absolute;
+  top: -0.65rem;
+  left: 50%;
+  width: 5.5rem;
+  height: 1.4rem;
+  margin-left: -2.75rem;
+  transform: rotate(-2.5deg);
+  background: oklch(0.96 0.012 95 / 0.16);
+  border-left: 1px solid oklch(0.96 0.012 95 / 0.15);
+  border-right: 1px solid oklch(0.96 0.012 95 / 0.15);
+  box-shadow: 0 1px 2px oklch(0 0 0 / 0.2);
+}
+
+@keyframes pop-in { 0% { transform: scale(.85); opacity: 0 } 60% { transform: scale(1.05); opacity: 1 } 100% { transform: scale(1) } }
 @keyframes rise { from { transform: translateY(12px); opacity: 0 } to { transform: none; opacity: 1 } }
 @keyframes shake { 0%,100% { transform: none } 25% { transform: translateX(-6px) } 75% { transform: translateX(6px) } }
-@keyframes drift { 0%,100% { transform: translate(0,0) rotate(0) } 50% { transform: translate(20px,-30px) rotate(45deg) } }
+@keyframes drift { 0%,100% { transform: translate(0,0) rotate(0) } 50% { transform: translate(24px,-32px) rotate(8deg) } }
 @keyframes float-up { from { transform: translateY(0); opacity: 1 } to { transform: translateY(-28px); opacity: 0 } }
+@keyframes stamp { 0% { transform: scale(1.9) rotate(-14deg); opacity: 0 } 55% { transform: scale(.94) rotate(-7deg); opacity: 1 } 100% { transform: scale(1) rotate(-7deg) } }
+@keyframes squiggle { 0% { stroke-dashoffset: 0 } 100% { stroke-dashoffset: -160 } }
+
 @utility animate-pop { animation: pop-in .45s cubic-bezier(.2,.9,.3,1.2) both; }
 @utility animate-rise { animation: rise .4s ease-out both; }
 @utility animate-shake { animation: shake .3s ease-in-out; }
 @utility animate-drift { animation: drift 18s ease-in-out infinite; }
 @utility animate-float-up { animation: float-up .9s ease-out forwards; }
+@utility animate-stamp { animation: stamp .5s cubic-bezier(.2,.9,.3,1.1) both; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
@@ -146,5 +181,10 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background: var(--primary);
+    color: var(--primary-foreground);
   }
 }
