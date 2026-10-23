@@ -69,3 +69,16 @@ describe("ranked daily window", () => {
     expect(dayIsCurrent("2026-10-20", now)).toBe(false);
   });
 });
+
+import { DAILY_QUESTIONS } from "./questions";
+describe("daily pool cutover", () => {
+  it("keeps today's (2026-10-23) daily on the original pool", () => {
+    const core = new Set(DAILY_QUESTIONS.map((q) => q.id));
+    expect(dailyQuestions("2026-10-23").every((q) => core.has(q.id))).toBe(true);
+  });
+  it("draws from the full bank from 2026-10-24 on", () => {
+    const core = new Set(DAILY_QUESTIONS.map((q) => q.id));
+    const days = Array.from({ length: 30 }, (_, i) => `2026-11-${String(i + 1).padStart(2, "0")}`);
+    expect(days.some((d) => dailyQuestions(d).some((q) => !core.has(q.id)))).toBe(true);
+  });
+});

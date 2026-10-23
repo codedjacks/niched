@@ -29,8 +29,11 @@ export function dateKey(d = new Date()) {
   const p = (n: number) => String(n).padStart(2, "0");
   return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
 }
+/** First day the daily pool includes the full bank. Earlier days keep the original pool so past results still verify. */
+export const FULL_BANK_DAILY_FROM = "2026-10-24";
 export function dailyQuestions(key = dateKey()) {
-  return pick(mulberry32(hash("niched:" + key)), DAILY_QUESTIONS);
+  const bank = key >= FULL_BANK_DAILY_FROM ? QUESTIONS : DAILY_QUESTIONS;
+  return pick(mulberry32(hash("niched:" + key)), bank);
 }
 export function practiceQuestions() {
   return pick(Math.random);
