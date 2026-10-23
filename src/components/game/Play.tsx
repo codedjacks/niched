@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useCountdown, useCountUp } from "@/game/hooks";
+import { useServerFn } from "@tanstack/react-start";
 import { validateAnswer, normalize } from "@/game/scoring";
+import { judgeAnswer } from "@/game/judge.functions";
 import type { Mode, Outcome, Question, RoundAnswer } from "@/game/types";
 import { cn } from "@/lib/utils";
 import { Progress, TierBadge } from "./ui";
@@ -17,6 +19,8 @@ export function Play({ questions, mode, onDone, onQuit }: {
   const [value, setValue] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [shakeKey, setShakeKey] = useState(0);
+  const [checking, setChecking] = useState(false);
+  const judge = useServerFn(judgeAnswer);
   const tried = useRef(new Set<string>());
   const locked = useRef(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -56,15 +60,30 @@ export function Play({ questions, mode, onDone, onQuit }: {
     if (!revealing) inputRef.current?.focus();
   }, [revealing, idx]);
 
-  const submit = (e?: React.FormEvent) => {
+  const submit = async (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (locked.current) return;
+    if (locked.current || checking) return;
     const v = validateAnswer(q, value, tried.current);
     if (v.ok) return finish({ kind: "correct", display: v.display, tier: v.tier, points: v.points });
-    if (v.reason !== "empty") tried.current.add(normalize(value));
-    setError(v.reason === "empty" ? "Type an answer first" : v.reason === "duplicate" ? "Already tried that one" : `"${value.trim()}" isn't on our list — try another`);
-    setShakeKey((k) => k + 1);
-    setValue("");
+    const raw = value;
+    const fail = (msg: string) => { setError(msg); setShakeKey((k) => k + 1); setValue(""); };
+    if (v.reason === "empty") return fail("Type an answer first");
+    if (v.reason === "duplicate") return fail("Already tried that one");
+    tried.current.add(normalize(raw));
+    // Not on the curated list exactly — ask the AI referee.
+    setChecking(true);
+    setError(null);
+    const qid = q.id;
+    try {
+      const r = await judge({ data: { questionId: qid, answer: raw } });
+      if (locked.current || qid !== questions[idx]?.id) return;
+      if (r.ok) return finish({ kind: "correct", display: r.display, tier: r.tier, points: r.points });
+      fail(r.message);
+    } catch {
+      fail("Answer checker is busy — try another answer");
+    } finally {
+      setChecking(false);
+    }
   };
 
   const pct = (left / SECONDS) * 100;
