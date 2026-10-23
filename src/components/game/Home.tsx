@@ -29,7 +29,7 @@ export function Home({ stats, streak, doneToday, todayScore, onDaily, onPractice
       <header className="animate-rise relative">
         <p className="font-hand text-2xl text-secondary">the rarity trivia game — no homework today, just answers</p>
         {/* highlighter swipe behind the wordmark */}
-        <div aria-hidden className="absolute left-0 top-6 hidden h-14 w-52 -skew-x-12 rounded-sm bg-primary/50 blur-[3px] sm:block sm:top-8 sm:h-20 sm:w-72" />
+        <div aria-hidden className="absolute left-0 top-6 hidden h-14 w-52 -skew-x-12 rounded-sm bg-primary/50 blur-[3px] sm:block sm:top-8 sm:h-20 sm:w-72 lg:top-10 lg:h-24 lg:w-96" />
         <h1 className="relative mt-1 font-display text-6xl font-black uppercase leading-none tracking-tight text-foreground sm:text-8xl lg:text-9xl">
           Niched<span className="text-primary">.</span>
         </h1>
