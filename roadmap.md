@@ -1,5 +1,5 @@
 # Roadmap
 - [x] Remove top bar
-- [ ] Rankings + daily leaderboard
-- [ ] Real answer-frequency tiers
-- [ ] Fuzzy answers with "did you mean"
+- [x] Rankings + daily leaderboard
+- [x] Real answer-frequency tiers (curated fallback under 25 answers)
+- [x] Fuzzy answers with "did you mean"
