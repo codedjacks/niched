@@ -82,3 +82,24 @@ describe("daily pool cutover", () => {
     expect(days.some((d) => dailyQuestions(d).some((q) => !core.has(q.id)))).toBe(true);
   });
 });
+
+import { practiceQuestions } from "./selection";
+describe("no repeats", () => {
+  it("daily never repeats a question until the whole bank (57) has been used", () => {
+    const ids: string[] = [];
+    for (let i = 0; i < 8; i++) ids.push(...dailyQuestions(`2026-10-${24 + i > 31 ? "" : ""}${String(24 + i).padStart(2, "0")}`.replace("2026-10-32", "2026-11-01")).map((q) => q.id));
+    expect(new Set(ids).size).toBe(56);
+  });
+  it("no daily round ever contains the same question twice", () => {
+    for (let i = 0; i < 400; i++) {
+      const d = new Date(Date.UTC(2026, 9, 24 + i)).toISOString().slice(0, 10);
+      const ids = dailyQuestions(d).map((q) => q.id);
+      expect(new Set(ids).size).toBe(7);
+    }
+  });
+  it("practice skips questions already seen", () => {
+    const seen = QUESTIONS.slice(0, 50).map((q) => q.id);
+    const ids = practiceQuestions(seen).map((q) => q.id);
+    expect(ids.filter((id) => !seen.includes(id)).length).toBe(7);
+  });
+});
