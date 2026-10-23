@@ -62,6 +62,161 @@ export type Database = {
         }
         Relationships: []
       }
+      match_answers: {
+        Row: {
+          created_at: string
+          display: string | null
+          id: string
+          match_id: string
+          points: number
+          q_index: number
+          tier: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          display?: string | null
+          id?: string
+          match_id: string
+          points?: number
+          q_index: number
+          tier?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          display?: string | null
+          id?: string
+          match_id?: string
+          points?: number
+          q_index?: number
+          tier?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "match_answers_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "matches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "match_answers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      matches: {
+        Row: {
+          code: string
+          created_at: string
+          guest_id: string | null
+          host_id: string
+          id: string
+          question_ids: string[]
+          starts_at: string | null
+          status: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          guest_id?: string | null
+          host_id: string
+          id?: string
+          question_ids: string[]
+          starts_at?: string | null
+          status?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          guest_id?: string | null
+          host_id?: string
+          id?: string
+          question_ids?: string[]
+          starts_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "matches_guest_id_fkey"
+            columns: ["guest_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "matches_host_id_fkey"
+            columns: ["host_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string
+          id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string
+          id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      ranked_scores: {
+        Row: {
+          answers: Json
+          created_at: string
+          day: string
+          id: string
+          score: number
+          tiers: string[]
+          user_id: string
+        }
+        Insert: {
+          answers?: Json
+          created_at?: string
+          day: string
+          id?: string
+          score: number
+          tiers?: string[]
+          user_id: string
+        }
+        Update: {
+          answers?: Json
+          created_at?: string
+          day?: string
+          id?: string
+          score?: number
+          tiers?: string[]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ranked_scores_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -71,6 +226,10 @@ export type Database = {
         Args: { _keys: string[]; _question_ids: string[] }
         Returns: undefined
       }
+      is_match_player: {
+        Args: { _match: string; _user: string }
+        Returns: boolean
+      }
       leaderboard_alltime: {
         Args: { _limit?: number }
         Returns: {
@@ -78,6 +237,17 @@ export type Database = {
           games: number
           player_name: string
           total: number
+        }[]
+      }
+      ranked_alltime: {
+        Args: { _limit?: number }
+        Returns: {
+          avatar_url: string
+          best: number
+          display_name: string
+          games: number
+          total: number
+          user_id: string
         }[]
       }
     }
