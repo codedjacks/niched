@@ -142,12 +142,12 @@ export function Play({ questions, mode, onDone, onQuit }: {
                 aria-describedby="answer-msg"
                 className="min-w-0 flex-1 rounded-lg border-2 border-border bg-background px-5 py-4 font-sans text-lg font-bold outline-none transition placeholder:text-muted-foreground/50 focus:border-primary"
               />
-              <button type="submit" className="rounded-lg bg-primary px-6 font-display text-sm font-bold uppercase text-primary-foreground shadow-pop-sm transition hover:-translate-y-0.5 hover:shadow-pop active:translate-y-0 active:shadow-pop-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
-                Submit
+              <button type="submit" disabled={checking} className="rounded-lg bg-primary px-6 font-display text-sm font-bold uppercase text-primary-foreground shadow-pop-sm transition hover:-translate-y-0.5 hover:shadow-pop active:translate-y-0 active:shadow-pop-sm disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+                {checking ? "Grading…" : "Submit"}
               </button>
             </div>
             <div id="answer-msg" className="mt-3 flex items-center justify-between gap-4 font-sans text-sm" aria-live="assertive">
-              <span className={error ? "text-destructive" : "text-muted-foreground"}>{error ?? "Press Enter to submit. Wrong guesses can be retried."}</span>
+              <span className={error ? "text-destructive" : "text-muted-foreground"}>{checking ? "The teacher is grading your answer…" : error ?? "Press Enter to submit. Wrong guesses can be retried."}</span>
               <button type="button" onClick={() => finish({ kind: "skipped", points: 0 })} className="shrink-0 rounded-md border-2 border-dashed border-border px-4 py-1.5 font-display text-xs font-bold uppercase text-muted-foreground transition hover:border-secondary hover:text-foreground focus-visible:outline-2 focus-visible:outline-secondary">
                 Skip (0)
               </button>
