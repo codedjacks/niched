@@ -3,7 +3,7 @@ import { TIERS, TIER_ORDER, MAX_SCORE } from "@/game/scoring";
 import { msUntilNextDaily } from "@/game/selection";
 import type { Stats } from "@/game/storage";
 import { TierBadge } from "./ui";
-import { Link } from "@tanstack/react-router";
+import { AccountNav, ChallengeButton } from "./AccountNav";
 
 function fmt(ms: number) {
   const s = Math.floor(ms / 1000);
@@ -25,9 +25,7 @@ export function Home({ stats, streak, doneToday, todayScore, onDaily, onPractice
 
   return (
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 pb-16 pt-12 sm:pt-20">
-      <nav className="mb-6 flex justify-end">
-        <Link to="/rankings" className="rounded-lg border-2 border-border bg-card px-4 py-2 font-display text-xs font-bold uppercase transition hover:-translate-y-0.5 hover:border-primary">🏆 Rankings</Link>
-      </nav>
+      <AccountNav />
       <header className="animate-rise relative">
         <p className="font-hand text-2xl text-secondary">the rarity trivia game — no homework today, just answers</p>
         {/* highlighter swipe behind the wordmark */}
@@ -60,6 +58,7 @@ export function Home({ stats, streak, doneToday, todayScore, onDaily, onPractice
             Practice Mode <span className="font-sans text-sm font-normal normal-case text-muted-foreground">— unlimited random rounds, no streak impact</span>
           </button>
         </div>
+        <ChallengeButton />
       </section>
 
       <section className="mt-6 grid grid-cols-3 gap-3 animate-rise [animation-delay:160ms]">
