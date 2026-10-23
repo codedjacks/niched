@@ -4,6 +4,7 @@ import { MAX_SCORE, TIERS, TIER_ORDER } from "@/game/scoring";
 import type { Mode, RoundAnswer, TierId } from "@/game/types";
 import { cn } from "@/lib/utils";
 import { TierBadge } from "./ui";
+import { NameField } from "./NameField";
 
 export function buildShareText(answers: RoundAnswer[], mode: Mode, date: string) {
   const score = answers.reduce((s, a) => s + a.outcome.points, 0);
@@ -72,6 +73,8 @@ export function Results({ answers, mode, date, streak, isNewBest, best, onAgain,
           ))}
         </div>
       )}
+
+      {mode === "daily" && <NameField />}
 
       <ol className="relative mt-10 grid gap-3">
         {answers.map((a, i) => {
