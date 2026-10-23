@@ -91,7 +91,7 @@ export function Home({ stats, streak, doneToday, todayScore, onDaily, onPractice
           ))}
         </div>
         <p className="mt-4 font-hand text-lg leading-tight text-muted-foreground">
-          "Valedictorian" = the rarest picks in the class. Tiers are hand-graded for now, not live player stats.
+          "Valedictorian" = the rarest picks in the class. Tiers come from how often real players give each answer, once a question has 25+ answers; until then they use our hand-graded guesses.
         </p>
       </section>
     </main>

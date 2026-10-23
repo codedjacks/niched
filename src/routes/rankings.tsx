@@ -24,7 +24,7 @@ export const Route = createFileRoute("/rankings")({
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(boardQuery(dateKey())),
   component: Rankings,
-  errorComponent: ({ error }) => <p className="p-10 font-sans">Couldn't load rankings: {error.message}</p>,
+  errorComponent: ({ error }) => <p className="p-10 font-sans">Couldn't load rankings: {(error as Error).message}</p>,
 });
 
 const medal = (i: number) => (i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}`);
