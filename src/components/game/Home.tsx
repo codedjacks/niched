@@ -26,11 +26,11 @@ export function Home({ stats, streak, doneToday, todayScore, onDaily, onPractice
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 pb-16 pt-12 sm:pt-20">
       <header className="animate-rise relative">
         <p className="font-hand text-2xl text-secondary">the rarity trivia game — no homework today, just answers</p>
-        <h1 className="mt-1 font-display text-6xl font-black uppercase leading-none tracking-tight text-foreground sm:text-8xl">
+        {/* highlighter swipe behind the wordmark */}
+        <div aria-hidden className="absolute left-0 top-6 h-14 w-52 -skew-x-12 rounded-sm bg-primary/50 blur-[3px] sm:top-8 sm:h-20 sm:w-72" />
+        <h1 className="relative mt-1 font-display text-6xl font-black uppercase leading-none tracking-tight text-foreground sm:text-8xl">
           Niched<span className="text-primary">.</span>
         </h1>
-        {/* highlighter swipe behind the period */}
-        <div aria-hidden className="absolute left-0 top-0 h-8 w-16 -skew-x-12 bg-primary/60 blur-[2px] sm:h-10 sm:w-24" />
         <p className="mt-5 max-w-lg font-sans text-base text-muted-foreground sm:text-lg">
           Seven questions. Any right answer counts — but the less common it is, the more it's worth.
         </p>
