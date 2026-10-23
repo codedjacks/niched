@@ -1,9 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { Database } from "@/integrations/supabase/types";
-import { QUESTIONS } from "./questions";
-import { dailyQuestions } from "./selection";
-import type { QuestionCounts } from "./scoring";
+import { dailyQuestions, dateKey } from "./selection";
+import { frequencyRarity, normalize, type QuestionCounts } from "./scoring";
 
 function publicClient() {
   const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
@@ -36,61 +36,51 @@ export const getAnswerCounts = createServerFn({ method: "POST" })
     return out;
   });
 
-const UUID = /^[0-9a-f-]{36}$/i;
 const DAY = /^\d{4}-\d{2}-\d{2}$/;
+/** A client's local date may differ from the server's UTC date by at most one day. */
+export function dayIsCurrent(day: string, now = new Date()) {
+  const d = new Date(`${day}T12:00:00Z`).getTime();
+  return Number.isFinite(d) && Math.abs(d - new Date(`${dateKey(now)}T12:00:00Z`).getTime()) <= 36 * 3600_000;
+}
 
-/** Record a finished round: bump answer frequencies, and post daily scores to the leaderboard. */
-export const submitRound = createServerFn({ method: "POST" })
-  .inputValidator((d: {
-    playerId: string; name: string | null; mode: "daily" | "practice"; day: string;
-    score: number; tiers: string[]; answers: { questionId: string; key: string }[];
-  }) => {
-    if (!UUID.test(d.playerId) || !DAY.test(d.day)) throw new Error("Bad request");
-    return {
-      playerId: d.playerId,
-      name: d.name ? String(d.name).trim().slice(0, 20) : null,
-      mode: d.mode === "daily" ? "daily" as const : "practice" as const,
-      day: d.day,
-      score: Math.max(0, Math.min(700, Math.round(Number(d.score) || 0))),
-      tiers: (d.tiers ?? []).slice(0, 7).map(String),
-      answers: (d.answers ?? []).slice(0, 7).map((a) => ({ questionId: String(a.questionId), key: String(a.key).slice(0, 80) })),
-    };
+/**
+ * Submit a Daily Challenge for ranking. The server re-scores every typed answer itself,
+ * so the leaderboard can't be faked by sending a made-up score.
+ */
+export const submitRanked = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { day: string; typed: (string | null)[] }) => {
+    if (!DAY.test(d.day) || !Array.isArray(d.typed)) throw new Error("Bad request");
+    return { day: d.day, typed: d.typed.slice(0, 7).map((t) => (t ? String(t).slice(0, 60) : null)) };
   })
-  .handler(async ({ data }) => {
+  .handler(async ({ data, context }) => {
+    if (!dayIsCurrent(data.day)) return { ok: false as const, error: "That daily has closed" };
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const valid = new Set(data.mode === "daily" ? dailyQuestions(data.day).map((q) => q.id) : QUESTIONS.map((q) => q.id));
-    const answers = data.answers.filter((a) => valid.has(a.questionId) && a.key);
-    let posted = false;
-    if (data.mode === "daily") {
-      // One leaderboard entry (and one set of counted answers) per player per day.
-      const { error } = await supabaseAdmin.from("daily_scores").insert({
-        day: data.day, player_id: data.playerId, player_name: data.name || "Anonymous", score: data.score, tiers: data.tiers,
-      });
-      if (error && error.code !== "23505") console.error(error);
-      if (error) return { posted: false };
-      posted = true;
-    }
-    if (answers.length) {
-      const { error } = await supabaseAdmin.rpc("bump_answers", {
-        _question_ids: answers.map((a) => a.questionId), _keys: answers.map((a) => a.key),
-      });
-      if (error) console.error(error);
-    }
-    return { posted };
-  });
+    const { data: existing } = await supabaseAdmin.from("ranked_scores").select("score")
+      .eq("user_id", context.userId).eq("day", data.day).maybeSingle();
+    if (existing) return { ok: true as const, score: existing.score, already: true };
 
-/** Rename yourself on the leaderboard (today's entry). */
-export const renameEntry = createServerFn({ method: "POST" })
-  .inputValidator((d: { playerId: string; name: string }) => {
-    if (!UUID.test(d.playerId)) throw new Error("Bad request");
-    const name = String(d.name).trim().slice(0, 20);
-    if (!name) throw new Error("Name required");
-    return { playerId: d.playerId, name };
-  })
-  .handler(async ({ data }) => {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    await supabaseAdmin.from("daily_scores").update({ player_name: data.name }).eq("player_id", data.playerId);
-    return { ok: true };
+    const { verifyAnswer, loadCounts } = await import("./judge.server");
+    const qs = dailyQuestions(data.day);
+    const rarity = frequencyRarity(await loadCounts(qs.map((q) => q.id)));
+    const results = await Promise.all(qs.map((q, i) => verifyAnswer(q, data.typed[i] ?? null, rarity)));
+    const score = results.reduce((s, r) => s + (r?.points ?? 0), 0);
+
+    const { error } = await supabaseAdmin.from("ranked_scores").insert({
+      user_id: context.userId, day: data.day, score,
+      tiers: results.map((r) => r?.tier ?? "none"),
+      answers: results.map((r, i) => ({ q: qs[i]!.id, typed: data.typed[i] ?? null, display: r?.display ?? null, points: r?.points ?? 0 })),
+    });
+    if (error) {
+      if (error.code === "23505") return { ok: true as const, score, already: true };
+      console.error(error);
+      return { ok: false as const, error: "Couldn't save your score" };
+    }
+    const hits = results.flatMap((r, i) => (r ? [{ q: qs[i]!.id, k: normalize(r.display) }] : []));
+    if (hits.length) {
+      await supabaseAdmin.rpc("bump_answers", { _question_ids: hits.map((h) => h.q), _keys: hits.map((h) => h.k) });
+    }
+    return { ok: true as const, score, already: false };
   });
 
 export const getLeaderboard = createServerFn({ method: "POST" })
@@ -101,14 +91,21 @@ export const getLeaderboard = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const sb = publicClient();
     const [today, all] = await Promise.all([
-      sb.from("daily_scores").select("id, player_name, score, tiers, created_at").eq("day", data.day)
+      sb.from("ranked_scores").select("id, user_id, score, tiers, created_at").eq("day", data.day)
         .order("score", { ascending: false }).order("created_at").limit(50),
-      sb.rpc("leaderboard_alltime", { _limit: 50 }),
+      sb.rpc("ranked_alltime", { _limit: 50 }),
     ]);
     if (today.error) console.error(today.error);
     if (all.error) console.error(all.error);
+    const ids = [...new Set((today.data ?? []).map((r) => r.user_id))];
+    const { data: profs } = ids.length
+      ? await sb.from("profiles").select("id, display_name, avatar_url").in("id", ids)
+      : { data: [] as { id: string; display_name: string; avatar_url: string | null }[] };
+    const byId = new Map((profs ?? []).map((p) => [p.id, p]));
     return {
-      today: today.data ?? [],
+      today: (today.data ?? []).map((r) => ({
+        ...r, display_name: byId.get(r.user_id)?.display_name ?? "Student", avatar_url: byId.get(r.user_id)?.avatar_url ?? null,
+      })),
       allTime: (all.data ?? []).map((r) => ({ ...r, total: Number(r.total), games: Number(r.games) })),
     };
   });
