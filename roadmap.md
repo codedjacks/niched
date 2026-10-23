@@ -1,4 +1,5 @@
 # Roadmap
-
-- [x] Rename scoring tiers to school-themed names (Pencil, Paperclip, Notebook, Backpack, Gold Star, Valedictorian)
-- [x] Visual redesign: night-classroom world (chalkboard green, chalk doodles, pixel type, tape cards, report-card results)
+- [x] Remove top bar
+- [ ] Rankings + daily leaderboard
+- [ ] Real answer-frequency tiers
+- [ ] Fuzzy answers with "did you mean"
