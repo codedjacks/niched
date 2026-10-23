@@ -23,34 +23,39 @@ export function Home({ stats, streak, doneToday, todayScore, onDaily, onPractice
   }, []);
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 py-10 sm:py-16">
-      <header className="animate-rise">
-        <p className="font-display text-xs font-bold uppercase tracking-[0.3em] text-secondary">The rarity trivia game</p>
-        <h1 className="mt-3 font-display text-7xl font-black leading-none tracking-tight sm:text-9xl">
+    <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 pb-16 pt-12 sm:pt-20">
+      <header className="animate-rise relative">
+        <p className="font-hand text-2xl text-secondary">the rarity trivia game — no homework today, just answers</p>
+        <h1 className="mt-1 font-display text-6xl font-black uppercase leading-none tracking-tight text-foreground sm:text-8xl">
           Niched<span className="text-primary">.</span>
         </h1>
-        <p className="mt-5 max-w-lg text-lg text-muted-foreground">
+        {/* highlighter swipe behind the period */}
+        <div aria-hidden className="absolute left-0 top-0 h-8 w-16 -skew-x-12 bg-primary/60 blur-[2px] sm:h-10 sm:w-24" />
+        <p className="mt-5 max-w-lg font-sans text-base text-muted-foreground sm:text-lg">
           Seven questions. Any right answer counts — but the less common it is, the more it's worth.
         </p>
       </header>
 
-      <section className="mt-10 grid gap-3 animate-rise [animation-delay:80ms]">
+      <section className="mt-10 grid animate-rise gap-4 [animation-delay:80ms]">
         {doneToday ? (
-          <button onClick={onViewToday} className="group rounded-3xl bg-primary p-7 text-left text-primary-foreground transition hover:-translate-y-0.5 focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-primary">
-            <span className="font-display text-sm font-bold uppercase tracking-widest opacity-70">Daily done · {todayScore}/{MAX_SCORE}</span>
-            <span className="mt-1 block font-display text-3xl font-black sm:text-4xl">View today's results →</span>
-            <span className="mt-2 block text-sm opacity-70">Next challenge in {left != null ? fmt(left) : "--:--:--"}</span>
+          <button onClick={onViewToday} className="group rounded-lg border-2 border-border bg-card px-7 py-6 text-left transition hover:-translate-y-0.5 hover:border-primary focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-primary">
+            <span className="font-display text-xs font-bold uppercase tracking-widest text-muted-foreground">Daily turned in · {todayScore}/{MAX_SCORE}</span>
+            <span className="mt-1 block font-display text-2xl font-bold uppercase sm:text-3xl">View today's results ▸</span>
+            <span className="mt-2 block font-sans text-sm text-muted-foreground">Next assignment in {left != null ? fmt(left) : "--:--:--"}</span>
           </button>
         ) : (
-          <button autoFocus onClick={onDaily} className="group rounded-3xl bg-primary p-7 text-left text-primary-foreground shadow-[0_20px_60px_-20px_var(--primary)] transition hover:-translate-y-1 focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-primary">
-            <span className="font-display text-sm font-bold uppercase tracking-widest opacity-70">Today · not played</span>
-            <span className="mt-1 block font-display text-4xl font-black sm:text-5xl">Start Daily Challenge →</span>
-            <span className="mt-2 block text-sm opacity-70">Same 7 questions for everyone today</span>
+          <button autoFocus onClick={onDaily} className="group relative rounded-lg bg-primary px-7 py-7 text-left text-primary-foreground shadow-pop-marker transition hover:-translate-y-1 hover:shadow-[8px_8px_0_0_var(--secondary)] focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-primary">
+            <span className="font-display text-xs font-bold uppercase tracking-widest opacity-80">Today's assignment · not turned in</span>
+            <span className="mt-1 block font-display text-3xl font-bold uppercase leading-tight sm:text-4xl">Start Daily Challenge ▸</span>
+            <span className="mt-2 block font-sans text-sm opacity-80">Same 7 questions for everyone today</span>
           </button>
         )}
-        <button onClick={onPractice} className="rounded-2xl border-2 border-border bg-card px-6 py-4 text-left font-display text-lg font-bold transition hover:border-secondary focus-visible:outline-2 focus-visible:outline-secondary">
-          Practice Mode <span className="font-sans text-sm font-normal text-muted-foreground">— unlimited random rounds, no streak impact</span>
-        </button>
+        <div className="relative rounded-lg border-2 border-dashed border-border bg-card/70 px-6 py-4">
+          <span aria-hidden className="tape" />
+          <button onClick={onPractice} className="w-full text-left font-display text-base font-bold uppercase transition hover:text-primary focus-visible:outline-2 focus-visible:outline-secondary sm:text-lg">
+            Practice Mode <span className="font-sans text-sm font-normal normal-case text-muted-foreground">— unlimited random rounds, no streak impact</span>
+          </button>
+        </div>
       </section>
 
       <section className="mt-6 grid grid-cols-3 gap-3 animate-rise [animation-delay:160ms]">
@@ -59,28 +64,30 @@ export function Home({ stats, streak, doneToday, todayScore, onDaily, onPractice
           ["Best daily", stats.bestDaily || "—"],
           ["Best practice", stats.bestPractice || "—"],
         ].map(([k, v]) => (
-          <div key={k as string} className="rounded-2xl bg-card p-4">
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">{k}</div>
-            <div className="mt-1 font-display text-2xl font-black">{v}</div>
+          <div key={k as string} className="ruled rounded-lg border-2 border-border bg-card p-4">
+            <div className="font-sans text-[11px] uppercase tracking-wider text-muted-foreground">{k}</div>
+            <div className="mt-1 font-display text-xl font-bold sm:text-2xl">{v}</div>
           </div>
         ))}
       </section>
 
-      <section className="mt-10 animate-rise [animation-delay:240ms]">
-        <h2 className="font-display text-sm font-bold uppercase tracking-widest text-muted-foreground">How scoring works</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
+      <section className="relative mt-12 animate-rise rounded-lg border-2 border-border bg-card p-6 [animation-delay:240ms]">
+        <span aria-hidden className="tape -rotate-3" />
+        <p className="absolute -right-1 -top-5 hidden font-hand text-xl text-secondary [transform:rotate(3deg)] sm:block">the cheat sheet ↓</p>
+        <h2 className="font-display text-xs font-bold uppercase tracking-widest text-muted-foreground">How scoring works</h2>
+        <p className="mt-2 font-sans text-sm text-muted-foreground">
           Every valid answer earns points by rarity tier — from a plain Pencil up to Valedictorian. The more obscure your answer, the more it's worth. 25 seconds per question. Max {MAX_SCORE}.
         </p>
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="mt-4 flex flex-wrap gap-2.5">
           {TIER_ORDER.map((t) => (
-            <div key={t} className="flex items-center gap-2 rounded-full bg-card py-1 pl-1 pr-3">
+            <div key={t} className="flex items-center gap-2 rounded-md border-2 border-border bg-background py-1 pl-2 pr-3">
               <TierBadge tier={t} />
               <span className="font-display text-sm font-bold">{TIERS[t].points}</span>
             </div>
           ))}
         </div>
-        <p className="mt-3 text-xs text-muted-foreground/70">
-          "Valedictorian" = the rarest picks in the class. Rarity tiers are hand-curated for now, not live player stats.
+        <p className="mt-4 font-hand text-lg leading-tight text-muted-foreground">
+          "Valedictorian" = the rarest picks in the class. Tiers are hand-graded for now, not live player stats.
         </p>
       </section>
     </main>
