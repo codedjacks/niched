@@ -1,4 +1,4 @@
-import { QUESTIONS } from "./questions";
+import { DAILY_QUESTIONS, QUESTIONS } from "./questions";
 import { QUESTIONS_PER_ROUND } from "./scoring";
 import type { Question } from "./types";
 
@@ -30,7 +30,7 @@ export function dateKey(d = new Date()) {
   return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
 }
 export function dailyQuestions(key = dateKey()) {
-  return pick(mulberry32(hash("niched:" + key)));
+  return pick(mulberry32(hash("niched:" + key)), DAILY_QUESTIONS);
 }
 export function practiceQuestions() {
   return pick(Math.random);
