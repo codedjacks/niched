@@ -1,4 +1,4 @@
-export type TierId = "plankton" | "clever" | "schooler" | "rare" | "deep" | "million";
+export type TierId = "pencil" | "paperclip" | "notebook" | "backpack" | "goldstar" | "valedictorian";
 
 export interface Tier {
   id: TierId;

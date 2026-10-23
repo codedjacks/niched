@@ -73,13 +73,13 @@ export function Play({ questions, mode, onDone, onQuit }: {
   return (
     <main className="mx-auto flex min-h-screen max-w-2xl flex-col px-5 py-6 sm:py-10">
       <div className="flex items-center justify-between gap-4">
-        <button onClick={onQuit} className="rounded-full px-3 py-1 text-sm text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary">← Quit</button>
+        <button onClick={onQuit} className="font-sans text-sm text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary">← Quit</button>
         <span className="font-display text-xs font-bold uppercase tracking-widest text-secondary">{mode === "daily" ? "Daily Challenge" : "Practice"}</span>
-        <div className="relative font-display text-2xl font-black tabular-nums" aria-live="polite">
+        <div className="relative font-display text-xl font-bold tabular-nums sm:text-2xl" aria-live="polite">
           {shown}
-          <span className="text-sm text-muted-foreground">/700</span>
+          <span className="text-xs text-muted-foreground">/700</span>
           {revealing && revealing.points > 0 && (
-            <span className="absolute -top-2 right-0 animate-float-up text-base text-primary">+{revealing.points}</span>
+            <span className="absolute -top-2 right-0 animate-float-up font-hand text-xl text-primary">+{revealing.points}</span>
           )}
         </div>
       </div>
@@ -88,12 +88,13 @@ export function Play({ questions, mode, onDone, onQuit }: {
         <Progress current={idx} results={answers.map((a) => (a.outcome.kind === "correct" ? a.outcome.tier : null))} />
       </div>
 
-      <div key={idx} className="mt-8 animate-rise rounded-3xl bg-card p-7 sm:p-10">
-        <div className="flex items-center justify-between text-sm text-muted-foreground">
+      <div key={idx} className="relative mt-8 animate-rise rounded-lg border-2 border-border bg-card p-7 sm:p-10">
+        <span aria-hidden className="tape" />
+        <div className="flex items-center justify-between font-sans text-sm text-muted-foreground">
           <span className="font-display font-bold">{idx + 1} <span className="opacity-50">/ 7</span></span>
-          <span className="rounded-full bg-muted px-3 py-1 text-xs uppercase tracking-wider">{q.category}</span>
+          <span className="-rotate-1 rounded-md border-2 border-border bg-muted px-2.5 py-0.5 text-xs uppercase tracking-wider">{q.category}</span>
         </div>
-        <h2 className="mt-4 font-display text-3xl font-black leading-tight sm:text-5xl">{q.prompt}</h2>
+        <h2 className="mt-4 font-display text-2xl font-bold leading-snug sm:text-4xl">{q.prompt}</h2>
 
         <div className="mt-6 h-1.5 overflow-hidden rounded-full bg-muted" role="timer" aria-label={`${Math.ceil(left)} seconds left`}>
           <div className={cn("h-full rounded-full transition-[width] duration-100 ease-linear", urgent ? "bg-destructive" : "bg-primary")} style={{ width: `${pct}%` }} />
@@ -120,15 +121,15 @@ export function Play({ questions, mode, onDone, onQuit }: {
                 placeholder="Think niche…"
                 aria-invalid={!!error}
                 aria-describedby="answer-msg"
-                className="min-w-0 flex-1 rounded-2xl border-2 border-border bg-background px-5 py-4 font-display text-xl font-bold outline-none transition placeholder:text-muted-foreground/50 focus:border-primary"
+                className="min-w-0 flex-1 rounded-lg border-2 border-border bg-background px-5 py-4 font-sans text-lg font-bold outline-none transition placeholder:text-muted-foreground/50 focus:border-primary"
               />
-              <button type="submit" className="rounded-2xl bg-primary px-6 font-display font-black text-primary-foreground transition hover:brightness-110 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+              <button type="submit" className="rounded-lg bg-primary px-6 font-display text-sm font-bold uppercase text-primary-foreground shadow-pop-sm transition hover:-translate-y-0.5 hover:shadow-pop active:translate-y-0 active:shadow-pop-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
                 Submit
               </button>
             </div>
-            <div id="answer-msg" className="mt-3 flex items-center justify-between gap-4 text-sm" aria-live="assertive">
+            <div id="answer-msg" className="mt-3 flex items-center justify-between gap-4 font-sans text-sm" aria-live="assertive">
               <span className={error ? "text-destructive" : "text-muted-foreground"}>{error ?? "Press Enter to submit. Wrong guesses can be retried."}</span>
-              <button type="button" onClick={() => finish({ kind: "skipped", points: 0 })} className="shrink-0 rounded-full border border-border px-4 py-1.5 text-muted-foreground hover:border-secondary hover:text-foreground focus-visible:outline-2 focus-visible:outline-secondary">
+              <button type="button" onClick={() => finish({ kind: "skipped", points: 0 })} className="shrink-0 rounded-md border-2 border-dashed border-border px-4 py-1.5 font-display text-xs font-bold uppercase text-muted-foreground transition hover:border-secondary hover:text-foreground focus-visible:outline-2 focus-visible:outline-secondary">
                 Skip (0)
               </button>
             </div>
@@ -142,16 +143,16 @@ export function Play({ questions, mode, onDone, onQuit }: {
 function Reveal({ o }: { o: Outcome }) {
   if (o.kind !== "correct")
     return (
-      <div className="animate-pop rounded-3xl border-2 border-dashed border-border p-6 text-center" role="status">
-        <div className="font-display text-2xl font-black text-muted-foreground">{o.kind === "timeout" ? "Time's up" : "Skipped"}</div>
-        <div className="mt-1 text-sm text-muted-foreground">+0 points</div>
+      <div className="animate-pop rounded-lg border-2 border-dashed border-border bg-card p-6 text-center" role="status">
+        <div className="font-display text-xl font-bold uppercase text-muted-foreground">{o.kind === "timeout" ? "Time's up" : "Skipped"}</div>
+        <div className="mt-1 font-sans text-sm text-muted-foreground">+0 points</div>
       </div>
     );
   return (
-    <div className="animate-pop rounded-3xl border-2 border-primary/40 bg-card p-6 text-center" role="status">
-      <TierBadge tier={o.tier} />
-      <div className="mt-3 font-display text-3xl font-black">{o.display}</div>
-      <div className="mt-1 font-display text-xl font-bold text-primary">+{o.points}</div>
+    <div className="animate-pop rounded-lg border-2 border-primary bg-card p-6 text-center shadow-[4px_4px_0_0_var(--tier-valedictorian)]" role="status">
+      <TierBadge tier={o.tier} className="scale-125" />
+      <div className="mt-4 font-display text-2xl font-bold sm:text-3xl">{o.display}</div>
+      <div className="mt-1 font-hand text-2xl font-bold text-primary">+{o.points}</div>
     </div>
   );
 }

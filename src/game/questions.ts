@@ -6,7 +6,7 @@ import type { Question, TierId } from "./types";
  * Tiers are editorial guesses at commonness — NOT real player statistics.
  */
 type Raw = Partial<Record<"p" | "c" | "s" | "r" | "d" | "m", string>>;
-const T: Record<keyof Raw, TierId> = { p: "plankton", c: "clever", s: "schooler", r: "rare", d: "deep", m: "million" };
+const T: Record<keyof Raw, TierId> = { p: "pencil", c: "paperclip", s: "notebook", r: "backpack", d: "goldstar", m: "valedictorian" };
 
 function q(id: string, category: string, prompt: string, raw: Raw): Question {
   const answers = new Map<string, { display: string; tier: TierId }>();

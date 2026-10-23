@@ -11,6 +11,15 @@ export function buildShareText(answers: RoundAnswer[], mode: Mode, date: string)
   return `Niched ${mode === "daily" ? date : "Practice"} — ${score}/${MAX_SCORE}\n${row}\nCan you find nichier answers?`;
 }
 
+function gradeFor(score: number) {
+  if (score >= 650) return "A+";
+  if (score >= 550) return "A";
+  if (score >= 450) return "B";
+  if (score >= 300) return "C";
+  if (score > 0) return "D";
+  return "F";
+}
+
 export function Results({ answers, mode, date, streak, isNewBest, best, onAgain, onHome }: {
   answers: RoundAnswer[]; mode: Mode; date: string; streak: number; isNewBest: boolean; best: number;
   onAgain?: () => void; onHome: () => void;
@@ -32,59 +41,75 @@ export function Results({ answers, mode, date, streak, isNewBest, best, onAgain,
   };
 
   return (
-    <main className="mx-auto min-h-screen max-w-2xl px-5 py-10">
-      <p className="font-display text-xs font-bold uppercase tracking-[0.3em] text-secondary">{mode === "daily" ? `Daily · ${date}` : "Practice round"}</p>
-      <div className="mt-3 flex items-end gap-3">
-        <span className="font-display text-8xl font-black leading-none tabular-nums text-primary sm:text-9xl">{shown}</span>
-        <span className="mb-2 font-display text-2xl font-bold text-muted-foreground">/ {MAX_SCORE}</span>
-      </div>
-      <div className="mt-4 flex flex-wrap gap-2 text-sm">
-        {isNewBest && <span className="animate-pop rounded-full bg-primary px-3 py-1 font-display font-bold text-primary-foreground">New personal best!</span>}
-        <span className="rounded-full bg-card px-3 py-1">Best: <b>{best}</b></span>
-        {mode === "daily" && <span className="rounded-full bg-card px-3 py-1">Streak: <b>{streak}🔥</b></span>}
+    <main className="mx-auto min-h-screen max-w-2xl px-5 pb-16 pt-10">
+      <p className="font-display text-xs font-bold uppercase tracking-[0.3em] text-secondary">
+        {mode === "daily" ? `Report card · ${date}` : "Practice round"}
+      </p>
+      <div className="mt-4 flex items-start gap-5">
+        <div>
+          <div className="flex items-end gap-3">
+            <span className="font-display text-7xl font-bold leading-none tabular-nums text-primary sm:text-8xl">{shown}</span>
+            <span className="mb-1 font-display text-xl font-bold text-muted-foreground">/ {MAX_SCORE}</span>
+          </div>
+          <div className="mt-3 flex flex-wrap gap-2 font-sans text-sm">
+            {isNewBest && <span className="animate-pop -rotate-2 font-hand text-2xl font-bold text-secondary">new personal best!</span>}
+            <span className="rounded-md border-2 border-border bg-card px-2.5 py-0.5">Best: <b className="font-display">{best}</b></span>
+            {mode === "daily" && <span className="rounded-md border-2 border-border bg-card px-2.5 py-0.5">Streak: <b className="font-display">{streak}🔥</b></span>}
+          </div>
+        </div>
+        {/* red-pen grade stamp */}
+        <div aria-hidden className="ml-auto shrink-0">
+          <div className="animate-stamp rounded-lg border-4 border-secondary px-4 py-2 font-display text-4xl font-bold uppercase text-secondary opacity-90 sm:text-5xl">
+            {gradeFor(score)}
+          </div>
+        </div>
       </div>
 
       {counts.length > 0 && (
-        <div className="mt-6 flex flex-wrap gap-2">
+        <div className="mt-6 flex flex-wrap gap-2.5">
           {counts.map(([t, n]) => (
-            <span key={t} className="flex items-center gap-1.5"><TierBadge tier={t as TierId} /> <b className="font-display">×{n}</b></span>
+            <span key={t} className="flex items-center gap-1.5"><TierBadge tier={t as TierId} /> <b className="font-display text-sm">×{n}</b></span>
           ))}
         </div>
       )}
 
-      <ol className="mt-8 grid gap-2">
+      <ol className="relative mt-10 grid gap-3">
         {answers.map((a, i) => {
           const o = a.outcome;
           const rarest = i === rarestIdx && o.points > 0;
           return (
             <li key={i} style={{ animationDelay: `${i * 70}ms` }}
-              className={cn("animate-rise flex items-center gap-4 rounded-2xl bg-card p-4", rarest && "ring-2 ring-primary")}>
+              className={cn("ruled relative flex items-center gap-4 rounded-lg border-2 border-border bg-card p-4", rarest && "border-primary shadow-[4px_4px_0_0_var(--tier-valedictorian)]")}>
+              <span aria-hidden className="tape -rotate-2 opacity-70" />
               <span className="w-5 font-display text-sm font-bold text-muted-foreground">{i + 1}</span>
               <div className="min-w-0 flex-1">
-                <div className="truncate text-xs text-muted-foreground">{a.prompt}{rarest && <span className="ml-2 font-bold text-primary">★ Rarest pick</span>}</div>
-                <div className="truncate font-display text-lg font-bold">
+                <div className="truncate font-sans text-xs text-muted-foreground">
+                  {a.prompt}
+                  {rarest && <span className="ml-2 font-hand text-base font-bold text-primary">★ rarest pick!</span>}
+                </div>
+                <div className="truncate font-display text-base font-bold sm:text-lg">
                   {o.kind === "correct" ? o.display : <span className="text-muted-foreground">{o.kind === "timeout" ? "Time's up" : "Skipped"}</span>}
                 </div>
               </div>
               {o.kind === "correct" && <TierBadge tier={o.tier} className="hidden sm:inline-flex" />}
-              <span className="w-12 text-right font-display text-xl font-black tabular-nums">{o.points}</span>
+              <span className="w-12 text-right font-display text-lg font-bold tabular-nums sm:text-xl">{o.points}</span>
             </li>
           );
         })}
       </ol>
 
       <div className="mt-8 grid gap-3 sm:grid-cols-3">
-        <button onClick={share} className="rounded-2xl bg-primary px-5 py-4 font-display font-black text-primary-foreground transition hover:brightness-110 active:scale-95 sm:col-span-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+        <button onClick={share} className="rounded-lg bg-primary px-5 py-4 font-display text-base font-bold uppercase text-primary-foreground shadow-pop-sm transition hover:-translate-y-0.5 hover:shadow-pop active:translate-y-0 active:shadow-pop-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:col-span-3">
           {copied ? "Copied! Send it to a friend" : "Challenge a friend — copy results"}
         </button>
         {onAgain && (
-          <button onClick={onAgain} className="rounded-2xl border-2 border-border px-5 py-3 font-display font-bold hover:border-secondary sm:col-span-2 focus-visible:outline-2 focus-visible:outline-secondary">
+          <button onClick={onAgain} className="rounded-lg border-2 border-border px-5 py-3 font-display text-sm font-bold uppercase hover:border-secondary focus-visible:outline-2 focus-visible:outline-secondary sm:col-span-2">
             {mode === "daily" ? "Practice round" : "Play again"}
           </button>
         )}
-        <button onClick={onHome} className={cn("rounded-2xl border-2 border-border px-5 py-3 font-display font-bold hover:border-secondary focus-visible:outline-2 focus-visible:outline-secondary", !onAgain && "sm:col-span-3")}>Home</button>
+        <button onClick={onHome} className={cn("rounded-lg border-2 border-border px-5 py-3 font-display text-sm font-bold uppercase hover:border-secondary focus-visible:outline-2 focus-visible:outline-secondary", !onAgain && "sm:col-span-3")}>Home</button>
       </div>
-      <p className="mt-4 text-center text-xs text-muted-foreground/70">Live head-to-head is coming later — for now, share your score and compare.</p>
+      <p className="mt-5 text-center font-hand text-lg text-muted-foreground">live head-to-head is coming later — for now, share your score and compare.</p>
     </main>
   );
 }
