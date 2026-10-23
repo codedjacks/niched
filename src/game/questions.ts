@@ -13,7 +13,7 @@ function q(id: string, category: string, prompt: string, raw: Raw): Question {
   (Object.keys(raw) as (keyof Raw)[]).forEach((k) => {
     raw[k]!.split("|").forEach((entry) => {
       const names = entry.split("=").map((s) => s.trim()).filter(Boolean);
-      names.forEach((n) => answers.set(normalize(n), { display: names[0], tier: T[k] }));
+      names.forEach((n) => answers.set(normalize(n), { display: names[0]!, tier: T[k] }));
     });
   });
   return { id, category, prompt, answers };

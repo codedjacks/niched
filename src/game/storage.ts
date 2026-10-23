@@ -31,7 +31,7 @@ export function saveStats(s: Stats) {
 
 function prevDay(key: string) {
   const [y, m, d] = key.split("-").map(Number);
-  const dt = new Date(y, m - 1, d - 1);
+  const dt = new Date(y!, m! - 1, d! - 1);
   const p = (n: number) => String(n).padStart(2, "0");
   return `${dt.getFullYear()}-${p(dt.getMonth() + 1)}-${p(dt.getDate())}`;
 }
