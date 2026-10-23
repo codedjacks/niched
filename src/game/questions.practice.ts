@@ -1,0 +1,201 @@
+import type { Question } from "./types";
+
+/**
+ * Extra practice-only bank. Kept out of the daily pool so existing daily
+ * challenges (seeded from the core bank) stay identical for everyone.
+ * Same format as questions.ts: "|" separates answers, "=" separates aliases.
+ */
+type Raw = Partial<Record<"p" | "c" | "s" | "r" | "d" | "m", string>>;
+export type Q = (id: string, category: string, prompt: string, raw: Raw) => Question;
+
+export const practiceBank = (q: Q): Question[] => [
+  q("ice-cream", "Food", "Name an ice cream flavor", {
+    p: "Vanilla|Chocolate|Strawberry|Cookies and Cream|Mint Chocolate Chip=Mint Chip|Cookie Dough",
+    s: "Rocky Road|Neapolitan|Butter Pecan|Pistachio|Coffee|Chocolate Chip|Salted Caramel|Caramel|Birthday Cake|Cotton Candy|Moose Tracks|Cherry Garcia",
+    r: "Rum Raisin|Black Cherry|Peach|Coconut|Mango|Matcha=Green Tea|Banana|Peanut Butter|Tiramisu|Dulce de Leche|Spumoni|Chunky Monkey|Bubblegum|Lemon",
+    d: "Ube|Black Sesame|Lavender|Honey Lavender|Rose|Cardamom|Earl Grey|Olive Oil|Avocado|Licorice|Maple Walnut|Tutti Frutti|Pumpkin|Eggnog|Brown Bread",
+    m: "Durian|Goat Cheese|Bacon|Wasabi|Squid Ink|Garlic|Corn|Sweet Potato|Taro|Red Bean|Kulfi|Saffron|Blue Moon|Grape Nut",
+  }),
+  q("zodiac", "Culture", "Name a zodiac sign (Western or Chinese)", {
+    p: "Leo|Scorpio|Gemini|Aries|Virgo|Libra",
+    s: "Cancer|Taurus|Pisces|Aquarius|Sagittarius|Capricorn",
+    r: "Dragon|Tiger|Rat|Rabbit|Horse|Monkey|Snake",
+    d: "Ox|Goat=Sheep=Ram|Rooster|Dog|Pig",
+    m: "Ophiuchus",
+  }),
+  q("bone", "Science", "Name a bone in the human body", {
+    p: "Femur|Skull|Rib|Spine",
+    s: "Tibia|Fibula|Humerus|Radius|Ulna|Pelvis|Clavicle=Collarbone|Patella=Kneecap|Sternum|Jaw=Mandible|Vertebra",
+    r: "Scapula=Shoulder Blade|Coccyx=Tailbone|Sacrum|Cranium|Phalanges=Phalanx|Metatarsal|Metacarpal|Maxilla|Carpal|Tarsal",
+    d: "Stapes=Stirrup|Incus=Anvil|Malleus=Hammer|Hyoid|Calcaneus=Heel Bone|Talus|Ilium|Ischium|Pubis|Zygomatic=Cheekbone|Occipital|Parietal|Temporal|Frontal",
+    m: "Sphenoid|Ethmoid|Vomer|Lacrimal|Navicular|Cuboid|Cuneiform|Scaphoid|Lunate|Triquetrum|Pisiform|Trapezium|Trapezoid|Capitate|Hamate|Atlas|Axis|Nasal Concha",
+  }),
+  q("taylor", "Music", "Name a Taylor Swift album", {
+    p: "1989|Red|Folklore|Midnights|Lover",
+    s: "Fearless|Reputation|Speak Now|Evermore|The Tortured Poets Department=TTPD",
+    r: "Taylor Swift=Debut|The Life of a Showgirl",
+    d: "Fearless Taylors Version|Red Taylors Version|1989 Taylors Version|Speak Now Taylors Version",
+    m: "The Taylor Swift Holiday Collection|Beautiful Eyes",
+  }),
+  q("olympic", "Sports", "Name an Olympic sport", {
+    p: "Swimming|Gymnastics|Track and Field=Athletics|Basketball|Soccer=Football",
+    s: "Diving|Volleyball|Tennis|Boxing|Wrestling|Cycling|Rowing|Skiing|Figure Skating|Ice Hockey=Hockey|Snowboarding|Golf|Surfing|Skateboarding",
+    r: "Fencing|Archery|Judo|Taekwondo|Weightlifting|Table Tennis=Ping Pong|Badminton|Handball|Water Polo|Sailing|Triathlon|Equestrian|Curling|Bobsled|Luge|Speed Skating|Breaking=Breakdancing|Sport Climbing=Climbing",
+    d: "Modern Pentathlon|Canoeing=Kayaking|Biathlon|Skeleton|Nordic Combined|Ski Jumping|Synchronized Swimming=Artistic Swimming|Trampoline|Rugby Sevens=Rugby|Field Hockey|Shooting|BMX",
+    m: "Lacrosse|Cricket|Squash|Flag Football|Baseball|Softball|Karate|Tug of War|Croquet|Polo|Pelota|Rackets|Motorboating",
+  }),
+  q("phobia", "Science", "Name a phobia (the -phobia word)", {
+    p: "Arachnophobia|Claustrophobia",
+    s: "Acrophobia|Agoraphobia|Homophobia|Xenophobia|Hydrophobia|Aerophobia|Nyctophobia",
+    r: "Coulrophobia|Trypophobia|Ophidiophobia|Cynophobia|Thanatophobia|Glossophobia|Mysophobia|Germophobia|Necrophobia|Emetophobia|Triskaidekaphobia",
+    d: "Hemophobia|Hippopotomonstrosesquippedaliophobia|Nomophobia|Trypanophobia|Astraphobia|Entomophobia|Ailurophobia|Pyrophobia|Thalassophobia|Gephyrophobia|Philophobia|Technophobia",
+    m: "Arachibutyrophobia|Pogonophobia|Omphalophobia|Ergophobia|Hexakosioihexekontahexaphobia|Anatidaephobia|Chronophobia|Somniphobia|Turophobia|Lachanophobia|Ablutophobia|Phobophobia|Didaskaleinophobia",
+  }),
+  q("constellation", "Space", "Name a constellation", {
+    p: "Orion|Big Dipper|Ursa Major",
+    s: "Little Dipper|Ursa Minor|Cassiopeia|Scorpius|Leo|Gemini|Taurus|Andromeda",
+    r: "Draco|Pegasus|Cygnus|Perseus|Hercules|Lyra|Aquila|Sagittarius|Southern Cross=Crux|Canis Major|Aries|Pisces|Virgo|Libra|Cancer|Aquarius|Capricornus",
+    d: "Cepheus|Bootes|Auriga|Ophiuchus|Centaurus|Corona Borealis|Canis Minor|Lepus|Monoceros|Hydra|Delphinus|Eridanus|Carina|Vela|Phoenix",
+    m: "Camelopardalis|Microscopium|Sculptor|Fornax|Antlia|Pyxis|Horologium|Reticulum|Mensa|Volans|Telescopium|Norma|Circinus|Caelum|Vulpecula|Sagitta|Lacerta|Equuleus|Triangulum|Musca|Chamaeleon",
+  }),
+  q("candy", "Food", "Name a candy bar or candy brand", {
+    p: "Snickers|Kit Kat|M&Ms=M and Ms|Reeses|Twix|Hersheys",
+    s: "Skittles|Milky Way|Butterfinger|Starburst|Sour Patch Kids|Twizzlers|Nerds|Jolly Rancher|3 Musketeers=Three Musketeers|Kinder|Toblerone|Hershey Kiss|Tootsie Roll",
+    r: "Baby Ruth|Almond Joy|Mounds|Heath|PayDay|Whoppers|Milk Duds|Laffy Taffy|Airheads|Warheads|Swedish Fish|Mike and Ike|Dots|Junior Mints|York Peppermint Pattie|Rolo|100 Grand|Crunch",
+    d: "Zero|Mr Goodbar|Charleston Chew|Bit O Honey|Necco Wafers|Sugar Babies|Good and Plenty|Chunky|Oh Henry|Caramello|Krackel|Watchamacallit|Fifth Avenue|Clark Bar|Flake|Crunchie|Aero|Wispa|Curly Wurly",
+    m: "Idaho Spud|Abba Zaba|Big Hunk|Valomilk|Goo Goo Cluster|Chick O Stick|Cherry Mash|Look|Bun Bar|Sky Bar|Zagnut|Mallo Cup|Turkish Delight|Picnic|Double Decker|Boost|Freddo",
+  }),
+  q("mythcreature", "Mythology", "Name a mythical creature", {
+    p: "Dragon|Unicorn|Mermaid|Vampire|Werewolf|Bigfoot",
+    s: "Phoenix|Centaur|Griffin=Gryphon|Pegasus|Minotaur|Yeti|Fairy|Goblin|Troll|Ghost|Zombie|Loch Ness Monster=Nessie|Cyclops|Medusa|Sphinx|Hydra|Elf|Gnome",
+    r: "Kraken|Chupacabra|Banshee|Leprechaun|Basilisk|Harpy|Siren|Kitsune|Wendigo|Golem|Gargoyle|Satyr|Chimera|Cerberus|Ogre|Pixie|Jackalope|Mothman",
+    d: "Manticore|Kelpie|Selkie|Thunderbird|Kappa|Tengu|Djinn=Genie|Hippogriff|Cockatrice|Wyvern|Roc|Naga|Rakshasa|Dullahan|Bunyip|Yowie|Qilin=Kirin|Baku",
+    m: "Bake Kujira|Nuckelavee|Aswang|Tikbalang|Encantado|Ahool|Mokele Mbembe|Bakeneko|Jorogumo|Nue|Amarok|Taniwha|Lamassu|Simurgh|Peryton|Questing Beast|Ammit|Camazotz|Ziz|Behemoth|Bahamut|Leviathan",
+  }),
+  q("shoe", "Fashion", "Name a type of shoe", {
+    p: "Sneakers|Boots|Sandals|Flip Flops|High Heels=Heels|Slippers",
+    s: "Loafers|Crocs|Cleats|Flats|Clogs|Uggs|Converse|Rain Boots|Wedges|Moccasins|Oxfords|Platforms",
+    r: "Stilettos|Espadrilles|Mules|Slides|Mary Janes|Cowboy Boots|Combat Boots|Chelsea Boots|Brogues|Pumps|Ballet Flats|Docs=Doc Martens|Birkenstocks|Boat Shoes|Hiking Boots|Wellies=Wellingtons",
+    d: "Derby|Monk Strap|Chukka|Desert Boots|Kitten Heels|Slingbacks|Gladiator Sandals|Huaraches|Jellies|Tap Shoes|Ballet Pointe Shoes=Pointe Shoes|Waders|Galoshes|Geta|Zori|Snowshoes",
+    m: "Brothel Creepers|Winklepickers|Chopines|Pattens|Sabots|Opanke|Jutti|Mojari|Paduka|Kolhapuri|Tabi|Waraji|Okobo|Spats|Poulaines|Espadrille Wedge",
+  }),
+  q("element-ending-ium", "Science", "Name an element that ends in -ium", {
+    p: "Helium|Sodium|Calcium|Potassium|Magnesium",
+    s: "Lithium|Uranium|Plutonium|Titanium|Aluminium|Chromium|Radium|Barium",
+    r: "Beryllium|Cadmium|Iridium|Palladium|Selenium|Strontium|Cesium=Caesium|Germanium|Osmium|Rhodium|Thorium|Gallium|Indium|Vanadium|Zirconium",
+    d: "Einsteinium|Fermium|Curium|Americium|Californium|Berkelium|Nobelium|Lawrencium|Rubidium|Scandium|Yttrium|Hafnium|Rhenium|Polonium|Francium|Actinium|Neptunium|Tellurium",
+    m: "Promethium|Gadolinium|Terbium|Dysprosium|Holmium|Erbium|Thulium|Ytterbium|Lutetium|Praseodymium|Neodymium|Europium|Samarium|Seaborgium|Bohrium|Hassium|Meitnerium|Darmstadtium|Roentgenium|Copernicium|Nihonium|Flerovium|Moscovium|Livermorium|Rutherfordium|Dubnium|Mendelevium|Protactinium|Technetium|Ruthenium|Niobium",
+  }),
+  q("president", "History", "Name a US president", {
+    p: "Abraham Lincoln=Lincoln|George Washington=Washington|Barack Obama=Obama|Donald Trump=Trump|Joe Biden=Biden",
+    s: "John F Kennedy=JFK=Kennedy|Ronald Reagan=Reagan|Franklin D Roosevelt=FDR|Theodore Roosevelt=Teddy Roosevelt|Thomas Jefferson=Jefferson|George W Bush|Bill Clinton=Clinton|Richard Nixon=Nixon|Jimmy Carter=Carter",
+    r: "John Adams|George H W Bush|Dwight Eisenhower=Eisenhower|Harry Truman=Truman|Lyndon B Johnson=LBJ|Gerald Ford=Ford|Andrew Jackson=Jackson|James Madison=Madison|Ulysses S Grant=Grant|Woodrow Wilson=Wilson",
+    d: "James Monroe=Monroe|John Quincy Adams|Herbert Hoover=Hoover|Calvin Coolidge=Coolidge|William Howard Taft=Taft|Andrew Johnson|James K Polk=Polk|William McKinley=McKinley|Martin Van Buren=Van Buren|Grover Cleveland=Cleveland",
+    m: "Millard Fillmore=Fillmore|Franklin Pierce=Pierce|James Buchanan=Buchanan|Rutherford B Hayes=Hayes|James Garfield=Garfield|Chester A Arthur=Chester Arthur|Benjamin Harrison|William Henry Harrison|John Tyler=Tyler|Zachary Taylor|Warren G Harding=Harding",
+  }),
+  q("spice", "Food", "Name a herb or spice", {
+    p: "Salt|Pepper|Garlic|Cinnamon|Basil|Oregano",
+    s: "Paprika|Cumin|Thyme|Rosemary|Parsley|Ginger|Nutmeg|Chili Powder|Cilantro=Coriander|Mint|Dill|Turmeric|Bay Leaf|Sage|Cayenne",
+    r: "Cardamom|Cloves|Saffron|Allspice|Fennel|Tarragon|Chives|Marjoram|Star Anise|Mustard Seed|Curry Powder|Vanilla|Lemongrass|Sesame",
+    d: "Sumac|Fenugreek|Asafoetida=Hing|Za atar=Zaatar|Garam Masala|Herbes de Provence|Caraway|Juniper Berry|Mace|Annatto|Galangal|Lovage|Savory|Chervil|Epazote|Shichimi",
+    m: "Grains of Paradise|Long Pepper|Nigella|Ajwain|Mahleb|Amchur|Kaffir Lime Leaf|Sichuan Peppercorn|Black Lime=Loomi|Kokum|Anardana|Hyssop|Borage|Sorrel|Shiso|Wattleseed|Pandan|Culantro",
+  }),
+  q("videogame", "Gaming", "Name a video game franchise", {
+    p: "Mario|Minecraft|Fortnite|Call of Duty|Pokemon|Zelda=The Legend of Zelda",
+    s: "Grand Theft Auto=GTA|Halo|Sonic|The Sims=Sims|FIFA=EA FC|Madden|Tetris|Pac Man|Roblox|Animal Crossing|Kirby|Street Fighter|Mortal Kombat|Final Fantasy|Assassins Creed",
+    r: "Metroid|Resident Evil|Silent Hill|God of War|Uncharted|The Last of Us|Elder Scrolls=Skyrim|Fallout|Doom|Overwatch|League of Legends|World of Warcraft|Splatoon|Smash Bros=Super Smash Bros|Donkey Kong|Portal|Half Life|Bioshock",
+    d: "Metal Gear|Castlevania|Kingdom Hearts|Persona|Dark Souls|Fire Emblem|Xenoblade|Ratchet and Clank|Spyro|Crash Bandicoot|Banjo Kazooie|Star Fox|Pikmin|Mega Man|Hollow Knight|Celeste|Undertale|Katamari",
+    m: "Earthbound=Mother|Shenmue|Okami|Psychonauts|Beyond Good and Evil|Panzer Dragoon|Chrono Trigger|Golden Sun|Advance Wars|Ecco the Dolphin|Gex|Jet Set Radio|Rhythm Heaven|Disco Elysium|Outer Wilds|Kenshi|Myst",
+  }),
+  q("cartoon", "TV", "Name an animated TV show", {
+    p: "The Simpsons=Simpsons|SpongeBob=SpongeBob SquarePants|Family Guy|South Park|Bluey|Scooby Doo",
+    s: "Avatar the Last Airbender=Avatar|Rick and Morty|Adventure Time|Futurama|Phineas and Ferb|Gravity Falls|Bobs Burgers|Peppa Pig|Paw Patrol|Looney Tunes|Tom and Jerry|Arthur|Pokemon|Dora the Explorer=Dora",
+    r: "BoJack Horseman|King of the Hill|The Flintstones|The Jetsons|Rugrats|Hey Arnold|Dexters Laboratory|The Powerpuff Girls=Powerpuff Girls|Courage the Cowardly Dog|Steven Universe|Regular Show|Teen Titans|Batman the Animated Series|Archer|American Dad|Fairly OddParents",
+    d: "Invader Zim|Samurai Jack|Ed Edd n Eddy|Animaniacs|Pinky and the Brain|Rockos Modern Life|Daria|Beavis and Butthead|Dragon Tales|Doug|Recess|Kim Possible|Codename Kids Next Door|Over the Garden Wall|Infinity Train|The Owl House|Amphibia|Arcane",
+    m: "Aeon Flux|The Tick|Gargoyles|Freakazoid|Sym Bionic Titan|Moral Orel|Superjail|Home Movies|Clone High|The Critic|Mission Hill|Undergrads|Tuca and Bertie|Primal|Hilda|Pantheon|Scavengers Reign",
+  }),
+  q("noblegas-metal", "Music", "Name a musical genre", {
+    p: "Pop|Rock|Hip Hop=Rap|Country|Jazz|Classical",
+    s: "R&B=RnB|Blues|Metal=Heavy Metal|EDM|Reggae|Punk|Indie|Folk|Gospel|Disco|Funk|Soul|Techno|K Pop=Kpop",
+    r: "Grunge|Reggaeton|House|Dubstep|Trap|Emo|Ska|Bluegrass|Latin|Salsa|Opera|Swing|Motown|Lo Fi|Afrobeats|Alternative",
+    d: "Shoegaze|Drum and Bass|Trance|Synthwave|Bossa Nova|Zydeco|Flamenco|Tango|Polka|Grime|Drill|Hyperpop|Ambient|Post Rock|Math Rock|Dancehall|Cumbia",
+    m: "Vaporwave|Chiptune|Krautrock|Zouk|Highlife|Qawwali|Fado|Rebetiko|Mbalax|Gqom|Amapiano|Breakcore|Witch House|Nintendocore|Sea Shanty|Throat Singing|Gamelan|Enka|Vallenato",
+  }),
+  q("dance", "Culture", "Name a style of dance", {
+    p: "Ballet|Hip Hop|Salsa|Tap|Breakdancing",
+    s: "Tango|Waltz|Swing|Jazz|Contemporary|Ballroom|Line Dancing|Square Dance|Belly Dance|Twerking|Floss|Moonwalk",
+    r: "Cha Cha|Foxtrot|Samba|Rumba|Flamenco|Irish Dance=Irish Step|Polka|Disco|Bachata|Merengue|Lindy Hop|Charleston|Macarena|Krumping|Voguing=Vogue|Pole Dance",
+    d: "Paso Doble|Quickstep|Jive|Bolero|Mambo|Zumba|Hula|Haka|Bhangra|Kathak|Bharatanatyam|Capoeira|Kizomba|Popping|Locking|Tutting|Clogging|Morris Dance",
+    m: "Butoh|Kecak|Odissi|Kuchipudi|Sardana|Jota|Tarantella|Hopak|Kazachok|Csardas|Lezginka|Dabke|Gumboot|Cueca|Carimbo|Jarabe Tapatio|Maypole",
+  }),
+  q("cereal", "Food", "Name a breakfast cereal", {
+    p: "Cheerios|Frosted Flakes|Froot Loops|Lucky Charms|Cinnamon Toast Crunch|Cap n Crunch=Captain Crunch",
+    s: "Corn Flakes|Rice Krispies|Cocoa Puffs|Honey Nut Cheerios|Fruity Pebbles|Raisin Bran|Special K|Trix|Apple Jacks|Reeses Puffs|Honey Bunches of Oats|Frosted Mini Wheats|Cocoa Krispies|Golden Grahams",
+    r: "Cookie Crisp|Cocoa Pebbles|Kix|Life|Chex|Corn Pops|Honey Smacks|Count Chocula|Wheaties|Grape Nuts|Golden Crisp|Crispix|Kashi|Muesli|Granola|Oatmeal",
+    d: "Franken Berry|Boo Berry|Total|Product 19|Waffle Crisp|French Toast Crunch|Oreo O s|Smorz|Mueslix|Weetabix|Shreddies|Coco Pops|Crunchy Nut|Krave|Alpha Bits",
+    m: "Mr T Cereal|Urkel Os|Ice Cream Cones|Sir Grapefellow|Quisp|Quake|Fruit Brute|Yummy Mummy|Freakies|Kaboom|Pac Man Cereal|C 3PO s|Nerds Cereal|Dunkaroos Cereal|Ghostbusters Cereal",
+  }),
+  q("mountain", "Geography", "Name a mountain or volcano", {
+    p: "Mount Everest=Everest|Mount Fuji=Fuji|Kilimanjaro|Mount Rushmore=Rushmore",
+    s: "K2|Mount Saint Helens=St Helens|Matterhorn|Denali=Mount McKinley|Mont Blanc|Mount Olympus=Olympus|Vesuvius|Mount Kilimanjaro|Mount Rainier=Rainier|Pikes Peak|Etna",
+    r: "Aconcagua|Kangchenjunga|Mount Sinai=Sinai|Table Mountain|Ben Nevis|Krakatoa|Mauna Kea|Mauna Loa|Kilauea|Mount Hood|Mount Whitney|Mount Kenya|Mount Elbrus=Elbrus|Half Dome|Annapurna",
+    d: "Lhotse|Makalu|Cho Oyu|Nanga Parbat|Eiger|Jungfrau|Mount Vinson=Vinson Massif|Puncak Jaya|Chimborazo|Cotopaxi|Popocatepetl|Mount Ararat=Ararat|Pinatubo|Stromboli|Mount Kosciuszko|Mount Cook=Aoraki",
+    m: "Gasherbrum|Broad Peak|Dhaulagiri|Manaslu|Shishapangma|Ojos del Salado|Huascaran|Mount Erebus|Eyjafjallajokull|Hekla|Nyiragongo|Mount Tambora=Tambora|Mount Pelee|Damavand|Mount Logan|Grossglockner|Triglav|Musala|Toubkal|Rwenzori",
+  }),
+  q("insect", "Animals", "Name an insect or bug", {
+    p: "Ant|Bee|Butterfly|Fly|Mosquito|Spider|Ladybug",
+    s: "Cockroach|Grasshopper|Dragonfly|Beetle|Wasp|Moth|Cricket|Firefly|Termite|Flea|Caterpillar|Hornet|Tick",
+    r: "Praying Mantis=Mantis|Stick Insect=Walking Stick|Cicada|Earwig|Locust|Silverfish|Bed Bug|Aphid|Weevil|Gnat|Louse=Lice|Katydid|Scorpion|Centipede|Millipede",
+    d: "Dung Beetle|Stag Beetle|Water Strider|Lacewing|Mayfly|Damselfly|Assassin Bug|Stink Bug|Leafhopper|Thrips|Antlion|Firebrat|Bombardier Beetle|Hercules Beetle|Atlas Moth|Luna Moth|Tarantula Hawk",
+    m: "Orchid Mantis|Hickory Horned Devil|Goliath Beetle|Giraffe Weevil|Treehopper|Scorpionfly|Snakefly|Webspinner|Bristletail|Springtail|Zorapteran|Rosy Maple Moth|Velvet Ant|Thorn Bug|Lanternfly|Wetas=Weta|Botfly",
+  }),
+  q("cocktail", "Food", "Name a non-alcoholic drink", {
+    p: "Water|Coffee|Tea|Orange Juice|Lemonade|Milk|Soda",
+    s: "Hot Chocolate|Apple Juice|Iced Tea|Smoothie|Milkshake|Coke=Coca Cola|Sprite|Root Beer|Ginger Ale|Kombucha|Boba=Bubble Tea|Sparkling Water|Chocolate Milk",
+    r: "Arnold Palmer|Shirley Temple|Horchata|Chai|Matcha|Lassi|Eggnog|Cider|Cranberry Juice|Coconut Water|Dr Pepper|Mountain Dew|Gatorade|Red Bull|Frappuccino|Espresso",
+    d: "Agua Fresca|Tamarind Juice|Ayran|Kvass|Sarsaparilla|Birch Beer|Cream Soda|Sweet Lassi|Thai Iced Tea|Mate=Yerba Mate|Ovaltine|Milo|Inca Kola|Irn Bru|Vimto|Ramune",
+    m: "Sikhye|Chicha Morada|Sobolo|Sahlab=Salep|Jallab|Sharbat|Tejuino|Mauby|Champurrado|Sbiten|Doogh|Teh Tarik|Kopi Luwak|Barley Water|Switchel|Egg Cream|Moxie",
+  }),
+  q("wonder", "History", "Name a famous landmark", {
+    p: "Eiffel Tower|Statue of Liberty|Great Wall of China=Great Wall|Pyramids=Pyramids of Giza|Colosseum|Big Ben",
+    s: "Taj Mahal|Machu Picchu|Golden Gate Bridge|Leaning Tower of Pisa|Stonehenge|Mount Rushmore|Sydney Opera House|Christ the Redeemer|Grand Canyon|Niagara Falls|Burj Khalifa|Empire State Building",
+    r: "Petra|Chichen Itza|Acropolis|Parthenon|Angkor Wat|Sagrada Familia|Buckingham Palace|Kremlin|Red Square|Louvre|Arc de Triomphe|Notre Dame|Tower Bridge|Brandenburg Gate|Forbidden City|Sphinx|Space Needle",
+    d: "Neuschwanstein|Alhambra|Hagia Sophia|Moai=Easter Island Heads|Borobudur|Mont Saint Michel|Cristo Rei|Terracotta Army|Potala Palace|Meteora|Uluru=Ayers Rock|Petronas Towers|Atomium|CN Tower|Gateway Arch|Hoover Dam",
+    m: "Great Zimbabwe|Lalibela|Derawar Fort|Sigiriya|Bagan|Persepolis|Gobekli Tepe|Leptis Magna|Baalbek|Ellora Caves|Hampi|Mesa Verde|Cahokia|Chand Baori|Paro Taktsang=Tigers Nest|Carcassonne|Hallgrimskirkja|Rila Monastery",
+  }),
+  q("marvel-villain", "Movies", "Name a comic book villain", {
+    p: "Joker|Thanos|Lex Luthor|Loki|Darth Vader",
+    s: "Magneto|Green Goblin|Venom|Doctor Doom|Catwoman|Penguin|Riddler|Bane|Harley Quinn|Two Face|Ultron|Doctor Octopus=Doc Ock|Red Skull",
+    r: "Poison Ivy|Scarecrow|Mr Freeze|Killmonger|Mysterio|Vulture|Sandman|Electro|Kingpin|Darkseid|Brainiac|General Zod|Galactus|Hela|Kang|Deathstroke|Ras al Ghul",
+    d: "Apocalypse|Mystique|Sabretooth|Juggernaut|Carnage|Kraven|Rhino|Lizard|Scorpion|Bullseye|Sinestro|Black Adam|Reverse Flash|Gorilla Grodd|Doomsday|Hush|Mr Sinister|Taskmaster|Ego",
+    m: "Arcade|MODOK|Mephisto|Dormammu|Annihilus|Kite Man|Calendar Man|Condiment King|Egghead|Mole Man|Paste Pot Pete|Crazy Quilt|Polka Dot Man|Ratcatcher|Bronze Tiger|Starro|Mojo|Onslaught",
+  }),
+  q("board-sport-brand", "Brands", "Name a sneaker or sportswear brand", {
+    p: "Nike|Adidas|Puma|Under Armour|Converse|Vans",
+    s: "Reebok|New Balance|Jordan|Skechers|Asics|Fila|Champion|Lululemon|Hoka",
+    r: "Saucony|Brooks|Mizuno|Le Coq Sportif|Kappa|Umbro|Columbia|The North Face=North Face|Patagonia|On=On Running|Salomon|Gymshark|Lacoste",
+    d: "Diadora|Hummel|Karhu|Onitsuka Tiger|K Swiss|Etnies|DC Shoes|Starter|Ellesse|Lotto|Joma|Li Ning|Anta|Merrell|Altra|Arcteryx",
+    m: "Spalding|Pony|British Knights|LA Gear|Avia|Brütting|Admiral|Erreà|Peak|Xtep|Kelme|Mikasa|Mitre|Penalty|Topper|Olympikus|Warrior",
+  }),
+  q("bread", "Food", "Name a type of bread", {
+    p: "White Bread|Sourdough|Bagel|Baguette|Croissant|Pita",
+    s: "Rye|Whole Wheat|Brioche|Ciabatta|Focaccia|Naan|Tortilla|Cornbread|Pretzel|English Muffin|Biscuit|Garlic Bread|Banana Bread",
+    r: "Pumpernickel|Challah|Multigrain|Flatbread|Roti|Chapati|Matzo|Soda Bread|Monkey Bread|Zucchini Bread|Hawaiian Roll|Sandwich Bread|Dinner Roll|Crumpet|Scone",
+    d: "Injera|Lavash|Paratha|Bao|Pan de Sal=Pandesal|Arepa|Pao de Queijo|Stollen|Panettone|Babka|Fougasse|Grissini|Bialy|Pide|Simit|Khachapuri|Brown Bread",
+    m: "Barmbrack|Lefse|Tiger Bread=Dutch Crunch|Hardtack|Anpan|Melonpan|Pane Carasau|Piadina|Kulich|Pogaca|Bammy|Tsoureki|Pan de Muerto|Rugbrod|Zopf|Sangak|Taboon|Blaa",
+  }),
+  q("pirate-fictional-ship", "Pop Culture", "Name a famous fictional ship or spaceship", {
+    p: "Titanic|Millennium Falcon|Black Pearl|Enterprise=USS Enterprise",
+    s: "Death Star|Flying Dutchman|Going Merry|Thousand Sunny|Nautilus|Pequod|Jolly Roger|Serenity|Normandy",
+    r: "Discovery One|Nostromo|Galactica=Battlestar Galactica|Bebop|Planet Express Ship|TARDIS|Argo|Black Freighter|Queen Annes Revenge|Dawn Treader",
+    d: "Heart of Gold|Red Dwarf|Rocinante|Event Horizon|Sulaco|Liberator|Moya|Hispaniola|Dawn Treader|Argo II|Lusitania|Arcadia|Yamato|Pillar of Autumn",
+    m: "Nebuchadnezzar|Space Battleship Yamato|Ghost|Razor Crest|Endurance|Prometheus|Covenant|Marie Celeste|Jenny Haniver|Interceptor|Orca|Andrea Gail|Nimitz",
+  }),
+  q("adjective-color", "Words", "Name a shade of blue", {
+    p: "Navy|Sky Blue|Light Blue|Royal Blue|Baby Blue|Dark Blue",
+    s: "Teal|Turquoise|Aqua|Cyan|Cobalt|Indigo|Denim|Midnight Blue|Electric Blue",
+    r: "Azure|Sapphire|Cerulean|Periwinkle|Powder Blue|Steel Blue|Robin Egg Blue=Robins Egg|Tiffany Blue|Ice Blue|Slate Blue",
+    d: "Ultramarine|Prussian Blue|Cornflower|Lapis=Lapis Lazuli|Carolina Blue|Oxford Blue|Persian Blue|Egyptian Blue|Klein Blue=International Klein Blue|Air Force Blue",
+    m: "Zaffre|Glaucous|Smalt|Phthalo Blue|Woad|Bleu de France|Liberty Blue|Yinmn Blue|Majorelle Blue|Delft Blue|Columbia Blue|Maya Blue|Uranian Blue|Celeste",
+  }),
+];
