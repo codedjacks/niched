@@ -40,3 +40,10 @@ export function msUntilNextDaily(now = new Date()) {
   next.setHours(24, 0, 0, 0);
   return next.getTime() - now.getTime();
 }
+
+/** A client's local date may differ from the server's UTC date by at most one day. */
+export function dayIsCurrent(day: string, now = new Date()) {
+  const d = new Date(`${day}T12:00:00Z`).getTime();
+  const utc = now.toISOString().slice(0, 10);
+  return Number.isFinite(d) && Math.abs(d - new Date(`${utc}T12:00:00Z`).getTime()) <= 36 * 3600_000;
+}

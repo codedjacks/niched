@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { Database } from "@/integrations/supabase/types";
-import { dailyQuestions, dateKey } from "./selection";
+import { dailyQuestions, dayIsCurrent } from "./selection";
 import { frequencyRarity, normalize, type QuestionCounts } from "./scoring";
 
 function publicClient() {
@@ -37,11 +37,6 @@ export const getAnswerCounts = createServerFn({ method: "POST" })
   });
 
 const DAY = /^\d{4}-\d{2}-\d{2}$/;
-/** A client's local date may differ from the server's UTC date by at most one day. */
-export function dayIsCurrent(day: string, now = new Date()) {
-  const d = new Date(`${day}T12:00:00Z`).getTime();
-  return Number.isFinite(d) && Math.abs(d - new Date(`${dateKey(now)}T12:00:00Z`).getTime()) <= 36 * 3600_000;
-}
 
 /**
  * Submit a Daily Challenge for ranking. The server re-scores every typed answer itself,

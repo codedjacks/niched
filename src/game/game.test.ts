@@ -58,3 +58,14 @@ describe("leniency + real frequency", () => {
     expect(tierFromFrequency(0.001)).toBe("valedictorian");
   });
 });
+
+import { dayIsCurrent } from "./selection";
+describe("ranked daily window", () => {
+  const now = new Date("2026-10-23T18:00:00Z");
+  it("accepts today and neighbouring time-zone days only", () => {
+    expect(dayIsCurrent("2026-10-23", now)).toBe(true);
+    expect(dayIsCurrent("2026-10-22", now)).toBe(true);
+    expect(dayIsCurrent("2026-10-24", now)).toBe(true);
+    expect(dayIsCurrent("2026-10-20", now)).toBe(false);
+  });
+});
