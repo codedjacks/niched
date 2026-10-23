@@ -1,5 +1,6 @@
 import { normalize } from "./scoring";
 import type { Question, TierId } from "./types";
+import { practiceBank } from "./questions.practice";
 
 /**
  * Curated bank. Each tier is a "|"-separated list; aliases use "=" (first is display name).
@@ -19,7 +20,8 @@ function q(id: string, category: string, prompt: string, raw: Raw): Question {
   return { id, category, prompt, answers };
 }
 
-export const QUESTIONS: Question[] = [
+/** Core bank: used for daily challenges (order matters for daily seeding). */
+export const DAILY_QUESTIONS: Question[] = [
   q("country", "Geography", "Name a country", {
     p: "United States=USA=US=America=United States of America|Canada|China|Japan|France|Germany|Brazil|Mexico|India|Italy|Spain|United Kingdom=UK=Britain=Great Britain|Australia|Russia",
     s: "Argentina|Egypt|Greece|Portugal|Sweden|Norway|Ireland|Netherlands=Holland|South Korea=Korea|Nigeria|Kenya|Peru|Chile|Turkey=Turkiye|Poland|Switzerland|Thailand|Vietnam|Cuba|Colombia|New Zealand|South Africa|Iceland|Denmark|Finland|Belgium|Austria|Israel|Iran|Iraq|Pakistan|Indonesia|Philippines|Saudi Arabia|Ukraine|Jamaica",
@@ -234,3 +236,6 @@ export const QUESTIONS: Question[] = [
     m: "Nico|Melanie|Dido|Shakin Stevens|Divine|Sabu|Mononoke|Hergé=Herge|Moebius|Brassai|Nadar|Lysippos|Mobutu|Suharto|Sukarno|Nena|Alizee|Nolwenn|Stromae|Kiesza|Robyn|Aurora|Raye",
   }),
 ];
+
+/** Every question (daily + practice-only extras). Practice draws from all of these. */
+export const QUESTIONS: Question[] = [...DAILY_QUESTIONS, ...practiceBank(q)];
