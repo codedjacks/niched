@@ -20,7 +20,7 @@ function pick(rand: () => number, bank: Question[] = QUESTIONS) {
   const arr = [...bank];
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(rand() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
+    [arr[i], arr[j]] = [arr[j]!, arr[i]!];
   }
   return arr.slice(0, QUESTIONS_PER_ROUND);
 }

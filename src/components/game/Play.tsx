@@ -20,7 +20,7 @@ export function Play({ questions, mode, onDone, onQuit }: {
   const tried = useRef(new Set<string>());
   const locked = useRef(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const q = questions[idx];
+  const q = questions[idx]!;
 
   const score = answers.reduce((s, a) => s + a.outcome.points, 0);
   const shown = useCountUp(score, 700);
