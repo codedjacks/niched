@@ -24,19 +24,22 @@ export function Home({ stats, streak, doneToday, todayScore, onDaily, onPractice
   }, []);
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 pb-16 pt-12 sm:pt-20">
+    <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 pb-16 pt-12 sm:pt-20 lg:max-w-6xl lg:px-10">
       <AccountNav />
       <header className="animate-rise relative">
         <p className="font-hand text-2xl text-secondary">the rarity trivia game — no homework today, just answers</p>
         {/* highlighter swipe behind the wordmark */}
         <div aria-hidden className="absolute left-0 top-6 hidden h-14 w-52 -skew-x-12 rounded-sm bg-primary/50 blur-[3px] sm:block sm:top-8 sm:h-20 sm:w-72" />
-        <h1 className="relative mt-1 font-display text-6xl font-black uppercase leading-none tracking-tight text-foreground sm:text-8xl">
+        <h1 className="relative mt-1 font-display text-6xl font-black uppercase leading-none tracking-tight text-foreground sm:text-8xl lg:text-9xl">
           Niched<span className="text-primary">.</span>
         </h1>
         <p className="mt-5 max-w-lg font-sans text-base text-muted-foreground sm:text-lg">
           Seven questions. Any right answer counts — but the less common it is, the more it's worth.
         </p>
       </header>
+
+      <div className="lg:mt-4 lg:grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-start lg:gap-10">
+      <div>
 
       <section className="mt-10 grid animate-rise gap-4 [animation-delay:80ms]">
         {doneToday ? (
@@ -73,8 +76,9 @@ export function Home({ stats, streak, doneToday, todayScore, onDaily, onPractice
           </div>
         ))}
       </section>
+      </div>
 
-      <section className="relative mt-12 animate-rise rounded-lg border-2 border-border bg-card p-6 [animation-delay:240ms]">
+      <section className="relative mt-12 lg:mt-10 animate-rise rounded-lg border-2 border-border bg-card p-6 [animation-delay:240ms]">
         <span aria-hidden className="tape -rotate-3" />
         <p className="absolute -right-1 -top-5 hidden font-hand text-xl text-secondary [transform:rotate(3deg)] sm:block">the cheat sheet ↓</p>
         <h2 className="font-display text-xs font-bold uppercase tracking-widest text-muted-foreground">How scoring works</h2>
@@ -93,6 +97,7 @@ export function Home({ stats, streak, doneToday, todayScore, onDaily, onPractice
           "Valedictorian" = the rarest picks in the class. Tiers come from how often real players give each answer, once a question has 25+ answers; until then they use our hand-graded guesses.
         </p>
       </section>
+      </div>
     </main>
   );
 }
