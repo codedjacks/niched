@@ -78,9 +78,9 @@ export function editDistance(a: string, b: string): number {
   }
   return dp[b.length]!;
 }
-/** Allowed typos scale with length: 0 for <=3 chars, 1 for <=5, 2 for <=10, else 3. */
+/** Allowed typos scale with length: 0 for <=4 chars (Iran/Iraq), 1 for <=7, 2 for <=12, else 3. */
 export function typoAllowance(len: number) {
-  return len <= 3 ? 0 : len <= 5 ? 1 : len <= 10 ? 2 : 3;
+  return len <= 4 ? 0 : len <= 7 ? 1 : len <= 12 ? 2 : 3;
 }
 /** Closest curated key within typo allowance, or null. */
 export function fuzzyMatch(q: Question, key: string): string | null {
