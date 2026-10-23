@@ -10,4 +10,6 @@
 <!-- LOVABLE:END -->
 
 - Game logic lives in src/game (questions, scoring, selection, storage, hooks) separate from UI in src/components/game; rarity goes through the RaritySource interface; frequencyRarity uses real answer counts from the backend once a question has MIN_SAMPLES answers, else the curated tier, so new questions still score sensibly.
-- Leaderboard and answer counts are written only by server functions (service role) keyed by an anonymous per-browser player id; the browser only reads public columns, so players need no account.
+- Ranked daily scores, duel answers and answer counts are written only by server functions that re-score typed answers server-side (judge.server.ts verifyAnswer), so clients can't fake points; guests can play but only signed-in accounts rank.
+- Live duels sync via realtime on matches/match_answers; question order is fixed on the match row so both players get the same 7.
+- Avatars are preset sticker emoji ids stored on the profile, because public storage buckets are blocked for this workspace.

@@ -7,6 +7,7 @@ import { TIERS, MAX_SCORE } from "@/game/scoring";
 import type { TierId } from "@/game/types";
 import { GeoBackground } from "@/components/game/ui";
 import { cn } from "@/lib/utils";
+import { avatarOf } from "@/game/avatars";
 
 const boardQuery = (day: string) =>
   queryOptions({ queryKey: ["leaderboard", day], queryFn: () => getLeaderboard({ data: { day } }), staleTime: 15_000 });
@@ -62,7 +63,8 @@ function Rankings() {
                 {data.today.map((r, i) => (
                   <li key={r.id} className={cn("flex items-center gap-3 rounded-md border-2 border-transparent px-3 py-2", i < 3 && "border-border bg-muted/40")}>
                     <span className="w-8 text-center font-display text-lg">{medal(i)}</span>
-                    <span className="min-w-0 flex-1 truncate font-sans font-bold">{r.player_name}</span>
+                    <span aria-hidden className="text-xl">{avatarOf(r.avatar_url)}</span>
+                    <span className="min-w-0 flex-1 truncate font-sans font-bold">{r.display_name}</span>
                     <span className="hidden text-sm sm:inline" aria-hidden>
                       {r.tiers.map((t, j) => <span key={j}>{TIERS[t as TierId]?.emoji ?? "⬛"}</span>)}
                     </span>
@@ -76,9 +78,10 @@ function Rankings() {
           ) : (
             <ol className="grid gap-2">
               {data.allTime.map((r, i) => (
-                <li key={i} className={cn("flex items-center gap-3 rounded-md border-2 border-transparent px-3 py-2", i < 3 && "border-border bg-muted/40")}>
+                <li key={r.user_id} className={cn("flex items-center gap-3 rounded-md border-2 border-transparent px-3 py-2", i < 3 && "border-border bg-muted/40")}>
                   <span className="w-8 text-center font-display text-lg">{medal(i)}</span>
-                  <span className="min-w-0 flex-1 truncate font-sans font-bold">{r.player_name}</span>
+                  <span aria-hidden className="text-xl">{avatarOf(r.avatar_url)}</span>
+                  <span className="min-w-0 flex-1 truncate font-sans font-bold">{r.display_name}</span>
                   <span className="font-sans text-xs text-muted-foreground">{r.games} days · best {r.best}</span>
                   <span className="font-display text-lg font-bold tabular-nums text-primary">{r.total}</span>
                 </li>
@@ -86,7 +89,7 @@ function Rankings() {
             </ol>
           )}
         </div>
-        <p className="mt-4 font-sans text-xs text-muted-foreground">Only Daily Challenge scores count. All-time ranks by total points across every daily.</p>
+        <p className="mt-4 font-sans text-xs text-muted-foreground">Only signed-in Daily Challenge scores count, and every answer is re-checked on our server before it ranks. All-time ranks by total points across every daily.</p>
       </main>
     </>
   );

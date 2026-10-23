@@ -9,8 +9,12 @@ import { Progress, TierBadge } from "./ui";
 
 export const SECONDS = 25;
 
-export function Play({ questions, mode, rarity = curatedRarity, onDone, onQuit }: {
+export function Play({ questions, mode, rarity = curatedRarity, onDone, onQuit, onAnswered, opponent }: {
   questions: Question[]; mode: Mode; rarity?: RaritySource; onDone: (a: RoundAnswer[]) => void; onQuit: () => void;
+  /** Fires once per question with what the player typed (null for skip/timeout). */
+  onAnswered?: (index: number, typed: string | null) => void;
+  /** Live opponent status in a head-to-head round. */
+  opponent?: { name: string; avatar: string; score: number; answered: number };
 }) {
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState<RoundAnswer[]>([]);
@@ -33,7 +37,8 @@ export function Play({ questions, mode, rarity = curatedRarity, onDone, onQuit }
     locked.current = true;
     setRevealing(o);
     setAnswers((prev) => [...prev, { questionId: q.id, prompt: q.prompt, outcome: o }]);
-  }, [q]);
+    onAnswered?.(idx, o.kind === "correct" ? o.typed ?? o.display : null);
+  }, [q, idx, onAnswered]);
 
   const left = useCountdown(SECONDS, !revealing, idx, () => finish({ kind: "timeout", points: 0 }));
 
@@ -88,7 +93,16 @@ export function Play({ questions, mode, rarity = curatedRarity, onDone, onQuit }
     <main className="mx-auto flex min-h-screen max-w-2xl flex-col px-5 py-6 sm:py-10">
       <div className="flex items-center justify-between gap-4">
         <button onClick={onQuit} className="font-sans text-sm text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary">← Quit</button>
-        <span className="font-display text-xs font-bold uppercase tracking-widest text-secondary">{mode === "daily" ? "Daily Challenge" : "Practice"}</span>
+        {opponent ? (
+          <span className="flex items-center gap-2 rounded-md border-2 border-secondary bg-card px-2.5 py-1 font-sans text-xs" aria-live="polite">
+            <span aria-hidden>{opponent.avatar}</span>
+            <b className="max-w-24 truncate">{opponent.name}</b>
+            <b className="font-display text-secondary tabular-nums">{opponent.score}</b>
+            <span className="text-muted-foreground">Q{Math.min(opponent.answered + 1, 7)}</span>
+          </span>
+        ) : (
+          <span className="font-display text-xs font-bold uppercase tracking-widest text-secondary">{mode === "daily" ? "Daily Challenge" : "Practice"}</span>
+        )}
         <div className="relative font-display text-xl font-bold tabular-nums sm:text-2xl" aria-live="polite">
           {shown}
           <span className="text-xs text-muted-foreground">/700</span>

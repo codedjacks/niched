@@ -8,6 +8,13 @@
       "when": 1792778938303,
       "tag": "0000_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792779993952,
+      "tag": "0001_accounts_ranked_duels",
+      "breakpoints": true
     }
   ]
 }
