@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useCountdown, useCountUp } from "@/game/hooks";
+import { useServerFn } from "@tanstack/react-start";
 import { validateAnswer, normalize } from "@/game/scoring";
+import { judgeAnswer } from "@/game/judge.functions";
 import type { Mode, Outcome, Question, RoundAnswer } from "@/game/types";
 import { cn } from "@/lib/utils";
 import { Progress, TierBadge } from "./ui";
@@ -17,6 +19,8 @@ export function Play({ questions, mode, onDone, onQuit }: {
   const [value, setValue] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [shakeKey, setShakeKey] = useState(0);
+  const [checking, setChecking] = useState(false);
+  const judge = useServerFn(judgeAnswer);
   const tried = useRef(new Set<string>());
   const locked = useRef(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -56,15 +60,30 @@ export function Play({ questions, mode, onDone, onQuit }: {
     if (!revealing) inputRef.current?.focus();
   }, [revealing, idx]);
 
-  const submit = (e?: React.FormEvent) => {
+  const submit = async (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (locked.current) return;
+    if (locked.current || checking) return;
     const v = validateAnswer(q, value, tried.current);
     if (v.ok) return finish({ kind: "correct", display: v.display, tier: v.tier, points: v.points });
-    if (v.reason !== "empty") tried.current.add(normalize(value));
-    setError(v.reason === "empty" ? "Type an answer first" : v.reason === "duplicate" ? "Already tried that one" : `"${value.trim()}" isn't on our list — try another`);
-    setShakeKey((k) => k + 1);
-    setValue("");
+    const raw = value;
+    const fail = (msg: string) => { setError(msg); setShakeKey((k) => k + 1); setValue(""); };
+    if (v.reason === "empty") return fail("Type an answer first");
+    if (v.reason === "duplicate") return fail("Already tried that one");
+    tried.current.add(normalize(raw));
+    // Not on the curated list exactly — ask the AI referee.
+    setChecking(true);
+    setError(null);
+    const qid = q.id;
+    try {
+      const r = await judge({ data: { questionId: qid, answer: raw } });
+      if (locked.current || qid !== questions[idx]?.id) return;
+      if (r.ok) return finish({ kind: "correct", display: r.display, tier: r.tier, points: r.points });
+      fail(r.message);
+    } catch {
+      fail("Answer checker is busy — try another answer");
+    } finally {
+      setChecking(false);
+    }
   };
 
   const pct = (left / SECONDS) * 100;
@@ -123,12 +142,12 @@ export function Play({ questions, mode, onDone, onQuit }: {
                 aria-describedby="answer-msg"
                 className="min-w-0 flex-1 rounded-lg border-2 border-border bg-background px-5 py-4 font-sans text-lg font-bold outline-none transition placeholder:text-muted-foreground/50 focus:border-primary"
               />
-              <button type="submit" className="rounded-lg bg-primary px-6 font-display text-sm font-bold uppercase text-primary-foreground shadow-pop-sm transition hover:-translate-y-0.5 hover:shadow-pop active:translate-y-0 active:shadow-pop-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
-                Submit
+              <button type="submit" disabled={checking} className="rounded-lg bg-primary px-6 font-display text-sm font-bold uppercase text-primary-foreground shadow-pop-sm transition hover:-translate-y-0.5 hover:shadow-pop active:translate-y-0 active:shadow-pop-sm disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+                {checking ? "Grading…" : "Submit"}
               </button>
             </div>
             <div id="answer-msg" className="mt-3 flex items-center justify-between gap-4 font-sans text-sm" aria-live="assertive">
-              <span className={error ? "text-destructive" : "text-muted-foreground"}>{error ?? "Press Enter to submit. Wrong guesses can be retried."}</span>
+              <span className={error ? "text-destructive" : "text-muted-foreground"}>{checking ? "The teacher is grading your answer…" : error ?? "Press Enter to submit. Wrong guesses can be retried."}</span>
               <button type="button" onClick={() => finish({ kind: "skipped", points: 0 })} className="shrink-0 rounded-md border-2 border-dashed border-border px-4 py-1.5 font-display text-xs font-bold uppercase text-muted-foreground transition hover:border-secondary hover:text-foreground focus-visible:outline-2 focus-visible:outline-secondary">
                 Skip (0)
               </button>
