@@ -16,7 +16,7 @@ export interface Question {
 }
 
 export type Outcome =
-  | { kind: "correct"; display: string; tier: TierId; points: number }
+  | { kind: "correct"; display: string; tier: TierId; points: number; didYouMean?: boolean; typed?: string }
   | { kind: "skipped"; points: 0 }
   | { kind: "timeout"; points: 0 };
 

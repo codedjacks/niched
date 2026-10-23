@@ -38,3 +38,23 @@ describe("daily", () => {
     expect(recordDaily(s, "2026-10-26", 50, []).streak).toBe(1);
   });
 });
+
+import { frequencyRarity, tierFromFrequency, MIN_SAMPLES, fuzzyMatch } from "./scoring";
+import type { Question as Q2 } from "./types";
+describe("leniency + real frequency", () => {
+  const movie: Q2 = { id: "m", prompt: "", category: "", answers: new Map([["happy mite", { display: "Happy Mite", tier: "backpack" }]]) };
+  it("accepts a typo and flags did-you-mean", () => {
+    expect(validateAnswer(movie, "happy time", new Set())).toMatchObject({ ok: true, display: "Happy Mite", didYouMean: true });
+    expect(validateAnswer(movie, "Happy Mite", new Set())).toMatchObject({ ok: true, didYouMean: false });
+  });
+  it("rejects answers too far off", () => {
+    expect(fuzzyMatch(movie, "sad dog")).toBeNull();
+  });
+  it("uses curated tier until enough plays, then real frequency", () => {
+    const few = frequencyRarity({ m: { total: MIN_SAMPLES - 1, counts: { "happy mite": 20 } } });
+    expect(validateAnswer(movie, "happy mite", new Set(), few)).toMatchObject({ tier: "backpack" });
+    const many = frequencyRarity({ m: { total: 100, counts: { "happy mite": 50 } } });
+    expect(validateAnswer(movie, "happy mite", new Set(), many)).toMatchObject({ tier: "pencil", points: 10 });
+    expect(tierFromFrequency(0.001)).toBe("valedictorian");
+  });
+});
