@@ -42,7 +42,7 @@ export function Results({ answers, mode, date, streak, isNewBest, best, onAgain,
   };
 
   return (
-    <main className="mx-auto min-h-screen max-w-2xl px-5 pb-16 pt-10">
+    <main className="mx-auto min-h-screen max-w-2xl px-5 pb-16 pt-10 lg:max-w-4xl">
       <p className="font-display text-xs font-bold uppercase tracking-[0.3em] text-secondary">
         {mode === "daily" ? `Report card · ${date}` : "Practice round"}
       </p>

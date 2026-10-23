@@ -90,7 +90,7 @@ export function Play({ questions, mode, rarity = curatedRarity, onDone, onQuit, 
   const urgent = left <= 5;
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-2xl flex-col px-5 py-6 sm:py-10">
+    <main className="mx-auto flex min-h-screen max-w-2xl flex-col px-5 py-6 sm:py-10 lg:max-w-4xl lg:justify-center">
       <div className="flex items-center justify-between gap-4">
         <button onClick={onQuit} className="font-sans text-sm text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-primary">← Quit</button>
         {opponent ? (
