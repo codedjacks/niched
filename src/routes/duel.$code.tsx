@@ -175,7 +175,7 @@ function Waiting({ code, link }: { code: string; link: string }) {
 }
 
 function Scoreboard({ me, opp, myId, oppId, answers, questions }: {
-  me?: Prof; opp?: Prof; myId: string; oppId: string | null; answers: Ans[]; questions: Question[];
+  me: Prof | undefined; opp: Prof | undefined; myId: string; oppId: string | null; answers: Ans[]; questions: Question[];
 }) {
   const mine = (i: number) => answers.find((a) => a.user_id === myId && a.q_index === i);
   const theirs = (i: number) => answers.find((a) => a.user_id === oppId && a.q_index === i);
@@ -220,7 +220,7 @@ function Scoreboard({ me, opp, myId, oppId, answers, questions }: {
   );
 }
 
-function Cell({ a, win }: { a?: Ans; win: boolean }) {
+function Cell({ a, win }: { a: Ans | undefined; win: boolean }) {
   if (!a) return <span className="text-muted-foreground">…</span>;
   return (
     <span className={cn("flex items-center justify-between gap-2 rounded-md px-2 py-1", win && "bg-primary/15")}>
