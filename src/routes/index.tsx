@@ -8,9 +8,10 @@ import { dailyQuestions, dateKey, practiceQuestions } from "@/game/selection";
 import { emptyStats, liveStreak, loadStats, recordDaily, recordPractice, saveStats, type Stats } from "@/game/storage";
 import type { Mode, Question, RoundAnswer } from "@/game/types";
 import { useServerFn } from "@tanstack/react-start";
-import { getAnswerCounts, submitRound } from "@/game/leaderboard.functions";
-import { frequencyRarity, normalize, type QuestionCounts } from "@/game/scoring";
-import { playerId, playerName } from "@/game/player";
+import { getAnswerCounts, submitRanked } from "@/game/leaderboard.functions";
+import { rankState } from "@/game/rank-state";
+import { supabase } from "@/integrations/supabase/client";
+import { frequencyRarity, type QuestionCounts } from "@/game/scoring";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -42,7 +43,7 @@ function Index() {
 
   const [counts, setCounts] = useState<Record<string, QuestionCounts>>({});
   const fetchCounts = useServerFn(getAnswerCounts);
-  const submit = useServerFn(submitRound);
+  const submit = useServerFn(submitRanked);
 
   const start = (mode: Mode) => {
     const d = dateKey();
@@ -62,13 +63,16 @@ function Index() {
       const prevBest = cur.mode === "daily" ? prev.bestDaily : prev.bestPractice;
       saveStats(next);
       setStats(next);
-      const day = dateKey();
-      if (cur.mode === "practice" || prev.lastDailyDate !== day) {
-        submit({ data: {
-          playerId: playerId(), name: playerName(), mode: cur.mode, day, score,
-          tiers: answers.map((a) => (a.outcome.kind === "correct" ? a.outcome.tier : "none")),
-          answers: answers.flatMap((a) => (a.outcome.kind === "correct" ? [{ questionId: a.questionId, key: normalize(a.outcome.display) }] : [])),
-        } }).catch(() => {});
+      if (cur.mode === "daily") {
+        const day = dateKey();
+        const typed = answers.map((a) => (a.outcome.kind === "correct" ? a.outcome.typed ?? a.outcome.display : null));
+        rankState.set({ status: "pending" });
+        supabase.auth.getSession().then(({ data }) => {
+          if (!data.session) return rankState.set({ status: "guest" });
+          submit({ data: { day, typed } })
+            .then((r) => rankState.set(r.ok ? { status: "ranked", score: r.score, already: r.already } : { status: "error", error: r.error }))
+            .catch(() => rankState.set({ status: "error", error: "Couldn't reach the leaderboard" }));
+        });
       }
       return { s: "results", mode: cur.mode, answers, newBest: score > prevBest && score > 0 };
     });

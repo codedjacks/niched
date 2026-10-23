@@ -4,7 +4,7 @@ import { MAX_SCORE, TIERS, TIER_ORDER } from "@/game/scoring";
 import type { Mode, RoundAnswer, TierId } from "@/game/types";
 import { cn } from "@/lib/utils";
 import { TierBadge } from "./ui";
-import { NameField } from "./NameField";
+import { RankStatus } from "./RankStatus";
 
 export function buildShareText(answers: RoundAnswer[], mode: Mode, date: string) {
   const score = answers.reduce((s, a) => s + a.outcome.points, 0);
@@ -74,7 +74,7 @@ export function Results({ answers, mode, date, streak, isNewBest, best, onAgain,
         </div>
       )}
 
-      {mode === "daily" && <NameField />}
+      {mode === "daily" && <RankStatus />}
 
       <ol className="relative mt-10 grid gap-3">
         {answers.map((a, i) => {
@@ -112,7 +112,7 @@ export function Results({ answers, mode, date, streak, isNewBest, best, onAgain,
         )}
         <button onClick={onHome} className={cn("rounded-lg border-2 border-border px-5 py-3 font-display text-sm font-bold uppercase hover:border-secondary focus-visible:outline-2 focus-visible:outline-secondary", !onAgain && "sm:col-span-3")}>Home</button>
       </div>
-      <p className="mt-5 text-center font-hand text-lg text-muted-foreground">live head-to-head is coming later — for now, share your score and compare.</p>
+      <p className="mt-5 text-center font-hand text-lg text-muted-foreground">want a real race? start a live head-to-head from the home page.</p>
     </main>
   );
 }
