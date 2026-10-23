@@ -109,6 +109,7 @@
   --color-tier-backpack: var(--tier-backpack);
   --color-tier-goldstar: var(--tier-goldstar);
   --color-tier-valedictorian: var(--tier-valedictorian);
+  --color-ink: var(--ink);
 }
 
 @utility grid-bg {
