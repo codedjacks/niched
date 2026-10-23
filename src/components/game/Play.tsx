@@ -1,14 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useCountdown, useCountUp } from "@/game/hooks";
 import { useServerFn } from "@tanstack/react-start";
-import { validateAnswer, normalize } from "@/game/scoring";
+import { validateAnswer, normalize, TIERS, TIER_ORDER } from "@/game/scoring";
 import { judgeAnswer } from "@/game/judge.functions";
 import type { Mode, Outcome, Question, RoundAnswer } from "@/game/types";
 import { cn } from "@/lib/utils";
 import { Progress, TierBadge } from "./ui";
 
 export const SECONDS = 25;
-const REVEAL_MS = 1600;
 
 export function Play({ questions, mode, onDone, onQuit }: {
   questions: Question[]; mode: Mode; onDone: (a: RoundAnswer[]) => void; onQuit: () => void;
@@ -38,22 +37,15 @@ export function Play({ questions, mode, onDone, onQuit }: {
 
   const left = useCountdown(SECONDS, !revealing, idx, () => finish({ kind: "timeout", points: 0 }));
 
-  // advance after reveal
-  useEffect(() => {
+  const next = useCallback(() => {
     if (!revealing) return;
-    const t = setTimeout(() => {
-      if (idx + 1 >= questions.length) {
-        onDone(answers);
-      } else {
-        setIdx(idx + 1);
-        setRevealing(null);
-        setValue("");
-        setError(null);
-        tried.current = new Set();
-        locked.current = false;
-      }
-    }, REVEAL_MS);
-    return () => clearTimeout(t);
+    if (idx + 1 >= questions.length) return onDone(answers);
+    setIdx(idx + 1);
+    setRevealing(null);
+    setValue("");
+    setError(null);
+    tried.current = new Set();
+    locked.current = false;
   }, [revealing, idx, questions.length, answers, onDone]);
 
   useEffect(() => {
@@ -123,7 +115,7 @@ export function Play({ questions, mode, onDone, onQuit }: {
 
       <div className="mt-6 min-h-[180px]">
         {revealing ? (
-          <Reveal o={revealing} />
+          <Reveal key={idx} o={revealing} last={idx + 1 >= questions.length} onNext={next} />
         ) : (
           <form onSubmit={submit} className="animate-rise">
             <label htmlFor="answer" className="sr-only">Your answer</label>
@@ -159,19 +151,86 @@ export function Play({ questions, mode, onDone, onQuit }: {
   );
 }
 
-function Reveal({ o }: { o: Outcome }) {
+function Reveal({ o, last, onNext }: { o: Outcome; last: boolean; onNext: () => void }) {
+  const target = o.kind === "correct" ? TIER_ORDER.indexOf(o.tier) : -1;
+  const [step, setStep] = useState(o.kind === "correct" ? 0 : -1);
+  const [done, setDone] = useState(o.kind !== "correct");
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  // Climb the tier ladder one rung at a time, slowing down near the top.
+  useEffect(() => {
+    if (done) return;
+    if (step >= target) {
+      const t = setTimeout(() => setDone(true), 450);
+      return () => clearTimeout(t);
+    }
+    const t = setTimeout(() => setStep((s) => s + 1), 380 + step * 140);
+    return () => clearTimeout(t);
+  }, [step, target, done]);
+
+  useEffect(() => { if (done) btnRef.current?.focus(); }, [done]);
+
+  const nextBtn = (
+    <button
+      ref={btnRef}
+      onClick={onNext}
+      className={cn("mt-6 w-full rounded-lg bg-primary px-6 py-4 font-display text-sm font-bold uppercase text-primary-foreground shadow-pop-sm transition hover:-translate-y-0.5 hover:shadow-pop focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary", done ? "animate-rise" : "invisible")}
+    >
+      {last ? "See report card →" : "Next question →"}
+    </button>
+  );
+
   if (o.kind !== "correct")
     return (
-      <div className="animate-pop rounded-lg border-2 border-dashed border-border bg-card p-6 text-center" role="status">
-        <div className="font-display text-xl font-bold uppercase text-muted-foreground">{o.kind === "timeout" ? "Time's up" : "Skipped"}</div>
-        <div className="mt-1 font-sans text-sm text-muted-foreground">+0 points</div>
+      <div role="status">
+        <div className="animate-pop rounded-lg border-2 border-dashed border-border bg-card p-6 text-center">
+          <div className="font-display text-xl font-bold uppercase text-muted-foreground">{o.kind === "timeout" ? "Time's up" : "Skipped"}</div>
+          <div className="mt-1 font-sans text-sm text-muted-foreground">+0 points</div>
+        </div>
+        {nextBtn}
       </div>
     );
+
+  const shownTier = TIER_ORDER[Math.max(step, 0)]!;
   return (
-    <div className="animate-pop rounded-lg border-2 border-primary bg-card p-6 text-center shadow-[4px_4px_0_0_var(--tier-valedictorian)]" role="status">
-      <TierBadge tier={o.tier} className="scale-125" />
-      <div className="mt-4 font-display text-2xl font-bold sm:text-3xl">{o.display}</div>
-      <div className="mt-1 font-hand text-2xl font-bold text-primary">+{o.points}</div>
+    <div role="status" aria-live="polite">
+      <div className="relative overflow-hidden rounded-lg border-2 border-primary bg-card p-6 text-center">
+        <div className="font-display text-2xl font-bold sm:text-3xl">{o.display}</div>
+        <div className="mt-1 font-sans text-xs uppercase tracking-widest text-muted-foreground">
+          {done ? "Graded!" : "Grading rarity…"}
+        </div>
+
+        {/* tier ladder */}
+        <div className="mt-5 flex justify-center gap-1.5" aria-hidden>
+          {TIER_ORDER.map((t, i) => (
+            <span
+              key={t}
+              className={cn(
+                "flex h-9 w-9 items-center justify-center rounded-md border-2 text-lg transition-all duration-300",
+                i <= step ? "border-primary bg-primary/15 scale-110" : "border-border opacity-30 grayscale",
+                i === step && !done && "animate-pulse",
+                done && i === target && "scale-125 border-primary bg-primary/30",
+              )}
+            >
+              {TIERS[t].emoji}
+            </span>
+          ))}
+        </div>
+
+        <div className="mt-5 flex min-h-16 items-center justify-center">
+          {done ? (
+            <div className="animate-stamp">
+              <TierBadge tier={o.tier} className="scale-150" />
+            </div>
+          ) : (
+            <span key={shownTier} className="animate-pop font-display text-lg font-bold uppercase text-muted-foreground">
+              {TIERS[shownTier].label}?
+            </span>
+          )}
+        </div>
+        {done && <div className="mt-2 animate-pop font-hand text-3xl font-bold text-primary">+{o.points}</div>}
+      </div>
+      {nextBtn}
     </div>
   );
 }
