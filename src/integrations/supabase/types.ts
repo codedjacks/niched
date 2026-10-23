@@ -14,13 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      answer_counts: {
+        Row: {
+          answer_key: string
+          count: number
+          question_id: string
+        }
+        Insert: {
+          answer_key: string
+          count?: number
+          question_id: string
+        }
+        Update: {
+          answer_key?: string
+          count?: number
+          question_id?: string
+        }
+        Relationships: []
+      }
+      daily_scores: {
+        Row: {
+          created_at: string
+          day: string
+          id: string
+          player_id: string
+          player_name: string
+          score: number
+          tiers: string[]
+        }
+        Insert: {
+          created_at?: string
+          day: string
+          id?: string
+          player_id: string
+          player_name: string
+          score: number
+          tiers?: string[]
+        }
+        Update: {
+          created_at?: string
+          day?: string
+          id?: string
+          player_id?: string
+          player_name?: string
+          score?: number
+          tiers?: string[]
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      bump_answers: {
+        Args: { _keys: string[]; _question_ids: string[] }
+        Returns: undefined
+      }
+      leaderboard_alltime: {
+        Args: { _limit?: number }
+        Returns: {
+          best: number
+          games: number
+          player_name: string
+          total: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
