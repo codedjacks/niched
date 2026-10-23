@@ -57,3 +57,16 @@ export function recordPractice(s: Stats, score: number): Stats {
 export function liveStreak(s: Stats, today: string) {
   return s.lastDailyDate === today || s.lastDailyDate === prevDay(today) ? s.streak : 0;
 }
+
+/** Practice question ids this browser has already played; reset once the whole bank is used. */
+const SEEN_KEY = "niched:seen-practice";
+export function loadSeen(): string[] {
+  try { return JSON.parse(localStorage.getItem(SEEN_KEY) || "[]"); } catch { return []; }
+}
+export function markSeen(ids: string[], bankSize: number) {
+  try {
+    let all = Array.from(new Set([...loadSeen(), ...ids]));
+    if (all.length >= bankSize) all = ids;
+    localStorage.setItem(SEEN_KEY, JSON.stringify(all));
+  } catch { /* storage unavailable */ }
+}

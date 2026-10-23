@@ -16,13 +16,13 @@ function hash(s: string) {
   for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619);
   return h >>> 0;
 }
-function pick(rand: () => number, bank: Question[] = QUESTIONS) {
+function pick(rand: () => number, bank: Question[] = QUESTIONS, n = QUESTIONS_PER_ROUND) {
   const arr = [...bank];
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(rand() * (i + 1));
     [arr[i], arr[j]] = [arr[j]!, arr[i]!];
   }
-  return arr.slice(0, QUESTIONS_PER_ROUND);
+  return arr.slice(0, n);
 }
 
 export function dateKey(d = new Date()) {
@@ -33,10 +33,51 @@ export function dateKey(d = new Date()) {
 export const FULL_BANK_DAILY_FROM = "2026-10-24";
 export function dailyQuestions(key = dateKey()) {
   const bank = key >= FULL_BANK_DAILY_FROM ? QUESTIONS : DAILY_QUESTIONS;
-  return pick(mulberry32(hash("niched:" + key)), bank);
+  if (key < FULL_BANK_DAILY_FROM) return pick(mulberry32(hash("niched:" + key)), bank);
+  return dailyDeal(daysBetween(FULL_BANK_DAILY_FROM, key)).map((id) => QUESTIONS.find((q) => q.id === id)!);
 }
-export function practiceQuestions() {
-  return pick(Math.random);
+
+function daysBetween(a: string, b: string) {
+  return Math.round((Date.parse(`${b}T12:00:00Z`) - Date.parse(`${a}T12:00:00Z`)) / 86_400_000);
+}
+
+/**
+ * Daily questions are dealt from a seeded deck of the whole bank, 7 per day, so no
+ * question repeats until every question has been used; then the deck is reshuffled.
+ * A question is never dealt twice in the same day, even across a reshuffle.
+ */
+const dealt: string[][] = [];
+let deck: string[] = [];
+let epoch = 0;
+function dailyDeal(day: number): string[] {
+  while (dealt.length <= day) {
+    const today: string[] = [];
+    const held: string[] = [];
+    while (today.length < QUESTIONS_PER_ROUND) {
+      if (!deck.length) {
+        deck = pick(mulberry32(hash("niched:deck:" + epoch++)), QUESTIONS, QUESTIONS.length).map((q) => q.id);
+      }
+      const id = deck.shift()!;
+      if (today.includes(id)) held.push(id);
+      else today.push(id);
+    }
+    deck.unshift(...held);
+    dealt.push(today);
+  }
+  return dealt[day]!;
+}
+
+/**
+ * Random round that avoids every id in `exclude` (e.g. questions this player has
+ * already seen). When fewer than 7 unseen remain, the leftovers are used first and
+ * the rest is topped up from the full bank.
+ */
+export function practiceQuestions(exclude: Iterable<string> = []) {
+  const seen = new Set(exclude);
+  const fresh = pick(Math.random, QUESTIONS.filter((q) => !seen.has(q.id)));
+  if (fresh.length === QUESTIONS_PER_ROUND) return fresh;
+  const ids = new Set(fresh.map((q) => q.id));
+  return [...fresh, ...pick(Math.random, QUESTIONS.filter((q) => !ids.has(q.id)), QUESTIONS_PER_ROUND - fresh.length)];
 }
 export function msUntilNextDaily(now = new Date()) {
   const next = new Date(now);

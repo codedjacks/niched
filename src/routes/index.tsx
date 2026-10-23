@@ -5,12 +5,13 @@ import { Play } from "@/components/game/Play";
 import { Results } from "@/components/game/Results";
 import { GeoBackground } from "@/components/game/ui";
 import { dailyQuestions, dateKey, practiceQuestions } from "@/game/selection";
-import { emptyStats, liveStreak, loadStats, recordDaily, recordPractice, saveStats, type Stats } from "@/game/storage";
+import { loadSeen, markSeen, emptyStats, liveStreak, loadStats, recordDaily, recordPractice, saveStats, type Stats } from "@/game/storage";
 import type { Mode, Question, RoundAnswer } from "@/game/types";
 import { useServerFn } from "@tanstack/react-start";
 import { getAnswerCounts, submitRanked } from "@/game/leaderboard.functions";
 import { rankState } from "@/game/rank-state";
 import { supabase } from "@/integrations/supabase/client";
+import { QUESTIONS } from "@/game/questions";
 import { frequencyRarity, type QuestionCounts } from "@/game/scoring";
 
 export const Route = createFileRoute("/")({
@@ -48,7 +49,9 @@ function Index() {
   const start = (mode: Mode) => {
     const d = dateKey();
     setToday(d);
-    const questions = mode === "daily" ? dailyQuestions(d) : practiceQuestions();
+    // Practice avoids anything already played in practice and today's daily.
+    const questions = mode === "daily" ? dailyQuestions(d) : practiceQuestions([...loadSeen(), ...dailyQuestions(d).map((q) => q.id)]);
+    if (mode === "practice") markSeen(questions.map((q) => q.id), QUESTIONS.length);
     setCounts({});
     fetchCounts({ data: { questionIds: questions.map((q) => q.id) } }).then(setCounts).catch(() => {});
     setScreen({ s: "play", mode, questions, key: Date.now() });
