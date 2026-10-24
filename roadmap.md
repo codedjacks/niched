@@ -9,3 +9,6 @@
 - [x] Verify themed rounds, topic selection, and desktop/mobile layout
 - [x] Expand categories and mix them into future dailies while preserving played rounds
 - [x] Test expanded selection, answer grading, and the playable daily flow
+- [ ] Add many distinct questions per existing category
+- [ ] Remove daily recycling and show unavailable state when reviewed questions run out
+- [ ] Verify seven-question rounds, no repeats, and grading
