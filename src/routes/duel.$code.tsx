@@ -42,27 +42,26 @@ function Duel() {
   const [error, setError] = useState<string | null>(null);
   const [now, setNow] = useState(Date.now());
   const [finished, setFinished] = useState(false);
-  const joined = useRef(false);
+  const joining = useRef<{ key: string; promise: Promise<{ ok: true } | { ok: false; error: string }> } | null>(null);
 
   // Load + join
   useEffect(() => {
     if (!user) return;
     let alive = true;
     (async () => {
+      // Claim the invite server-side before reading participant-only match rows.
+      const key = `${user.id}:${code}`;
+      if (joining.current?.key !== key) joining.current = { key, promise: join({ data: { code } }) };
+      const r = await joining.current.promise;
+      if (!alive) return;
+      if (!r.ok) return setError(r.error);
       const { data: m } = await supabase.from("matches").select("*").eq("code", code.toUpperCase()).maybeSingle();
       if (!alive) return;
       if (!m) return setError("Room not found");
       setMatch(m);
-      if (!joined.current && m.host_id !== user.id && m.guest_id !== user.id) {
-        joined.current = true;
-        const r = await join({ data: { code: m.code } });
-        if (!r.ok) return setError(r.error);
-        const { data: m2 } = await supabase.from("matches").select("*").eq("id", m.id).single();
-        if (alive && m2) setMatch(m2);
-      }
       const { data: a } = await supabase.from("match_answers").select("*").eq("match_id", m.id);
       if (alive) setAnswers(a ?? []);
-    })();
+    })().catch(() => { if (alive) setError("Couldn't join this room — try again"); });
     return () => { alive = false; };
   }, [user, code, join]);
 

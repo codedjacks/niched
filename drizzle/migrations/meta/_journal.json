@@ -15,6 +15,13 @@
       "when": 1792779993952,
       "tag": "0001_accounts_ranked_duels",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792872867960,
+      "tag": "0002_restrict_selected_game_data_access",
+      "breakpoints": true
     }
   ]
 }
