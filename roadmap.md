@@ -5,3 +5,5 @@
 - [x] Fuzzy answers with "did you mean"
 - [x] Accounts (email, name + sticker avatar) with server-verified daily rankings
 - [x] Live head-to-head duels
+- [ ] Finish left sidebar and Sports, Entertainment, History challenge pages
+- [ ] Verify themed rounds, topic selection, and desktop/mobile layout
