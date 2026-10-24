@@ -9,8 +9,9 @@ import { Progress, TierBadge } from "./ui";
 
 export const SECONDS = 25;
 
-export function Play({ questions, mode, rarity = curatedRarity, onDone, onQuit, onAnswered, opponent }: {
+export function Play({ questions, mode, challengeName, rarity = curatedRarity, onDone, onQuit, onAnswered, opponent }: {
   questions: Question[]; mode: Mode; rarity?: RaritySource; onDone: (a: RoundAnswer[]) => void; onQuit: () => void;
+  challengeName?: string;
   /** Fires once per question with what the player typed (null for skip/timeout). */
   onAnswered?: (index: number, typed: string | null) => void;
   /** Live opponent status in a head-to-head round. */
@@ -101,7 +102,7 @@ export function Play({ questions, mode, rarity = curatedRarity, onDone, onQuit, 
             <span className="text-muted-foreground">Q{Math.min(opponent.answered + 1, 7)}</span>
           </span>
         ) : (
-          <span className="font-display text-xs font-bold uppercase tracking-widest text-secondary">{mode === "daily" ? "Daily Challenge" : "Practice"}</span>
+          <span className="font-display text-xs font-bold uppercase tracking-widest text-secondary">{challengeName ? `${challengeName} Challenge` : mode === "daily" ? "Daily Challenge" : "Practice"}</span>
         )}
         <div className="relative font-display text-xl font-bold tabular-nums sm:text-2xl" aria-live="polite">
           {shown}
