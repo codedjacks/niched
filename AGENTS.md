@@ -17,3 +17,4 @@
 - Topic challenges use a separate question registry, topic-scoped local progress, and shared Play/Results screens; preserve the published daily bank order so old ranked answers still verify.
 - Daily scheduling uses frozen historical pools and append-only seeded reviewed batches; never shuffle new content into an existing scheduled batch, never recycle exhausted questions, and return no round unless seven fresh questions remain so historical scoring and stateless verification stay consistent.
 - Each reviewed supply expansion has its own frozen question module and seed appended after earlier batches; exclude all reviewed batches from the legacy pool so adding content cannot move historical questions.
+- Pause the question countdown while submitted answers are being graded, and preserve retryable answers after checker failures so service latency never consumes a player's answering time.

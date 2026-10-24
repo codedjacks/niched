@@ -24,28 +24,33 @@ export function Play({ questions, mode, challengeName, rarity = curatedRarity, o
   const [error, setError] = useState<string | null>(null);
   const [shakeKey, setShakeKey] = useState(0);
   const [checking, setChecking] = useState(false);
+  const pending = useRef(false);
+  const requestVersion = useRef(0);
   const judge = useServerFn(judgeAnswer);
   const tried = useRef(new Set<string>());
   const locked = useRef(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const q = questions[idx]!;
+  const q = questions[idx];
 
   const score = answers.reduce((s, a) => s + a.outcome.points, 0);
   const shown = useCountUp(score, 700);
 
   const finish = useCallback((o: Outcome) => {
-    if (locked.current) return;
+    if (locked.current || !q) return;
     locked.current = true;
     setRevealing(o);
     setAnswers((prev) => [...prev, { questionId: q.id, prompt: q.prompt, outcome: o }]);
     onAnswered?.(idx, o.kind === "correct" ? o.typed ?? o.display : null);
   }, [q, idx, onAnswered]);
 
-  const left = useCountdown(SECONDS, !revealing, idx, () => finish({ kind: "timeout", points: 0 }));
+  const left = useCountdown(SECONDS, !revealing && !checking, idx, () => finish({ kind: "timeout", points: 0 }));
 
   const next = useCallback(() => {
     if (!revealing) return;
     if (idx + 1 >= questions.length) return onDone(answers);
+    requestVersion.current++;
+    pending.current = false;
+    setChecking(false);
     setIdx(idx + 1);
     setRevealing(null);
     setValue("");
@@ -58,9 +63,11 @@ export function Play({ questions, mode, challengeName, rarity = curatedRarity, o
     if (!revealing) inputRef.current?.focus();
   }, [revealing, idx]);
 
+  useEffect(() => () => { requestVersion.current++; }, []);
+
   const submit = async (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (locked.current || checking) return;
+    if (locked.current || pending.current || !q) return;
     const v = validateAnswer(q, value, tried.current, rarity);
     if (v.ok) return finish({ kind: "correct", display: v.display, tier: v.tier, points: v.points, didYouMean: v.didYouMean, typed: value.trim() });
     const raw = value;
@@ -69,26 +76,39 @@ export function Play({ questions, mode, challengeName, rarity = curatedRarity, o
     if (v.reason === "duplicate") return fail("Already tried that one");
     tried.current.add(normalize(raw));
     // Not on the curated list exactly — ask the AI referee.
+    pending.current = true;
+    const version = ++requestVersion.current;
     setChecking(true);
     setError(null);
     const qid = q.id;
     try {
       const r = await judge({ data: { questionId: qid, answer: raw } });
-      if (locked.current || qid !== questions[idx]?.id) return;
+      if (locked.current || version !== requestVersion.current) return;
       if (r.ok) {
         const tier = rarity.tierFor(q, normalize(r.display), r.tier);
         return finish({ kind: "correct", display: r.display, tier, points: TIERS[tier].points, didYouMean: normalize(r.display) !== normalize(raw), typed: raw.trim() });
       }
-      fail(r.message);
+      if (r.reason === "unavailable") {
+        tried.current.delete(normalize(raw));
+        setError(r.message);
+      } else fail(r.message);
     } catch {
-      fail("Answer checker is busy — try another answer");
+      if (locked.current || version !== requestVersion.current) return;
+      tried.current.delete(normalize(raw));
+      setError("Answer checker is busy — please retry your answer");
     } finally {
-      setChecking(false);
+      if (version === requestVersion.current) {
+        pending.current = false;
+        setChecking(false);
+        inputRef.current?.focus();
+      }
     }
   };
 
   const pct = (left / SECONDS) * 100;
   const urgent = left <= 5;
+
+  if (!q) return null;
 
   return (
     <main className="mx-auto flex min-h-screen max-w-2xl flex-col px-5 py-6 sm:py-10 lg:max-w-4xl lg:justify-center">
@@ -142,6 +162,7 @@ export function Play({ questions, mode, challengeName, rarity = curatedRarity, o
                 id="answer"
                 ref={inputRef}
                 value={value}
+                disabled={checking}
                 onChange={(e) => { setValue(e.target.value); setError(null); }}
                 autoComplete="off"
                 autoCapitalize="off"
@@ -209,7 +230,7 @@ function Reveal({ o, last, onNext }: { o: Outcome; last: boolean; onNext: () => 
       </div>
     );
 
-  const shownTier = TIER_ORDER[Math.max(step, 0)]!;
+  const shownTier = TIER_ORDER[Math.max(step, 0)] ?? "pencil";
   return (
     <div role="status" aria-live="polite">
       <div className="relative overflow-hidden rounded-lg border-2 border-primary bg-card p-6 text-center">
