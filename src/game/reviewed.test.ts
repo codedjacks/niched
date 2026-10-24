@@ -1,18 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { QUESTIONS, REVIEWED_QUESTIONS, ORIGINAL_FULL_QUESTIONS, EXPANSION_QUESTIONS } from "./questions";
+import { QUESTIONS, REVIEWED_QUESTIONS, ORIGINAL_FULL_QUESTIONS, EXPANSION_QUESTIONS, SUPPLY_QUESTIONS } from "./questions";
 import { dailyQuestions } from "./selection";
 import { validateAnswer } from "./scoring";
 
 describe("reviewed questions within existing categories", () => {
   it("adds 72 questions across 12 existing categories without introducing categories", () => {
     expect(REVIEWED_QUESTIONS).toHaveLength(72);
-    expect(QUESTIONS).toHaveLength(159);
+    expect(QUESTIONS).toHaveLength(159 + SUPPLY_QUESTIONS.length);
     const existing = new Set([...ORIGINAL_FULL_QUESTIONS, ...EXPANSION_QUESTIONS].map((q) => q.category));
     expect(REVIEWED_QUESTIONS.every((q) => existing.has(q.category))).toBe(true);
     const categories = new Set(REVIEWED_QUESTIONS.map((q) => q.category));
     expect(categories.size).toBe(12);
     for (const category of categories) expect(REVIEWED_QUESTIONS.filter((q) => q.category === category)).toHaveLength(6);
-    expect(new Set(QUESTIONS.map((q) => q.prompt)).size).toBe(159);
+    expect(new Set(QUESTIONS.map((q) => q.prompt)).size).toBe(QUESTIONS.length);
   });
   it("deals exactly seven fresh questions each day, then stops instead of recycling", () => {
     const dealt: string[] = [];
@@ -24,7 +24,7 @@ describe("reviewed questions within existing categories", () => {
     }
     expect(dealt).toHaveLength(154);
     expect(new Set(dealt).size).toBe(154);
-    expect(dailyQuestions("2026-11-15")).toEqual([]);
+    expect(dailyQuestions("2026-11-15")).toHaveLength(7);
     expect(dailyQuestions("2027-01-01")).toEqual([]);
   });
   it("is deterministic regardless of date lookup order", () => {
