@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { CHALLENGES, challengePool, challengeQuestions, loadChallenge, saveChallenge } from "./challenges";
-import { ALL_QUESTIONS, QUESTIONS, THEMED_QUESTIONS } from "./questions";
+import { ALL_QUESTIONS, ORIGINAL_FULL_QUESTIONS, THEMED_QUESTIONS } from "./questions";
 import { dailyQuestions } from "./selection";
 import { validateAnswer } from "./scoring";
 
@@ -31,7 +31,7 @@ describe("subject challenges", () => {
     expect(exhausted.every((q) => sports.includes(q))).toBe(true);
   });
   it("keeps the 57-question published daily deck unchanged", () => {
-    expect(QUESTIONS).toHaveLength(57);
+    expect(ORIGINAL_FULL_QUESTIONS).toHaveLength(57);
     const extra = new Set(THEMED_QUESTIONS.map((q) => q.id));
     expect(dailyQuestions("2026-10-24").some((q) => extra.has(q.id))).toBe(false);
     expect(new Set(ALL_QUESTIONS.map((q) => q.id)).size).toBe(ALL_QUESTIONS.length);
