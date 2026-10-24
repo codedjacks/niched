@@ -51,6 +51,7 @@ function Index() {
     setToday(d);
     // Practice avoids anything already played in practice and today's daily.
     const questions = mode === "daily" ? dailyQuestions(d) : practiceQuestions([...loadSeen(), ...dailyQuestions(d).map((q) => q.id)]);
+    if (questions.length !== 7) return;
     if (mode === "practice") markSeen(questions.map((q) => q.id), QUESTIONS.length);
     setCounts({});
     fetchCounts({ data: { questionIds: questions.map((q) => q.id) } }).then(setCounts).catch(() => {});
@@ -86,6 +87,7 @@ function Index() {
       <GeoBackground />
       {screen.s === "home" && (
         <Home stats={stats} streak={liveStreak(stats, today)} doneToday={doneToday} todayScore={todayScore}
+          dailyAvailable={dailyQuestions(today).length === 7}
           onDaily={() => start("daily")} onPractice={() => start("practice")}
           onViewToday={() => stats.todayAnswers && setScreen({ s: "results", mode: "daily", answers: stats.todayAnswers, newBest: false })} />
       )}

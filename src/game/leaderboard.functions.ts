@@ -57,6 +57,7 @@ export const submitRanked = createServerFn({ method: "POST" })
 
     const { verifyAnswer, loadCounts } = await import("./judge.server");
     const qs = dailyQuestions(data.day);
+    if (qs.length !== 7) return { ok: false as const, error: "New daily questions are awaiting review" };
     const rarity = frequencyRarity(await loadCounts(qs.map((q) => q.id)));
     const results = await Promise.all(qs.map((q, i) => verifyAnswer(q, data.typed[i] ?? null, rarity)));
     const score = results.reduce((s, r) => s + (r?.points ?? 0), 0);

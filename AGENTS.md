@@ -14,4 +14,4 @@
 - Live duels sync via realtime on matches/match_answers; question order is fixed on the match row so both players get the same 7.
 - Avatars are preset sticker emoji ids stored on the profile, because public storage buckets are blocked for this workspace.
 - Topic challenges use a separate question registry, topic-scoped local progress, and shared Play/Results screens; preserve the published daily bank order so old ranked answers still verify.
-- Daily bank expansions have date cutovers and frozen historical pools; reconstruct seeded decks per call and exclude the preceding preserved round from the first expanded cycle so published scores and no-repeat dealing remain consistent on stateless workers.
+- Daily scheduling uses frozen historical pools and append-only seeded reviewed batches; never shuffle new content into an existing scheduled batch, never recycle exhausted questions, and return no round unless seven fresh questions remain so historical scoring and stateless verification stay consistent.

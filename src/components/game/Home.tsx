@@ -4,6 +4,7 @@ import { msUntilNextDaily } from "@/game/selection";
 import type { Stats } from "@/game/storage";
 import { TierBadge } from "./ui";
 import { AccountNav, ChallengeButton } from "./AccountNav";
+import { Button } from "@/components/ui/button";
 
 function fmt(ms: number) {
   const s = Math.floor(ms / 1000);
@@ -11,9 +12,10 @@ function fmt(ms: number) {
   return `${p(Math.floor(s / 3600))}:${p(Math.floor((s % 3600) / 60))}:${p(s % 60)}`;
 }
 
-export function Home({ stats, streak, doneToday, todayScore, onDaily, onPractice, onViewToday }: {
+export function Home({ stats, streak, doneToday, todayScore, dailyAvailable = true, onDaily, onPractice, onViewToday }: {
   stats: Stats; streak: number; doneToday: boolean; todayScore: number | null;
   onDaily: () => void; onPractice: () => void; onViewToday: () => void;
+  dailyAvailable?: boolean;
 }) {
   const [left, setLeft] = useState<number | null>(null);
   useEffect(() => {
@@ -48,6 +50,10 @@ export function Home({ stats, streak, doneToday, todayScore, onDaily, onPractice
             <span className="mt-1 block font-display text-2xl font-bold uppercase sm:text-3xl">View today's results ▸</span>
             <span className="mt-2 block font-sans text-sm text-muted-foreground">Next assignment in {left != null ? fmt(left) : "--:--:--"}</span>
           </button>
+        ) : !dailyAvailable ? (
+          <Button disabled variant="outline" className="h-auto whitespace-normal px-7 py-7 text-left font-display text-xl uppercase">
+            New daily questions awaiting review
+          </Button>
         ) : (
           <button autoFocus onClick={onDaily} className="group relative rounded-lg bg-primary px-7 py-7 text-left text-primary-foreground shadow-pop-marker transition hover:-translate-y-1 hover:shadow-[8px_8px_0_0_var(--secondary)] focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-primary">
             <span className="font-display text-xs font-bold uppercase tracking-widest opacity-80">Today's assignment · not turned in</span>
