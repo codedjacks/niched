@@ -26,7 +26,7 @@ export const getAnswerCounts = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const out: Record<string, QuestionCounts> = {};
     const { data: rows, error } = await publicClient()
-      .from("answer_counts").select("question_id, answer_key, count").in("question_id", data.questionIds);
+      .rpc("question_answer_counts", { _question_ids: data.questionIds });
     if (error) { console.error(error); return out; }
     for (const r of rows ?? []) {
       const d = (out[r.question_id] ??= { total: 0, counts: {} });
@@ -87,21 +87,13 @@ export const getLeaderboard = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const sb = publicClient();
     const [today, all] = await Promise.all([
-      sb.from("ranked_scores").select("id, user_id, score, tiers, created_at").eq("day", data.day)
-        .order("score", { ascending: false }).order("created_at").limit(50),
+      sb.rpc("ranked_daily", { _day: data.day }),
       sb.rpc("ranked_alltime", { _limit: 50 }),
     ]);
     if (today.error) console.error(today.error);
     if (all.error) console.error(all.error);
-    const ids = [...new Set((today.data ?? []).map((r) => r.user_id))];
-    const { data: profs } = ids.length
-      ? await sb.from("profiles").select("id, display_name, avatar_url").in("id", ids)
-      : { data: [] as { id: string; display_name: string; avatar_url: string | null }[] };
-    const byId = new Map((profs ?? []).map((p) => [p.id, p]));
     return {
-      today: (today.data ?? []).map((r) => ({
-        ...r, display_name: byId.get(r.user_id)?.display_name ?? "Student", avatar_url: byId.get(r.user_id)?.avatar_url ?? null,
-      })),
+      today: today.data ?? [],
       allTime: (all.data ?? []).map((r) => ({ ...r, total: Number(r.total), games: Number(r.games) })),
     };
   });
