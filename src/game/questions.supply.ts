@@ -28,7 +28,7 @@ export const supplyBank = (q: Q) => [
   q("piano-singer", "Music", "Name a singer-songwriter known for playing piano", {"p": "Elton John|Billy Joel|Alicia Keys|Tori Amos", "r": "Carole King|Regina Spektor|Ben Folds|Sara Bareilles"}),
   q("classical-ballet", "Music", "Name a classical ballet", {"p": "Swan Lake|The Nutcracker|Giselle|Coppelia", "r": "The Sleeping Beauty|Don Quixote|La Bayadere|La Sylphide"}),
   q("jamaican-genre", "Music", "Name a music genre that originated in Jamaica", {"p": "Reggae|Ska|Rocksteady|Dancehall", "r": "Mento|Dub|Roots Reggae|Ragga"}),
-  q("album-animal", "Music", "Name an album with an animal in its title", {"p": "Bat Out of Hell|Elephant|Dog Man Star|Year of the Cat", "r": "Black Sheep Boy|Trout Mask Replica|Pink Flamingo|Tigerlily"}),
+  q("album-animal", "Music", "Name an album with an animal in its title", {"p": "Bat Out of Hell|Elephant|Dog Man Star|Year of the Cat", "r": "Black Sheep Boy|Trout Mask Replica|White Pony|Blackbird"}),
   q("band-number", "Music", "Name a band with a number in its name", {"p": "Maroon 5|Blink 182|Sum 41|U2", "r": "The 1975|Three Doors Down|Twenty One Pilots|10cc"}),
   q("hitchcock-film", "Movies", "Name a film directed by Alfred Hitchcock", {"p": "Psycho|Vertigo|Rear Window|Notorious", "r": "North by Northwest|The Birds|Rebecca|Rope"}),
   q("hepburn-film", "Movies", "Name a movie starring Audrey Hepburn", {"p": "Roman Holiday|Breakfast at Tiffanys|Sabrina|Funny Face", "r": "My Fair Lady|Charade|Wait Until Dark|The Nun's Story"}),
