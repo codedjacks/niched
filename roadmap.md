@@ -12,3 +12,5 @@
 - [x] Add many distinct questions per existing category
 - [x] Remove daily recycling and show unavailable state when reviewed questions run out
 - [x] Verify seven-question rounds, no repeats, and grading
+- [x] Extend the reviewed daily supply within existing categories without changing scheduled rounds
+- [x] Verify new answers, seven-question rounds, and the extended no-repeat schedule

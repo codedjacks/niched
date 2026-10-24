@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { EXPANSION_QUESTIONS, QUESTIONS, ALL_QUESTIONS, REVIEWED_QUESTIONS } from "./questions";
+import { EXPANSION_QUESTIONS, QUESTIONS, ALL_QUESTIONS, REVIEWED_QUESTIONS, SUPPLY_QUESTIONS } from "./questions";
 import { dailyQuestions, practiceQuestions } from "./selection";
 import { validateAnswer } from "./scoring";
 
 describe("expanded daily bank", () => {
   it("adds 30 distinct categories to daily and practice", () => {
     expect(EXPANSION_QUESTIONS).toHaveLength(30);
-    expect(QUESTIONS).toHaveLength(87 + REVIEWED_QUESTIONS.length);
+    expect(QUESTIONS).toHaveLength(87 + REVIEWED_QUESTIONS.length + SUPPLY_QUESTIONS.length);
     expect(new Set(ALL_QUESTIONS.map((q) => q.id)).size).toBe(ALL_QUESTIONS.length);
     expect(new Set(QUESTIONS.map((q) => q.prompt)).size).toBe(QUESTIONS.length);
     expect(EXPANSION_QUESTIONS.every((q) => new Set([...q.answers.values()].map((a) => a.display)).size >= 20)).toBe(true);

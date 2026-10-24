@@ -1,4 +1,4 @@
-import { DAILY_QUESTIONS, ORIGINAL_FULL_QUESTIONS, QUESTIONS, REVIEWED_QUESTIONS } from "./questions";
+import { DAILY_QUESTIONS, ORIGINAL_FULL_QUESTIONS, EXPANSION_QUESTIONS, QUESTIONS, REVIEWED_QUESTIONS, SUPPLY_QUESTIONS } from "./questions";
 import { QUESTIONS_PER_ROUND } from "./scoring";
 import type { Question } from "./types";
 
@@ -49,10 +49,11 @@ function daysBetween(a: string, b: string) {
 /** Append-only reviewed batches: new additions never reorder already scheduled days. */
 function dailyDeal(day: number, preserved: Question[]): Question[] {
   const used = new Set(preserved.map((q) => q.id));
-  const previous = QUESTIONS.filter((q) => !REVIEWED_QUESTIONS.includes(q) && !used.has(q.id));
+  const previous = [...ORIGINAL_FULL_QUESTIONS, ...EXPANSION_QUESTIONS].filter((q) => !used.has(q.id));
   const schedule = [
     ...pick(mulberry32(hash("niched:expanded:0")), previous, previous.length),
     ...pick(mulberry32(hash("niched:reviewed:2026-10-24")), REVIEWED_QUESTIONS, REVIEWED_QUESTIONS.length),
+    ...pick(mulberry32(hash("niched:supply:2026-10-24")), SUPPLY_QUESTIONS, SUPPLY_QUESTIONS.length),
   ];
   const round = schedule.slice(day * QUESTIONS_PER_ROUND, (day + 1) * QUESTIONS_PER_ROUND);
   return round.length === QUESTIONS_PER_ROUND ? round : [];
