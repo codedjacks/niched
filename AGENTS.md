@@ -13,3 +13,4 @@
 - Ranked daily scores, duel answers and answer counts are written only by server functions that re-score typed answers server-side (judge.server.ts verifyAnswer), so clients can't fake points; guests can play but only signed-in accounts rank.
 - Live duels sync via realtime on matches/match_answers; question order is fixed on the match row so both players get the same 7.
 - Avatars are preset sticker emoji ids stored on the profile, because public storage buckets are blocked for this workspace.
+- Topic challenges use a separate question registry, topic-scoped local progress, and shared Play/Results screens; preserve the published daily bank order so old ranked answers still verify.

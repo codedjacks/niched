@@ -6,10 +6,10 @@ import { cn } from "@/lib/utils";
 import { TierBadge } from "./ui";
 import { RankStatus } from "./RankStatus";
 
-export function buildShareText(answers: RoundAnswer[], mode: Mode, date: string) {
+export function buildShareText(answers: RoundAnswer[], mode: Mode, date: string, challengeName?: string) {
   const score = answers.reduce((s, a) => s + a.outcome.points, 0);
   const row = answers.map((a) => (a.outcome.kind === "correct" ? TIERS[a.outcome.tier].emoji : "⬛")).join("");
-  return `Niched ${mode === "daily" ? date : "Practice"} — ${score}/${MAX_SCORE}\n${row}\nCan you find nichier answers?`;
+  return `Niched ${challengeName ? `${challengeName} Challenge` : mode === "daily" ? date : "Practice"} — ${score}/${MAX_SCORE}\n${row}\nCan you find nichier answers?`;
 }
 
 function gradeFor(score: number) {
@@ -21,8 +21,9 @@ function gradeFor(score: number) {
   return "F";
 }
 
-export function Results({ answers, mode, date, streak, isNewBest, best, onAgain, onHome }: {
+export function Results({ answers, mode, date, challengeName, streak, isNewBest, best, onAgain, onHome }: {
   answers: RoundAnswer[]; mode: Mode; date: string; streak: number; isNewBest: boolean; best: number;
+  challengeName?: string;
   onAgain?: () => void; onHome: () => void;
 }) {
   const score = answers.reduce((s, a) => s + a.outcome.points, 0);
@@ -32,7 +33,7 @@ export function Results({ answers, mode, date, streak, isNewBest, best, onAgain,
   const counts = TIER_ORDER.map((t) => [t, answers.filter((a) => a.outcome.kind === "correct" && a.outcome.tier === t).length] as const).filter(([, n]) => n);
 
   const share = async () => {
-    const text = buildShareText(answers, mode, date);
+    const text = buildShareText(answers, mode, date, challengeName);
     try {
       if (navigator.share && /Mobi/.test(navigator.userAgent)) await navigator.share({ text });
       else await navigator.clipboard.writeText(text);
@@ -44,7 +45,7 @@ export function Results({ answers, mode, date, streak, isNewBest, best, onAgain,
   return (
     <main className="mx-auto min-h-screen max-w-2xl px-5 pb-16 pt-10 lg:max-w-4xl">
       <p className="font-display text-xs font-bold uppercase tracking-[0.3em] text-secondary">
-        {mode === "daily" ? `Report card · ${date}` : "Practice round"}
+        {challengeName ? `${challengeName} · Report card` : mode === "daily" ? `Report card · ${date}` : "Practice round"}
       </p>
       <div className="mt-4 flex items-start gap-5">
         <div>

@@ -12,8 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as EntertainmentRouteImport } from './routes/entertainment'
+import { Route as HistoryRouteImport } from './routes/history'
 import { Route as RankingsRouteImport } from './routes/rankings'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SportsRouteImport } from './routes/sports'
 import { Route as DuelCodeRouteImport } from './routes/duel.$code'
 
 const IndexRoute = IndexRouteImport.update({
@@ -31,6 +34,16 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EntertainmentRoute = EntertainmentRouteImport.update({
+  id: '/entertainment',
+  path: '/entertainment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HistoryRoute = HistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RankingsRoute = RankingsRouteImport.update({
   id: '/rankings',
   path: '/rankings',
@@ -39,6 +52,11 @@ const RankingsRoute = RankingsRouteImport.update({
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SportsRoute = SportsRouteImport.update({
+  id: '/sports',
+  path: '/sports',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DuelCodeRoute = DuelCodeRouteImport.update({
@@ -51,16 +69,22 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
+  '/entertainment': typeof EntertainmentRoute
+  '/history': typeof HistoryRoute
   '/rankings': typeof RankingsRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/sports': typeof SportsRoute
   '/duel/$code': typeof DuelCodeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
+  '/entertainment': typeof EntertainmentRoute
+  '/history': typeof HistoryRoute
   '/rankings': typeof RankingsRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/sports': typeof SportsRoute
   '/duel/$code': typeof DuelCodeRoute
 }
 export interface FileRoutesById {
@@ -68,24 +92,46 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
+  '/entertainment': typeof EntertainmentRoute
+  '/history': typeof HistoryRoute
   '/rankings': typeof RankingsRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/sports': typeof SportsRoute
   '/duel/$code': typeof DuelCodeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/account' | '/auth' | '/rankings' | '/reset-password' | '/duel/$code'
+    | '/'
+    | '/account'
+    | '/auth'
+    | '/entertainment'
+    | '/history'
+    | '/rankings'
+    | '/reset-password'
+    | '/sports'
+    | '/duel/$code'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/account' | '/auth' | '/rankings' | '/reset-password' | '/duel/$code'
+    | '/'
+    | '/account'
+    | '/auth'
+    | '/entertainment'
+    | '/history'
+    | '/rankings'
+    | '/reset-password'
+    | '/sports'
+    | '/duel/$code'
   id:
     | '__root__'
     | '/'
     | '/account'
     | '/auth'
+    | '/entertainment'
+    | '/history'
     | '/rankings'
     | '/reset-password'
+    | '/sports'
     | '/duel/$code'
   fileRoutesById: FileRoutesById
 }
@@ -93,8 +139,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
   AuthRoute: typeof AuthRoute
+  EntertainmentRoute: typeof EntertainmentRoute
+  HistoryRoute: typeof HistoryRoute
   RankingsRoute: typeof RankingsRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  SportsRoute: typeof SportsRoute
   DuelCodeRoute: typeof DuelCodeRoute
 }
 
@@ -121,6 +170,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/entertainment': {
+      id: '/entertainment'
+      path: '/entertainment'
+      fullPath: '/entertainment'
+      preLoaderRoute: typeof EntertainmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/history': {
+      id: '/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof HistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rankings': {
       id: '/rankings'
       path: '/rankings'
@@ -133,6 +196,13 @@ declare module '@tanstack/react-router' {
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sports': {
+      id: '/sports'
+      path: '/sports'
+      fullPath: '/sports'
+      preLoaderRoute: typeof SportsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/duel/$code': {
@@ -149,8 +219,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
   AuthRoute: AuthRoute,
+  EntertainmentRoute: EntertainmentRoute,
+  HistoryRoute: HistoryRoute,
   RankingsRoute: RankingsRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  SportsRoute: SportsRoute,
   DuelCodeRoute: DuelCodeRoute,
 }
 export const routeTree = rootRouteImport
