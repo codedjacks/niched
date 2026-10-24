@@ -36,7 +36,7 @@ type Screen =
 function Index() {
   const [stats, setStats] = useState<Stats>(emptyStats);
   const [screen, setScreen] = useState<Screen>({ s: "home" });
-  const [today, setToday] = useState<string | null>(null);
+  const [today, setToday] = useState("");
   useEffect(() => { setStats(loadStats()); setToday(dateKey()); }, []);
 
   const doneToday = stats.lastDailyDate === today;
@@ -87,7 +87,7 @@ function Index() {
       <GeoBackground />
       {screen.s === "home" && (
         <Home stats={stats} streak={liveStreak(stats, today)} doneToday={doneToday} todayScore={todayScore}
-          dailyAvailable={today === null || dailyQuestions(today).length === 7}
+          dailyAvailable={!today || dailyQuestions(today).length === 7}
           onDaily={() => start("daily")} onPractice={() => start("practice")}
           onViewToday={() => stats.todayAnswers && setScreen({ s: "results", mode: "daily", answers: stats.todayAnswers, newBest: false })} />
       )}
