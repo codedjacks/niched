@@ -60,10 +60,10 @@ export const expansionBank = (q: Q) => [
   }),
   q("dog-fiction", "Pop Culture", "Name a fictional dog", {
     p: "Scooby Doo=Scooby|Snoopy|Pluto|Goofy|Clifford",
-    s: "Lassie|Blue|Bolt|Brian Griffin|Lady|Tramp|101 Dalmatians=Pongo|Perdita|Toto|Dug",
+    s: "Lassie|Blue|Bolt|Brian Griffin|Lady|Tramp|Pongo|Perdita|Toto|Dug",
     r: "Santa's Little Helper|Odie|Gromit|Spot|Krypto|Astro|Balto|Copper|Nana|Max from the Grinch=Max",
     d: "Huckleberry Hound|Underdog|Droopy|Scrappy Doo|Ruff Ruffman|Ein|Jake the Dog|Slink=Slinky Dog|Dodger|Rolly",
-    m: "Snowy=Milou|Idefix=Dogmatix|Gaspode|Wee Jock|Rowlf|McGruff|Mr Peabody|Wishbone|Falkor", 
+    m: "Snowy=Milou|Idefix=Dogmatix|Gaspode|Wee Jock|Rowlf|McGruff|Mr Peabody|Wishbone|Pal from Arthur=Pal", 
   }),
   q("painter", "Art", "Name a famous painter", {
     p: "Pablo Picasso=Picasso|Vincent van Gogh=Van Gogh|Leonardo da Vinci=Da Vinci|Claude Monet=Monet|Bob Ross",
@@ -119,7 +119,7 @@ export const expansionBank = (q: Q) => [
     s: "Shel Silverstein|Maurice Sendak|Judy Blume|CS Lewis=C S Lewis|AA Milne=A A Milne|EB White=E B White|Rick Riordan|RL Stine=R L Stine|Dav Pilkey|Jeff Kinney",
     r: "Beverly Cleary|Lemony Snicket=Daniel Handler|Enid Blyton|Frances Hodgson Burnett|Astrid Lindgren|Kate DiCamillo|Mo Willems|Jacqueline Wilson|Michael Rosen|Julia Donaldson",
     d: "Tove Jansson|Diana Wynne Jones|Susan Cooper|E Nesbit|Shirley Hughes|Ezra Jack Keats|Tomie dePaola|Jon Klassen|Oliver Jeffers|Grace Lin",
-    m: "Mildred D Taylor|Virginia Hamilton|Patricia McKissack|Jacqueline Woodson|Mitch Albom|Arnold Lobel|Lloyd Alexander|Natalie Babbitt|Philippa Pearce|Marjorie Flack",
+    m: "Mildred D Taylor|Virginia Hamilton|Patricia McKissack|Jacqueline Woodson|Patricia Polacco|Arnold Lobel|Lloyd Alexander|Natalie Babbitt|Philippa Pearce|Marjorie Flack",
   }),
   q("fairy-tale", "Books", "Name a fairy tale", {
     p: "Cinderella|Snow White|Sleeping Beauty|Little Red Riding Hood|Hansel and Gretel",
