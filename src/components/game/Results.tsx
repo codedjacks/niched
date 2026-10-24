@@ -5,6 +5,7 @@ import type { Mode, RoundAnswer, TierId } from "@/game/types";
 import { cn } from "@/lib/utils";
 import { TierBadge } from "./ui";
 import { RankStatus } from "./RankStatus";
+import { ALL_QUESTIONS } from "@/game/questions";
 
 export function buildShareText(answers: RoundAnswer[], mode: Mode, date: string, challengeName?: string) {
   const score = answers.reduce((s, a) => s + a.outcome.points, 0);
@@ -81,22 +82,32 @@ export function Results({ answers, mode, date, challengeName, streak, isNewBest,
         {answers.map((a, i) => {
           const o = a.outcome;
           const rarest = i === rarestIdx && o.points > 0;
+          const question = ALL_QUESTIONS.find((q) => q.id === a.questionId);
+          const knownAnswers = [...new Set([...(question?.answers.values() ?? [])].map((answer) => answer.display))];
           return (
             <li key={i} style={{ animationDelay: `${i * 70}ms` }}
-              className={cn("ruled relative flex items-center gap-4 rounded-lg border-2 border-border bg-card p-4", rarest && "border-primary shadow-[4px_4px_0_0_var(--tier-valedictorian)]")}>
+              className={cn("ruled relative rounded-lg border-2 border-border bg-card p-4", rarest && "border-primary shadow-[4px_4px_0_0_var(--tier-valedictorian)]")}>
               <span aria-hidden className="tape -rotate-2 opacity-70" />
+              <div className="flex items-center gap-4">
               <span className="w-5 font-display text-sm font-bold text-muted-foreground">{i + 1}</span>
               <div className="min-w-0 flex-1">
-                <div className="truncate font-sans text-xs text-muted-foreground">
+                <div className="break-words font-sans text-xs text-muted-foreground">
                   {a.prompt}
                   {rarest && <span className="ml-2 font-hand text-base font-bold text-primary">★ rarest pick!</span>}
                 </div>
-                <div className="truncate font-display text-base font-bold sm:text-lg">
+                <div className="break-words font-display text-base font-bold sm:text-lg">
                   {o.kind === "correct" ? o.display : <span className="text-muted-foreground">{o.kind === "timeout" ? "Time's up" : "Skipped"}</span>}
                 </div>
               </div>
               {o.kind === "correct" && <TierBadge tier={o.tier} className="hidden sm:inline-flex" />}
               <span className="w-12 text-right font-display text-lg font-bold tabular-nums sm:text-xl">{o.points}</span>
+              </div>
+              {knownAnswers.length > 0 && <details open className="mt-4 border-t border-border pt-3">
+                <summary className="cursor-pointer font-sans text-xs font-bold text-secondary">Known answers · {knownAnswers.length}</summary>
+                <ul className="mt-3 flex max-h-48 flex-wrap gap-x-4 gap-y-2 overflow-y-auto font-sans text-xs leading-relaxed">
+                  {knownAnswers.map((display) => <li key={display} className={cn("max-w-full break-words", o.kind === "correct" && o.display === display ? "font-bold text-primary" : "text-muted-foreground")}>{display}</li>)}
+                </ul>
+              </details>}
             </li>
           );
         })}
