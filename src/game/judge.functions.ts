@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { QUESTIONS } from "./questions";
+import { ALL_QUESTIONS } from "./questions";
 import type { JudgeResult } from "./judge.server";
 
 export type { JudgeResult };
@@ -11,7 +11,7 @@ export const judgeAnswer = createServerFn({ method: "POST" })
     answer: String(d.answer).slice(0, 120),
   }))
   .handler(async ({ data }): Promise<JudgeResult> => {
-    const q = QUESTIONS.find((x) => x.id === data.questionId);
+    const q = ALL_QUESTIONS.find((x) => x.id === data.questionId);
     if (!q || !data.answer.trim()) return { ok: false, reason: "invalid", message: "Not a valid answer" };
     const { aiJudge } = await import("./judge.server");
     return aiJudge(q, data.answer);

@@ -1,6 +1,7 @@
 import { normalize } from "./scoring";
 import type { Question, TierId } from "./types";
 import { practiceBank } from "./questions.practice";
+import { themedBank } from "./questions.themed";
 
 /**
  * Curated bank. Each tier is a "|"-separated list; aliases use "=" (first is display name).
@@ -12,9 +13,10 @@ const T: Record<keyof Raw, TierId> = { p: "pencil", c: "paperclip", s: "notebook
 function q(id: string, category: string, prompt: string, raw: Raw): Question {
   const answers = new Map<string, { display: string; tier: TierId }>();
   (Object.keys(raw) as (keyof Raw)[]).forEach((k) => {
-    raw[k]!.split("|").forEach((entry) => {
+    raw[k]?.split("|").forEach((entry) => {
       const names = entry.split("=").map((s) => s.trim()).filter(Boolean);
-      names.forEach((n) => answers.set(normalize(n), { display: names[0]!, tier: T[k] }));
+      const display = names[0];
+      if (display) names.forEach((n) => answers.set(normalize(n), { display, tier: T[k] }));
     });
   });
   return { id, category, prompt, answers };
@@ -239,3 +241,7 @@ export const DAILY_QUESTIONS: Question[] = [
 
 /** Every question (daily + practice-only extras). Practice draws from all of these. */
 export const QUESTIONS: Question[] = [...DAILY_QUESTIONS, ...practiceBank(q)];
+
+/** Topic extras stay separate so published daily decks and scores never change. */
+export const THEMED_QUESTIONS: Question[] = themedBank(q);
+export const ALL_QUESTIONS: Question[] = [...QUESTIONS, ...THEMED_QUESTIONS];

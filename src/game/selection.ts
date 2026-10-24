@@ -72,12 +72,12 @@ function dailyDeal(day: number): string[] {
  * already seen). When fewer than 7 unseen remain, the leftovers are used first and
  * the rest is topped up from the full bank.
  */
-export function practiceQuestions(exclude: Iterable<string> = []) {
+export function practiceQuestions(exclude: Iterable<string> = [], bank: Question[] = QUESTIONS) {
   const seen = new Set(exclude);
-  const fresh = pick(Math.random, QUESTIONS.filter((q) => !seen.has(q.id)));
+  const fresh = pick(Math.random, bank.filter((q) => !seen.has(q.id)));
   if (fresh.length === QUESTIONS_PER_ROUND) return fresh;
   const ids = new Set(fresh.map((q) => q.id));
-  return [...fresh, ...pick(Math.random, QUESTIONS.filter((q) => !ids.has(q.id)), QUESTIONS_PER_ROUND - fresh.length)];
+  return [...fresh, ...pick(Math.random, bank.filter((q) => !ids.has(q.id)), QUESTIONS_PER_ROUND - fresh.length)];
 }
 export function msUntilNextDaily(now = new Date()) {
   const next = new Date(now);
