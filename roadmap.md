@@ -7,3 +7,5 @@
 - [x] Live head-to-head duels
 - [x] Finish left sidebar and Sports, Entertainment, History challenge pages
 - [x] Verify themed rounds, topic selection, and desktop/mobile layout
+- [ ] Expand categories and mix them into future dailies while preserving played rounds
+- [ ] Test expanded selection, answer grading, and the playable daily flow
