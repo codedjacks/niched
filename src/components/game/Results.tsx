@@ -5,7 +5,7 @@ import type { Mode, RoundAnswer, TierId } from "@/game/types";
 import { cn } from "@/lib/utils";
 import { TierBadge } from "./ui";
 import { RankStatus } from "./RankStatus";
-import { QUESTIONS } from "@/game/questions";
+import { ALL_QUESTIONS } from "@/game/questions";
 
 export function buildShareText(answers: RoundAnswer[], mode: Mode, date: string, challengeName?: string) {
   const score = answers.reduce((s, a) => s + a.outcome.points, 0);
@@ -82,7 +82,7 @@ export function Results({ answers, mode, date, challengeName, streak, isNewBest,
         {answers.map((a, i) => {
           const o = a.outcome;
           const rarest = i === rarestIdx && o.points > 0;
-          const question = QUESTIONS.find((q) => q.id === a.questionId);
+          const question = ALL_QUESTIONS.find((q) => q.id === a.questionId);
           const knownAnswers = [...new Set([...(question?.answers.values() ?? [])].map((answer) => answer.display))];
           return (
             <li key={i} style={{ animationDelay: `${i * 70}ms` }}
