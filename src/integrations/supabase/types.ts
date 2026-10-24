@@ -239,6 +239,14 @@ export type Database = {
           total: number
         }[]
       }
+      question_answer_counts: {
+        Args: { _question_ids: string[] }
+        Returns: {
+          answer_key: string
+          count: number
+          question_id: string
+        }[]
+      }
       ranked_alltime: {
         Args: { _limit?: number }
         Returns: {
@@ -247,6 +255,18 @@ export type Database = {
           display_name: string
           games: number
           total: number
+          user_id: string
+        }[]
+      }
+      ranked_daily: {
+        Args: { _day: string }
+        Returns: {
+          avatar_url: string
+          created_at: string
+          display_name: string
+          id: string
+          score: number
+          tiers: string[]
           user_id: string
         }[]
       }
