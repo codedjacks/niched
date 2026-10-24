@@ -11,7 +11,7 @@ const question: Question = { id: "vegetable", category: "Food", prompt: "Name a 
 const renderGame = () => render(<Play questions={Array.from({ length: 7 }, () => question)} mode="practice" onDone={vi.fn()} onQuit={vi.fn()} />);
 const submit = (answer: string) => {
   fireEvent.change(screen.getByRole("textbox", { name: "Your answer" }), { target: { value: answer } });
-  fireEvent.click(screen.getByRole("button", { name: "Submit", exact: true }));
+  fireEvent.click(screen.getByRole("button", { name: /^Submit$/ }));
 };
 
 describe("answer submission reliability", () => {
@@ -36,7 +36,7 @@ describe("answer submission reliability", () => {
     renderGame();
     await act(async () => submit("tomato"));
     expect(screen.getByRole("textbox", { name: "Your answer" })).toHaveValue("tomato");
-    await act(async () => fireEvent.click(screen.getByRole("button", { name: "Submit", exact: true })));
+    await act(async () => fireEvent.click(screen.getByRole("button", { name: /^Submit$/ })));
     expect(referee.judge).toHaveBeenCalledTimes(2);
     expect(screen.getByText("Tomato", { exact: true })).toBeInTheDocument();
   });
