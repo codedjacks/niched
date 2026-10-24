@@ -14,3 +14,5 @@
 - [x] Verify seven-question rounds, no repeats, and grading
 - [x] Extend the reviewed daily supply within existing categories without changing scheduled rounds
 - [x] Verify new answers, seven-question rounds, and the extended no-repeat schedule
+- [ ] Verify every curated answer is accepted and protect submissions while the answer checker is working
+- [ ] Verify retrying a checker failure and accepting unlisted answers in live challenges
