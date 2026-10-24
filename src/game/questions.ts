@@ -3,6 +3,7 @@ import type { Question, TierId } from "./types";
 import { practiceBank } from "./questions.practice";
 import { themedBank } from "./questions.themed";
 import { expansionBank } from "./questions.expansion";
+import { reviewedBank } from "./questions.reviewed";
 
 /**
  * Curated bank. Each tier is a "|"-separated list; aliases use "=" (first is display name).
@@ -243,8 +244,9 @@ export const DAILY_QUESTIONS: Question[] = [
 /** Frozen first full daily bank; retained for historical score verification. */
 export const ORIGINAL_FULL_QUESTIONS: Question[] = [...DAILY_QUESTIONS, ...practiceBank(q)];
 export const EXPANSION_QUESTIONS: Question[] = expansionBank(q);
+export const REVIEWED_QUESTIONS: Question[] = reviewedBank(q);
 /** Current shared daily and practice pool. */
-export const QUESTIONS: Question[] = [...ORIGINAL_FULL_QUESTIONS, ...EXPANSION_QUESTIONS];
+export const QUESTIONS: Question[] = [...ORIGINAL_FULL_QUESTIONS, ...EXPANSION_QUESTIONS, ...REVIEWED_QUESTIONS];
 
 /** Topic extras stay separate so published daily decks and scores never change. */
 export const THEMED_QUESTIONS: Question[] = themedBank(q);

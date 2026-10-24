@@ -1,4 +1,4 @@
-import { DAILY_QUESTIONS, ORIGINAL_FULL_QUESTIONS, QUESTIONS } from "./questions";
+import { DAILY_QUESTIONS, ORIGINAL_FULL_QUESTIONS, QUESTIONS, REVIEWED_QUESTIONS } from "./questions";
 import { QUESTIONS_PER_ROUND } from "./scoring";
 import type { Question } from "./types";
 
@@ -46,31 +46,16 @@ function daysBetween(a: string, b: string) {
   return Math.round((Date.parse(`${b}T12:00:00Z`) - Date.parse(`${a}T12:00:00Z`)) / 86_400_000);
 }
 
-/**
- * Daily questions are dealt from a seeded deck of the whole bank, 7 per day, so no
- * question repeats until every question has been used; then the deck is reshuffled.
- * A question is never dealt twice in the same day, even across a reshuffle.
- */
+/** Append-only reviewed batches: new additions never reorder already scheduled days. */
 function dailyDeal(day: number, preserved: Question[]): Question[] {
   const used = new Set(preserved.map((q) => q.id));
-  let deck = pick(mulberry32(hash("niched:expanded:0")), QUESTIONS.filter((q) => !used.has(q.id)), QUESTIONS.length);
-  let epoch = 1;
-  let today: Question[] = [];
-  for (let dealtDay = 0; dealtDay <= day; dealtDay++) {
-    today = [];
-    const held: Question[] = [];
-    while (today.length < QUESTIONS_PER_ROUND) {
-      if (!deck.length) {
-        deck = pick(mulberry32(hash("niched:expanded:" + epoch++)), QUESTIONS, QUESTIONS.length);
-      }
-      const question = deck.shift();
-      if (!question) throw new Error("Daily question bank is empty");
-      if (today.some((q) => q.id === question.id)) held.push(question);
-      else today.push(question);
-    }
-    deck.unshift(...held);
-  }
-  return today;
+  const previous = QUESTIONS.filter((q) => !REVIEWED_QUESTIONS.includes(q) && !used.has(q.id));
+  const schedule = [
+    ...pick(mulberry32(hash("niched:expanded:0")), previous, previous.length),
+    ...pick(mulberry32(hash("niched:reviewed:2026-10-24")), REVIEWED_QUESTIONS, REVIEWED_QUESTIONS.length),
+  ];
+  const round = schedule.slice(day * QUESTIONS_PER_ROUND, (day + 1) * QUESTIONS_PER_ROUND);
+  return round.length === QUESTIONS_PER_ROUND ? round : [];
 }
 
 /**

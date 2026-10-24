@@ -36,7 +36,7 @@ type Screen =
 function Index() {
   const [stats, setStats] = useState<Stats>(emptyStats);
   const [screen, setScreen] = useState<Screen>({ s: "home" });
-  const [today, setToday] = useState(dateKey());
+  const [today, setToday] = useState("");
   useEffect(() => { setStats(loadStats()); setToday(dateKey()); }, []);
 
   const doneToday = stats.lastDailyDate === today;
@@ -51,6 +51,7 @@ function Index() {
     setToday(d);
     // Practice avoids anything already played in practice and today's daily.
     const questions = mode === "daily" ? dailyQuestions(d) : practiceQuestions([...loadSeen(), ...dailyQuestions(d).map((q) => q.id)]);
+    if (questions.length !== 7) return;
     if (mode === "practice") markSeen(questions.map((q) => q.id), QUESTIONS.length);
     setCounts({});
     fetchCounts({ data: { questionIds: questions.map((q) => q.id) } }).then(setCounts).catch(() => {});
@@ -86,6 +87,7 @@ function Index() {
       <GeoBackground />
       {screen.s === "home" && (
         <Home stats={stats} streak={liveStreak(stats, today)} doneToday={doneToday} todayScore={todayScore}
+          dailyAvailable={!today || dailyQuestions(today).length === 7}
           onDaily={() => start("daily")} onPractice={() => start("practice")}
           onViewToday={() => stats.todayAnswers && setScreen({ s: "results", mode: "daily", answers: stats.todayAnswers, newBest: false })} />
       )}

@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { EXPANSION_QUESTIONS, QUESTIONS, ALL_QUESTIONS } from "./questions";
+import { EXPANSION_QUESTIONS, QUESTIONS, ALL_QUESTIONS, REVIEWED_QUESTIONS } from "./questions";
 import { dailyQuestions, practiceQuestions } from "./selection";
 import { validateAnswer } from "./scoring";
 
 describe("expanded daily bank", () => {
   it("adds 30 distinct categories to daily and practice", () => {
     expect(EXPANSION_QUESTIONS).toHaveLength(30);
-    expect(QUESTIONS).toHaveLength(87);
+    expect(QUESTIONS).toHaveLength(87 + REVIEWED_QUESTIONS.length);
     expect(new Set(ALL_QUESTIONS.map((q) => q.id)).size).toBe(ALL_QUESTIONS.length);
-    expect(new Set(QUESTIONS.map((q) => q.prompt)).size).toBe(87);
+    expect(new Set(QUESTIONS.map((q) => q.prompt)).size).toBe(QUESTIONS.length);
     expect(EXPANSION_QUESTIONS.every((q) => new Set([...q.answers.values()].map((a) => a.display)).size >= 20)).toBe(true);
     const old = QUESTIONS.filter((q) => !EXPANSION_QUESTIONS.includes(q));
     expect(practiceQuestions(old.map((q) => q.id)).every((q) => EXPANSION_QUESTIONS.includes(q))).toBe(true);
@@ -32,7 +32,9 @@ describe("expanded daily bank", () => {
     const first = dailyQuestions("2026-10-25").map((q) => q.id);
     for (let i = 0; i < 100; i++) {
       const date = new Date(Date.UTC(2026, 9, 25 + i)).toISOString().slice(0, 10);
-      expect(new Set(dailyQuestions(date).map((q) => q.id)).size).toBe(7);
+      const round = dailyQuestions(date);
+      expect([0, 7]).toContain(round.length);
+      expect(new Set(round.map((q) => q.id)).size).toBe(round.length);
     }
     expect(dailyQuestions("2026-10-25").map((q) => q.id)).toEqual(first);
   });

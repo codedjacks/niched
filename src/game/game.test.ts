@@ -94,7 +94,8 @@ describe("no repeats", () => {
     for (let i = 0; i < 400; i++) {
       const d = new Date(Date.UTC(2026, 9, 24 + i)).toISOString().slice(0, 10);
       const ids = dailyQuestions(d).map((q) => q.id);
-      expect(new Set(ids).size).toBe(7);
+      expect([0, 7]).toContain(ids.length);
+      expect(new Set(ids).size).toBe(ids.length);
     }
   });
   it("practice skips questions already seen", () => {
