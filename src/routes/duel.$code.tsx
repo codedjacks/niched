@@ -42,7 +42,7 @@ function Duel() {
   const [error, setError] = useState<string | null>(null);
   const [now, setNow] = useState(Date.now());
   const [finished, setFinished] = useState(false);
-  const joining = useRef<Promise<{ ok: true } | { ok: false; error: string }> | null>(null);
+  const joining = useRef<{ key: string; promise: Promise<{ ok: true } | { ok: false; error: string }> } | null>(null);
 
   // Load + join
   useEffect(() => {
@@ -50,8 +50,9 @@ function Duel() {
     let alive = true;
     (async () => {
       // Claim the invite server-side before reading participant-only match rows.
-      const attempt = joining.current ??= join({ data: { code } });
-      const r = await attempt;
+      const key = `${user.id}:${code}`;
+      if (joining.current?.key !== key) joining.current = { key, promise: join({ data: { code } }) };
+      const r = await joining.current.promise;
       if (!alive) return;
       if (!r.ok) return setError(r.error);
       const { data: m } = await supabase.from("matches").select("*").eq("code", code.toUpperCase()).maybeSingle();
