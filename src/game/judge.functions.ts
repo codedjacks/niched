@@ -11,7 +11,8 @@ export const judgeAnswer = createServerFn({ method: "POST" })
     answer: String(d.answer).slice(0, 120),
   }))
   .handler(async ({ data }): Promise<JudgeResult> => {
-    const q = ALL_QUESTIONS.find((x) => x.id === data.questionId);
+    const q = ALL_QUESTIONS.find((x) => x.id === data.questionId)
+      ?? (data.questionId.startsWith("ai-") ? await (await import("./ai-daily.server")).loadAiQuestion(data.questionId) : undefined);
     if (!q || !data.answer.trim()) return { ok: false, reason: "invalid", message: "Not a valid answer" };
     const { aiJudge } = await import("./judge.server");
     return aiJudge(q, data.answer);

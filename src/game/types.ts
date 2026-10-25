@@ -24,6 +24,8 @@ export interface RoundAnswer {
   questionId: string;
   prompt: string;
   outcome: Outcome;
+  /** Known answers to reveal on the report card (used for questions not in the bundled bank). */
+  known?: string[];
 }
 
 export type Mode = "daily" | "practice";

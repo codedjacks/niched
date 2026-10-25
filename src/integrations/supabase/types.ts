@@ -14,6 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_daily_rounds: {
+        Row: {
+          created_at: string
+          day: string
+          error: string | null
+          locked_until: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          day: string
+          error?: string | null
+          locked_until?: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          day?: string
+          error?: string | null
+          locked_until?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      ai_questions: {
+        Row: {
+          answers: Json
+          category: string
+          created_at: string
+          day: string
+          id: string
+          position: number
+          prompt: string
+          prompt_key: string
+        }
+        Insert: {
+          answers: Json
+          category: string
+          created_at?: string
+          day: string
+          id: string
+          position: number
+          prompt: string
+          prompt_key: string
+        }
+        Update: {
+          answers?: Json
+          category?: string
+          created_at?: string
+          day?: string
+          id?: string
+          position?: number
+          prompt?: string
+          prompt_key?: string
+        }
+        Relationships: []
+      }
       answer_counts: {
         Row: {
           answer_key: string
