@@ -283,10 +283,6 @@ export type Database = {
         Args: { _keys: string[]; _question_ids: string[] }
         Returns: undefined
       }
-      is_match_player: {
-        Args: { _match: string; _user: string }
-        Returns: boolean
-      }
       leaderboard_alltime: {
         Args: { _limit?: number }
         Returns: {

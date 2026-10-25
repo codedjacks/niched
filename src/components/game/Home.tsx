@@ -3,7 +3,7 @@ import { TIERS, TIER_ORDER, MAX_SCORE } from "@/game/scoring";
 import { msUntilNextDaily } from "@/game/selection";
 import type { Stats } from "@/game/storage";
 import { TierBadge } from "./ui";
-import { AccountNav, ChallengeButton } from "./AccountNav";
+import { AccountNav } from "./AccountNav";
 import { Button } from "@/components/ui/button";
 
 function fmt(ms: number) {
@@ -67,7 +67,6 @@ export function Home({ stats, streak, doneToday, todayScore, dailyAvailable = tr
             Practice Mode <span className="font-sans text-sm font-normal normal-case text-muted-foreground">— unlimited random rounds, no streak impact</span>
           </button>
         </div>
-        <ChallengeButton />
       </section>
 
       <section className="mt-6 grid grid-cols-3 gap-3 animate-rise [animation-delay:160ms]">

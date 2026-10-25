@@ -10,9 +10,8 @@
 <!-- LOVABLE:END -->
 
 - Game logic lives in src/game (questions, scoring, selection, storage, hooks) separate from UI in src/components/game; rarity goes through the RaritySource interface; frequencyRarity uses real answer counts from the backend once a question has MIN_SAMPLES answers, else the curated tier, so new questions still score sensibly.
-- Ranked daily scores, duel answers and answer counts are written only by server functions that re-score typed answers server-side (judge.server.ts verifyAnswer), so clients can't fake points; guests can play but only signed-in accounts rank.
-- Live duels sync via realtime on matches/match_answers; question order is fixed on the match row so both players get the same 7.
-- Raw game tables are owner/participant-scoped; public rankings and question-scoped frequency data use bounded projection RPCs, and duel invites are claimed server-side before reading match rows, so public features never require unrestricted raw-record access.
+- Ranked daily scores and answer counts are written only by server functions that re-score typed answers server-side (judge.server.ts verifyAnswer), so clients can't fake points; guests can play but only signed-in accounts rank.
+- Raw game tables are owner/participant-scoped; public rankings and question-scoped frequency data use bounded projection RPCs, so public features never require unrestricted raw-record access.
 - Avatars are preset sticker emoji ids stored on the profile, because public storage buckets are blocked for this workspace.
 - Topic challenges use a separate question registry, topic-scoped local progress, and shared Play/Results screens; preserve the published daily bank order so old ranked answers still verify.
 - Daily scheduling uses frozen historical pools and append-only seeded reviewed batches; never shuffle new content into an existing scheduled batch, never recycle exhausted questions, and return no round unless seven fresh questions remain so historical scoring and stateless verification stay consistent.
