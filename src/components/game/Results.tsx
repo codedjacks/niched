@@ -115,7 +115,7 @@ export function Results({ answers, mode, date, challengeName, streak, isNewBest,
 
       <div className="mt-8 grid gap-3 sm:grid-cols-3">
         <button onClick={share} className="rounded-lg bg-primary px-5 py-4 font-display text-base font-bold uppercase text-primary-foreground shadow-pop-sm transition hover:-translate-y-0.5 hover:shadow-pop active:translate-y-0 active:shadow-pop-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:col-span-3">
-          {copied ? "Copied! Send it to a friend" : "Challenge a friend — copy results"}
+          {copied ? "Copied! Send it to a friend" : "Copy results to share"}
         </button>
         {onAgain && (
           <button onClick={onAgain} className="rounded-lg border-2 border-border px-5 py-3 font-display text-sm font-bold uppercase hover:border-secondary focus-visible:outline-2 focus-visible:outline-secondary sm:col-span-2">
