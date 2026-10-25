@@ -13,7 +13,7 @@ function examples(count = 8): string {
   const step = Math.max(1, Math.floor(ALL_QUESTIONS.length / count));
   const out: string[] = [];
   for (let i = 0; i < ALL_QUESTIONS.length && out.length < count; i += step) {
-    const q = ALL_QUESTIONS[i];
+    const q = ALL_QUESTIONS[i]!;
     const byTier = new Map<TierId, string[]>();
     const seen = new Set<string>();
     for (const { display, tier } of q.answers.values()) {
