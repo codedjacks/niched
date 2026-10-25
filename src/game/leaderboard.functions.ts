@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { Database } from "@/integrations/supabase/types";
 import { dailyQuestions, dayIsCurrent } from "./selection";
+import { usesAiDaily } from "./ai-daily";
 import { frequencyRarity, normalize, type QuestionCounts } from "./scoring";
 
 function publicClient() {
@@ -56,8 +57,10 @@ export const submitRanked = createServerFn({ method: "POST" })
     if (existing) return { ok: true as const, score: existing.score, already: true };
 
     const { verifyAnswer, loadCounts } = await import("./judge.server");
-    const qs = dailyQuestions(data.day);
-    if (qs.length !== 7) return { ok: false as const, error: "New daily questions are awaiting review" };
+    const qs = usesAiDaily(data.day)
+      ? await (await import("./ai-daily.server")).aiDailyQuestions(data.day)
+      : dailyQuestions(data.day);
+    if (qs.length !== 7) return { ok: false as const, error: "Today's questions aren't ready yet" };
     const rarity = frequencyRarity(await loadCounts(qs.map((q) => q.id)));
     const results = await Promise.all(qs.map((q, i) => verifyAnswer(q, data.typed[i] ?? null, rarity)));
     const score = results.reduce((s, r) => s + (r?.points ?? 0), 0);
