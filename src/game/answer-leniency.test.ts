@@ -31,4 +31,16 @@ describe("generous answer grading", () => {
     model.output.mockResolvedValue({ valid: false, matched_curated: null, display: "", tier: "pencil" });
     expect(await aiJudge(question, "a spaceship")).toMatchObject({ ok: false, reason: "invalid" });
   });
+  it("says a wrong answer doesn't count (not offline) when no AI key is set", async () => {
+    vi.stubEnv("LOVABLE_API_KEY", "");
+    vi.stubEnv("OPENAI_API_KEY", "");
+    expect(await aiJudge(question, "a spaceship")).toMatchObject({ ok: false, reason: "invalid" });
+    expect(model.output).not.toHaveBeenCalled();
+  });
+  it("uses an OpenAI key when the Lovable key is missing", async () => {
+    vi.stubEnv("LOVABLE_API_KEY", "");
+    vi.stubEnv("OPENAI_API_KEY", "test-openai");
+    model.output.mockResolvedValue({ valid: true, matched_curated: null, display: "Tomato", tier: "notebook" });
+    expect(await aiJudge(question, "tomato")).toMatchObject({ ok: true, display: "Tomato" });
+  });
 });

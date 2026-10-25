@@ -17,15 +17,20 @@ const schema = z.object({
 
 /** AI referee: checks a free-text answer against a question's curated answers and assigns a tier. */
 export async function aiJudge(q: Question, answer: string): Promise<JudgeResult> {
-  const apiKey = process.env["LOVABLE_API_KEY"];
-  if (!apiKey) return { ok: false, reason: "unavailable", message: "Answer checker is offline" };
+  const lovableKey = process.env["LOVABLE_API_KEY"];
+  const openaiKey = process.env["OPENAI_API_KEY"];
+  // No AI key (e.g. self-hosted): curated list + typo matching already ran, so just reject.
+  if (!lovableKey && !openaiKey) return { ok: false, reason: "invalid", message: `"${answer.trim()}" doesn't count — try another` };
   const curated = [...new Map([...q.answers.values()].map((a) => [a.display, a.tier])).entries()]
     .map(([d, t]) => `${d} = ${t}`).join("\n");
-  const provider = createOpenAI({
-    baseURL: "https://ai.gateway.lovable.dev/v1",
-    apiKey,
-    headers: { "Lovable-API-Key": apiKey, "X-Lovable-AIG-SDK": "vercel-ai-sdk" },
-  });
+  const provider = lovableKey
+    ? createOpenAI({
+        baseURL: "https://ai.gateway.lovable.dev/v1",
+        apiKey: lovableKey,
+        headers: { "Lovable-API-Key": lovableKey, "X-Lovable-AIG-SDK": "vercel-ai-sdk" },
+      })
+    : createOpenAI({ apiKey: openaiKey });
+  const modelId = lovableKey ? "openai/gpt-6-astra" : "gpt-5-mini";
   try {
     const result = streamText({
       model: provider.responses("openai/gpt-6-astra"),
