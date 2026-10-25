@@ -22,6 +22,13 @@
       "when": 1792872867960,
       "tag": "0002_restrict_selected_game_data_access",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1792954988676,
+      "tag": "0003_ai_daily_questions",
+      "breakpoints": true
     }
   ]
 }
