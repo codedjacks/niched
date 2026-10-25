@@ -29,7 +29,7 @@ export async function aiJudge(q: Question, answer: string): Promise<JudgeResult>
         apiKey: lovableKey,
         headers: { "Lovable-API-Key": lovableKey, "X-Lovable-AIG-SDK": "vercel-ai-sdk" },
       })
-    : createOpenAI({ apiKey: openaiKey });
+    : createOpenAI({ apiKey: openaiKey ?? "" });
   const modelId = lovableKey ? "openai/gpt-6-astra" : "gpt-5-mini";
   try {
     const result = streamText({
