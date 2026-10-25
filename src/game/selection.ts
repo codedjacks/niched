@@ -2,7 +2,7 @@ import { DAILY_QUESTIONS, ORIGINAL_FULL_QUESTIONS, EXPANSION_QUESTIONS, QUESTION
 import { QUESTIONS_PER_ROUND } from "./scoring";
 import type { Question } from "./types";
 
-function mulberry32(seed: number) {
+export function mulberry32(seed: number) {
   return () => {
     seed |= 0;
     seed = (seed + 0x6d2b79f5) | 0;
@@ -11,12 +11,12 @@ function mulberry32(seed: number) {
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
-function hash(s: string) {
+export function hash(s: string) {
   let h = 2166136261;
   for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619);
   return h >>> 0;
 }
-function pick(rand: () => number, bank: Question[] = QUESTIONS, n = QUESTIONS_PER_ROUND) {
+export function pick(rand: () => number, bank: Question[] = QUESTIONS, n = QUESTIONS_PER_ROUND) {
   const arr = [...bank];
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(rand() * (i + 1));
@@ -42,7 +42,7 @@ export function dailyQuestions(key = dateKey()) {
   return dailyDeal(daysBetween(EXPANDED_BANK_DAILY_FROM, key), preserved);
 }
 
-function daysBetween(a: string, b: string) {
+export function daysBetween(a: string, b: string) {
   return Math.round((Date.parse(`${b}T12:00:00Z`) - Date.parse(`${a}T12:00:00Z`)) / 86_400_000);
 }
 
