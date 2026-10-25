@@ -68,7 +68,7 @@ function AuthPage() {
           {mode === "signin" ? "Sign in" : mode === "signup" ? "Enroll" : "Reset password"}
         </h1>
         <p className="mt-1 font-hand text-2xl text-secondary">
-          {mode === "forgot" ? "we'll email you a link" : "rank your dailies & duel your friends"}
+          {mode === "forgot" ? "we'll email you a link" : "rank your dailies & climb the class"}
         </p>
         <form onSubmit={submit} className="relative mt-6 grid gap-3 rounded-lg border-2 border-border bg-card p-6">
           <span aria-hidden className="tape" />

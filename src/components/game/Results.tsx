@@ -124,7 +124,6 @@ export function Results({ answers, mode, date, challengeName, streak, isNewBest,
         )}
         <button onClick={onHome} className={cn("rounded-lg border-2 border-border px-5 py-3 font-display text-sm font-bold uppercase hover:border-secondary focus-visible:outline-2 focus-visible:outline-secondary", !onAgain && "sm:col-span-3")}>Home</button>
       </div>
-      <p className="mt-5 text-center font-hand text-lg text-muted-foreground">want a real race? start a live head-to-head from the home page.</p>
     </main>
   );
 }

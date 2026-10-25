@@ -4,7 +4,7 @@
 - [x] Real answer-frequency tiers
 - [x] Fuzzy answers with "did you mean"
 - [x] Accounts (email, name + sticker avatar) with server-verified daily rankings
-- [x] Live head-to-head duels
+- [x] Remove the Challenge a Friend feature
 - [x] Finish left sidebar and Sports, Entertainment, History challenge pages
 - [x] Verify themed rounds, topic selection, and desktop/mobile layout
 - [x] Expand categories and mix them into future dailies while preserving played rounds
