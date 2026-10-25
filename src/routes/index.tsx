@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Home } from "@/components/game/Home";
 import { Play } from "@/components/game/Play";
 import { Results } from "@/components/game/Results";
@@ -13,6 +13,8 @@ import { rankState } from "@/game/rank-state";
 import { supabase } from "@/integrations/supabase/client";
 import { QUESTIONS } from "@/game/questions";
 import { frequencyRarity, type QuestionCounts } from "@/game/scoring";
+import { toQuestion, usesAiDaily } from "@/game/ai-daily";
+import { getAiDaily } from "@/game/ai-daily.functions";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -46,16 +48,45 @@ function Index() {
   const fetchCounts = useServerFn(getAnswerCounts);
   const submit = useServerFn(submitRanked);
 
-  const start = (mode: Mode) => {
-    const d = dateKey();
-    setToday(d);
-    // Practice avoids anything already played in practice and today's daily.
-    const questions = mode === "daily" ? dailyQuestions(d) : practiceQuestions([...loadSeen(), ...dailyQuestions(d).map((q) => q.id)]);
+  const fetchAiDaily = useServerFn(getAiDaily);
+  const [dailyMsg, setDailyMsg] = useState<string | null>(null);
+  const loadingDaily = useRef(false);
+
+  const launch = (mode: Mode, questions: Question[]) => {
     if (questions.length !== 7) return;
     if (mode === "practice") markSeen(questions.map((q) => q.id), QUESTIONS.length);
     setCounts({});
     fetchCounts({ data: { questionIds: questions.map((q) => q.id) } }).then(setCounts).catch(() => {});
     setScreen({ s: "play", mode, questions, key: Date.now() });
+  };
+
+  const startAiDaily = async (d: string) => {
+    if (loadingDaily.current) return;
+    loadingDaily.current = true;
+    setDailyMsg("Writing today's questions… (first player of the day waits a little)");
+    try {
+      // Bounded wait: poll while another request is generating the round.
+      for (let i = 0; i < 40; i++) {
+        const r = await fetchAiDaily({ data: { day: d } });
+        if (r.status === "ready") { setDailyMsg(null); return launch("daily", r.questions.map(toQuestion)); }
+        if (r.status === "failed") return setDailyMsg(r.error);
+        await new Promise((res) => setTimeout(res, 4000));
+      }
+      setDailyMsg("Today's questions are taking a while — try again in a minute");
+    } catch {
+      setDailyMsg("Couldn't load today's questions — try again");
+    } finally {
+      loadingDaily.current = false;
+    }
+  };
+
+  const start = (mode: Mode) => {
+    const d = dateKey();
+    setToday(d);
+    if (mode === "daily" && usesAiDaily(d)) return void startAiDaily(d);
+    // Practice avoids anything already played in practice and today's daily.
+    const questions = mode === "daily" ? dailyQuestions(d) : practiceQuestions([...loadSeen(), ...dailyQuestions(d).map((q) => q.id)]);
+    launch(mode, questions);
   };
 
   const onDone = useCallback((answers: RoundAnswer[]) => {
@@ -87,9 +118,15 @@ function Index() {
       <GeoBackground />
       {screen.s === "home" && (
         <Home stats={stats} streak={liveStreak(stats, today)} doneToday={doneToday} todayScore={todayScore}
-          dailyAvailable={!today || dailyQuestions(today).length === 7}
+          dailyAvailable={!today || usesAiDaily(today) || dailyQuestions(today).length === 7}
           onDaily={() => start("daily")} onPractice={() => start("practice")}
           onViewToday={() => stats.todayAnswers && setScreen({ s: "results", mode: "daily", answers: stats.todayAnswers, newBest: false })} />
+      )}
+      {screen.s === "home" && dailyMsg && (
+        <div role="status" aria-live="polite" className="fixed inset-x-4 bottom-6 z-50 mx-auto max-w-md rounded-lg border-2 border-border bg-card p-4 text-center font-sans text-sm shadow-pop-sm">
+          {dailyMsg}
+          {!loadingDaily.current && <button onClick={() => setDailyMsg(null)} className="ml-3 underline">OK</button>}
+        </div>
       )}
       {screen.s === "play" && (
         <Play key={screen.key} questions={screen.questions} mode={screen.mode} rarity={frequencyRarity(counts)} onDone={onDone} onQuit={() => setScreen({ s: "home" })} />

@@ -83,7 +83,7 @@ export function Results({ answers, mode, date, challengeName, streak, isNewBest,
           const o = a.outcome;
           const rarest = i === rarestIdx && o.points > 0;
           const question = ALL_QUESTIONS.find((q) => q.id === a.questionId);
-          const knownAnswers = [...new Set([...(question?.answers.values() ?? [])].map((answer) => answer.display))];
+          const knownAnswers = question ? [...new Set([...question.answers.values()].map((answer) => answer.display))] : a.known ?? [];
           return (
             <li key={i} style={{ animationDelay: `${i * 70}ms` }}
               className={cn("ruled relative rounded-lg border-2 border-border bg-card p-4", rarest && "border-primary shadow-[4px_4px_0_0_var(--tier-valedictorian)]")}>

@@ -39,7 +39,7 @@ export function Play({ questions, mode, challengeName, rarity = curatedRarity, o
     if (locked.current || !q) return;
     locked.current = true;
     setRevealing(o);
-    setAnswers((prev) => [...prev, { questionId: q.id, prompt: q.prompt, outcome: o }]);
+    setAnswers((prev) => [...prev, { questionId: q.id, prompt: q.prompt, outcome: o, known: [...new Set([...q.answers.values()].map((a) => a.display))] }]);
     onAnswered?.(idx, o.kind === "correct" ? o.typed ?? o.display : null);
   }, [q, idx, onAnswered]);
 
