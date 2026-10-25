@@ -8,6 +8,27 @@ import { toQuestion, type WireQuestion } from "./ai-daily";
 
 const CATEGORIES = [...new Set(ALL_QUESTIONS.map((q) => q.category))];
 
+/** Few-shot samples from the hand-curated bank so generated rounds match its style and answer quality. */
+function examples(count = 8): string {
+  const step = Math.max(1, Math.floor(ALL_QUESTIONS.length / count));
+  const out: string[] = [];
+  for (let i = 0; i < ALL_QUESTIONS.length && out.length < count; i += step) {
+    const q = ALL_QUESTIONS[i];
+    const byTier = new Map<TierId, string[]>();
+    const seen = new Set<string>();
+    for (const { display, tier } of q.answers.values()) {
+      if (seen.has(display)) continue;
+      seen.add(display);
+      const list = byTier.get(tier) ?? [];
+      if (list.length < 3) list.push(display);
+      byTier.set(tier, list);
+    }
+    const tiers = TIER_ORDER.filter((t) => byTier.has(t)).map((t) => `${t}: ${byTier.get(t)!.join(", ")}`).join(" | ");
+    out.push(`- [${q.category}] ${q.prompt} → ${tiers}`);
+  }
+  return out.join("\n");
+}
+
 const schema = z.object({
   questions: z.array(z.object({
     category: z.string(),
