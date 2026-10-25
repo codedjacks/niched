@@ -12,3 +12,16 @@ export const getAiDaily = createServerFn({ method: "POST" })
     const { getOrCreateAiDaily } = await import("./ai-daily.server");
     return getOrCreateAiDaily(data.day);
   });
+
+const TOPICS = ["sports", "entertainment", "history"] as const;
+/** Today's AI-written topic challenge round (Sports / Entertainment / History). */
+export const getAiTopicDaily = createServerFn({ method: "POST" })
+  .inputValidator((d: { day: string; topic: string }) => ({ day: String(d.day), topic: String(d.topic) }))
+  .handler(async ({ data }) => {
+    const topic = TOPICS.find((t) => t === data.topic);
+    if (!topic || !/^\d{4}-\d{2}-\d{2}$/.test(data.day) || !dayIsCurrent(data.day)) {
+      return { status: "failed" as const, error: "That challenge isn't available" };
+    }
+    const { getOrCreateAiDaily } = await import("./ai-daily.server");
+    return getOrCreateAiDaily(data.day, topic);
+  });
