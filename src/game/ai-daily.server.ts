@@ -71,7 +71,7 @@ export async function aiDailyQuestions(day: string) {
 }
 
 type RoundRow = { status: string; locked_until: string; error: string | null };
-async function rounds(track: Track) {
+async function rounds(track: Track, D: string) {
   const db = await admin();
   if (track === "main") return {
     get: async () => (await db.from("ai_daily_rounds").select("status, locked_until, error").eq("day", D).maybeSingle()).data as RoundRow | null,
@@ -86,15 +86,13 @@ async function rounds(track: Track) {
     set: async (v: Partial<RoundRow>) => { await db.from("ai_topic_rounds").update(v).eq("day", D).eq("topic", track); },
   };
 }
-let D = "";
 
 /** Returns the day's AI round for a track, generating it once (DB lease prevents parallel generation). */
 export async function getOrCreateAiDaily(day: string, track: Track = "main"): Promise<DailyStatus> {
   const ready = await loadReady(day, track);
   if (ready) return { status: "ready", questions: ready };
   const db = await admin();
-  D = day;
-  const r = await rounds(track);
+  const r = await rounds(track, day);
   const now = new Date().toISOString();
   const lease = new Date(Date.now() + 3 * 60_000).toISOString();
 
