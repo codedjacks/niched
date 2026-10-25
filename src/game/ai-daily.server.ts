@@ -59,13 +59,32 @@ async function loadReady(day: string, track: Track = "main"): Promise<WireQuesti
   return data.map((r) => ({ id: r.id, category: r.category, prompt: r.prompt, answers: r.answers as unknown as WireQuestion["answers"] }));
 }
 
+/** Self-hosted copies (e.g. Cloudflare) lack the database admin key; they read rounds from the Lovable-hosted game instead. */
+const UPSTREAM = () => process.env["NICHED_UPSTREAM_URL"] || "https://niched.lovable.app";
+const selfHosted = () => !process.env["SUPABASE_SERVICE_ROLE_KEY"];
+async function upstream(day: string, track: Track): Promise<DailyStatus> {
+  try {
+    const r = await fetch(`${UPSTREAM()}/api/public/daily-round?day=${encodeURIComponent(day)}&track=${encodeURIComponent(track)}`);
+    if (!r.ok) return { status: "failed", error: "Couldn't load today's questions" };
+    return (await r.json()) as DailyStatus;
+  } catch { return { status: "failed", error: "Couldn't load today's questions" }; }
+}
+
 export async function loadAiQuestion(id: string) {
+  if (selfHosted()) {
+    const m = /^ai-(?:(sports|entertainment|history)-)?(\d{4}-\d{2}-\d{2})-\d+$/.exec(id);
+    if (!m) return null;
+    const r = await upstream(m[2]!, (m[1] as Track | undefined) ?? "main");
+    const w = r.status === "ready" ? r.questions.find((q) => q.id === id) : undefined;
+    return w ? toQuestion(w) : null;
+  }
   const db = await admin();
   const { data } = await db.from("ai_questions").select("id, category, prompt, answers").eq("id", id).maybeSingle();
   return data ? toQuestion({ ...data, answers: data.answers as unknown as WireQuestion["answers"] }) : null;
 }
 
 export async function aiDailyQuestions(day: string) {
+  if (selfHosted()) { const r = await upstream(day, "main"); return r.status === "ready" ? r.questions.map(toQuestion) : []; }
   const w = await loadReady(day, "main");
   return w ? w.map(toQuestion) : [];
 }
@@ -89,6 +108,7 @@ async function rounds(track: Track, D: string) {
 
 /** Returns the day's AI round for a track, generating it once (DB lease prevents parallel generation). */
 export async function getOrCreateAiDaily(day: string, track: Track = "main"): Promise<DailyStatus> {
+  if (selfHosted()) return upstream(day, track);
   const ready = await loadReady(day, track);
   if (ready) return { status: "ready", questions: ready };
   const db = await admin();
