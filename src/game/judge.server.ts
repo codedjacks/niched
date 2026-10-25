@@ -33,7 +33,7 @@ export async function aiJudge(q: Question, answer: string): Promise<JudgeResult>
   const modelId = lovableKey ? "openai/gpt-6-astra" : "gpt-5-mini";
   try {
     const result = streamText({
-      model: provider.responses("openai/gpt-6-astra"),
+      model: provider.responses(modelId),
       maxRetries: 0,
       output: Output.object({ schema }),
       system:
