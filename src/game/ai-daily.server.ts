@@ -123,19 +123,19 @@ export async function getOrCreateAiDaily(day: string, track: Track = "main"): Pr
 async function generate(day: string, track: Track): Promise<WireQuestion[]> {
   const topic = track === "main" ? null : CHALLENGES[track];
   const apiKey = process.env["LOVABLE_API_KEY"];
-  if (!apiKey) throw new Error("LOVABLE_API_KEY missing");
+  const openaiKey = process.env["OPENAI_API_KEY"];
+  if (!apiKey && !openaiKey) throw new Error("No AI key (LOVABLE_API_KEY or OPENAI_API_KEY)");
   const db = await admin();
   const { data: past } = await db.from("ai_questions").select("prompt_key").limit(5000);
   const used = new Set([...ALL_QUESTIONS.map((q) => normalize(q.prompt)), ...(past ?? []).map((r) => r.prompt_key)]);
   const recent = [...used].slice(-400).join("\n");
 
-  const provider = createOpenAI({
-    baseURL: "https://ai.gateway.lovable.dev/v1",
-    apiKey,
-    headers: { "Lovable-API-Key": apiKey, "X-Lovable-AIG-SDK": "vercel-ai-sdk" },
-  });
+  // Lovable gateway when hosted on Lovable; the user's own OpenAI key when self-hosted (e.g. Cloudflare).
+  const provider = apiKey
+    ? createOpenAI({ baseURL: "https://ai.gateway.lovable.dev/v1", apiKey, headers: { "Lovable-API-Key": apiKey, "X-Lovable-AIG-SDK": "vercel-ai-sdk" } })
+    : createOpenAI({ apiKey: openaiKey ?? "" });
   const result = streamText({
-    model: provider.responses("openai/gpt-6-astra"),
+    model: provider.responses(apiKey ? "openai/gpt-6-astra" : "gpt-5-mini"),
     maxRetries: 0,
     output: Output.object({ schema }),
     system:
