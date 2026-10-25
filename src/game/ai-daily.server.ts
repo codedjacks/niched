@@ -102,11 +102,14 @@ async function generate(day: string): Promise<WireQuestion[]> {
     output: Output.object({ schema }),
     system:
       "You write questions for Niched, a trivia game where players name ONE thing in a category and score more for valid answers that are less common. " +
-      "Write exactly 9 open-ended 'Name a…' prompts, each with many valid answers (at least 30 real, verifiable ones). Mix categories across food, science, geography, history, music, movies/TV, sports, gaming, brands, nature, literature. " +
+      "Write exactly 9 open-ended 'Name a…' prompts in the same style as the hand-written EXAMPLES you are given: short, everyday-friendly categories a typical player instantly understands (e.g. 'Name a pizza topping', 'Name an NBA team', 'Name a Pixar movie'). " +
+      "Mix categories across food, science, geography, history, music, movies/TV, sports, gaming, brands, nature, literature. " +
+      "QUALITY RULES: Prefer broad, popular categories over narrow or academic ones. Avoid trick wording, compound conditions, date ranges, 'that starts with…', or anything needing research. " +
+      "Every answer must be a REAL, well-known, verifiable thing a reasonable person could recognise — no invented items, no Wikipedia-deep trivia, no borderline or debatable members. If unsure an answer is correct, leave it out. " +
       "Each prompt must be unambiguous, factual and clearly different from every prompt in the 'already used' list (not a rewording). " +
-      "For each prompt give 30-45 answers with aliases (alternate spellings, abbreviations, short names). Tier by how often typical players would say it: " +
-      "pencil = the obvious top few, paperclip = very common, notebook = common, backpack = less common, goldstar = rare, valedictorian = very obscure but correct. Include several of each tier. Only include answers that are definitely correct.",
-    prompt: `Date: ${day}\nKnown categories: ${CATEGORIES.join(", ")}\n\nAlready used prompts (normalized):\n${recent}`,
+      "For each prompt give 30-45 answers using the most common name, with aliases (alternate spellings, abbreviations, short names). Tier by how often typical players would say it: " +
+      "pencil = the obvious top few, paperclip = very common, notebook = common, backpack = less common, goldstar = rare but still recognisable, valedictorian = obscure yet clearly correct and famous within its field. Include several of each tier.",
+    prompt: `Date: ${day}\nKnown categories: ${CATEGORIES.join(", ")}\n\nEXAMPLES of the quality and style to match:\n${examples()}\n\nAlready used prompts (normalized):\n${recent}`,
     providerOptions: { openai: { store: false, forceReasoning: true, reasoningEffort: "low" } },
   });
   const out = await result.output;
