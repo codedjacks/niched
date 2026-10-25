@@ -48,6 +48,7 @@ export type Database = {
           position: number
           prompt: string
           prompt_key: string
+          track: string
         }
         Insert: {
           answers: Json
@@ -58,6 +59,7 @@ export type Database = {
           position: number
           prompt: string
           prompt_key: string
+          track?: string
         }
         Update: {
           answers?: Json
@@ -68,6 +70,34 @@ export type Database = {
           position?: number
           prompt?: string
           prompt_key?: string
+          track?: string
+        }
+        Relationships: []
+      }
+      ai_topic_rounds: {
+        Row: {
+          created_at: string
+          day: string
+          error: string | null
+          locked_until: string
+          status: string
+          topic: string
+        }
+        Insert: {
+          created_at?: string
+          day: string
+          error?: string | null
+          locked_until?: string
+          status?: string
+          topic: string
+        }
+        Update: {
+          created_at?: string
+          day?: string
+          error?: string | null
+          locked_until?: string
+          status?: string
+          topic?: string
         }
         Relationships: []
       }

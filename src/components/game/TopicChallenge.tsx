@@ -7,6 +7,8 @@ import { CHALLENGES, loadChallenge, saveChallenge, startChallenge, type Challeng
 import { dateKey } from "@/game/selection";
 import { frequencyRarity, type QuestionCounts } from "@/game/scoring";
 import { getAnswerCounts } from "@/game/leaderboard.functions";
+import { getAiTopicDaily } from "@/game/ai-daily.functions";
+import { toQuestion } from "@/game/ai-daily";
 import type { Question, RoundAnswer } from "@/game/types";
 import { GeoBackground } from "./ui";
 import { Play } from "./Play";
@@ -25,9 +27,24 @@ export function TopicChallenge({ topic }: { topic: ChallengeId }) {
   const request = useRef(0);
   const fetchCounts = useServerFn(getAnswerCounts);
   useEffect(() => { const p = loadChallenge(topic); setBest(p.best); setToday(p.day === dateKey() ? p.score ?? 0 : null); }, [topic]);
-  const start = () => {
-    const questions = startChallenge(topic);
+  const fetchRound = useServerFn(getAiTopicDaily);
+  const [loading, setLoading] = useState(false);
+  const start = async () => {
     const id = ++request.current;
+    setLoading(true);
+    let questions: Question[] = [];
+    // AI writes a fresh round per topic per day; wait briefly if it's being written, else fall back to the bank.
+    for (let i = 0; i < 30 && request.current === id; i++) {
+      try {
+        const r = await fetchRound({ data: { day: dateKey(), topic } });
+        if (r.status === "ready") { questions = r.questions.map(toQuestion); break; }
+        if (r.status === "failed") break;
+      } catch { break; }
+      await new Promise((res) => setTimeout(res, 4000));
+    }
+    setLoading(false);
+    if (request.current !== id) return;
+    if (questions.length !== 7) questions = startChallenge(topic);
     setCounts({});
     setScreen({ kind: "play", questions, key: id });
     fetchCounts({ data: { questionIds: questions.map((q) => q.id) } }).then((value) => { if (request.current === id) setCounts(value); }).catch(() => {});
@@ -53,7 +70,7 @@ export function TopicChallenge({ topic }: { topic: ChallengeId }) {
         <span><b className="text-primary">7</b> daily questions · same for everyone</span><span><b className="text-primary">25s</b> each</span><span>Best: <b className="text-primary">{best || "—"}</b></span>
       </div>
       {today !== null ? <p className="mt-8 font-hand text-2xl text-primary">Done for today — you scored {today}. New {info.name} questions tomorrow!</p> :
-      <Button onClick={start} className="mt-8 h-auto w-full justify-between whitespace-normal px-6 py-6 text-left font-display text-lg font-bold uppercase shadow-pop-marker sm:max-w-lg"><span>Start {info.name} Challenge</span><ArrowRight /></Button>}
+      <Button onClick={start} disabled={loading} className="mt-8 h-auto w-full justify-between whitespace-normal px-6 py-6 text-left font-display text-lg font-bold uppercase shadow-pop-marker sm:max-w-lg"><span>{loading ? "Writing today's questions…" : `Start ${info.name} Challenge`}</span><ArrowRight /></Button>}
     </main>}
     {screen.kind === "play" && <Play key={screen.key} mode="practice" challengeName={info.name} questions={screen.questions} rarity={frequencyRarity(counts)} onDone={done} onQuit={() => { request.current++; setScreen({ kind: "ready" }); }} />}
     {screen.kind === "results" && <Results mode="practice" challengeName={info.name} answers={screen.answers} date={dateKey()} streak={0} best={best} isNewBest={screen.newBest} onAgain={() => setScreen({ kind: "ready" })} onHome={() => navigate({ to: "/" })} />}
