@@ -16,19 +16,14 @@ describe("subject challenges", () => {
       expect(pool.every((q) => (CHALLENGES[topic].categories as readonly string[]).includes(q.category))).toBe(true);
     });
   }
-  it("uses unseen subject questions before repeating without leaking other topics", () => {
-    const first = challengeQuestions("entertainment");
-    const seen = first.map((q) => q.id);
-    const second = challengeQuestions("entertainment", seen);
-    expect(second.every((q) => !seen.includes(q.id))).toBe(true);
-    const sports = challengePool("sports");
-    const last = sports.at(-1);
-    if (!last) throw new Error("Missing sports questions");
-    const exhausted = challengeQuestions("sports", sports.slice(0, -1).map((q) => q.id));
-    expect(exhausted[0]?.id).toBe(last.id);
-    expect(exhausted).toHaveLength(7);
-    expect(new Set(exhausted.map((q) => q.id)).size).toBe(7);
-    expect(exhausted.every((q) => sports.includes(q))).toBe(true);
+  it("gives everyone the same seven questions per day and new ones the next day", () => {
+    for (const topic of ["sports", "entertainment", "history"] as const) {
+      const today = challengeQuestions(topic, "2026-10-26").map((q) => q.id);
+      expect(challengeQuestions(topic, "2026-10-26").map((q) => q.id)).toEqual(today);
+      const tomorrow = challengeQuestions(topic, "2026-10-27").map((q) => q.id);
+      expect(tomorrow).toHaveLength(7);
+      expect(tomorrow.some((id) => !today.includes(id))).toBe(true);
+    }
   });
   it("keeps the 57-question published daily deck unchanged", () => {
     expect(ORIGINAL_FULL_QUESTIONS).toHaveLength(57);
@@ -45,8 +40,8 @@ describe("subject challenges", () => {
     localStorage.clear();
     saveChallenge("sports", { best: 100, seen: ["nfl"] });
     saveChallenge("history", { best: 200, seen: ["president"] });
-    expect(loadChallenge("sports")).toEqual({ best: 100, seen: ["nfl"] });
-    expect(loadChallenge("history")).toEqual({ best: 200, seen: ["president"] });
-    expect(loadChallenge("entertainment")).toEqual({ best: 0, seen: [] });
+    expect(loadChallenge("sports").best).toBe(100);
+    expect(loadChallenge("history").best).toBe(200);
+    expect(loadChallenge("entertainment").best).toBe(0);
   });
 });

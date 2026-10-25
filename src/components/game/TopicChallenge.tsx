@@ -20,10 +20,11 @@ export function TopicChallenge({ topic }: { topic: ChallengeId }) {
   const navigate = useNavigate();
   const [screen, setScreen] = useState<Screen>({ kind: "ready" });
   const [best, setBest] = useState(0);
+  const [today, setToday] = useState<number | null>(null);
   const [counts, setCounts] = useState<Record<string, QuestionCounts>>({});
   const request = useRef(0);
   const fetchCounts = useServerFn(getAnswerCounts);
-  useEffect(() => { setBest(loadChallenge(topic).best); }, [topic]);
+  useEffect(() => { const p = loadChallenge(topic); setBest(p.best); setToday(p.day === dateKey() ? p.score ?? 0 : null); }, [topic]);
   const start = () => {
     const questions = startChallenge(topic);
     const id = ++request.current;
@@ -35,7 +36,8 @@ export function TopicChallenge({ topic }: { topic: ChallengeId }) {
     const score = answers.reduce((sum, a) => sum + a.outcome.points, 0);
     const previous = loadChallenge(topic);
     const nextBest = Math.max(previous.best, score);
-    saveChallenge(topic, { ...previous, best: nextBest });
+    saveChallenge(topic, { ...previous, best: nextBest, day: dateKey(), score });
+    setToday(score);
     setBest(nextBest);
     setScreen({ kind: "results", answers, newBest: score > previous.best });
   };
@@ -48,11 +50,12 @@ export function TopicChallenge({ topic }: { topic: ChallengeId }) {
       <h1 className="break-words font-display text-3xl font-bold uppercase leading-tight sm:text-4xl lg:text-5xl">{info.name}<span className="text-primary">.</span></h1>
       <p className="mt-5 font-hand text-2xl text-muted-foreground">{info.subtitle}</p>
       <div className="mt-10 flex flex-wrap gap-6 border-y-2 border-border py-5 font-sans text-sm">
-        <span><b className="text-primary">7</b> questions</span><span><b className="text-primary">25s</b> each</span><span>Best: <b className="text-primary">{best || "—"}</b></span>
+        <span><b className="text-primary">7</b> daily questions · same for everyone</span><span><b className="text-primary">25s</b> each</span><span>Best: <b className="text-primary">{best || "—"}</b></span>
       </div>
-      <Button onClick={start} className="mt-8 h-auto w-full justify-between whitespace-normal px-6 py-6 text-left font-display text-lg font-bold uppercase shadow-pop-marker sm:max-w-lg"><span>Start {info.name} Challenge</span><ArrowRight /></Button>
+      {today !== null ? <p className="mt-8 font-hand text-2xl text-primary">Done for today — you scored {today}. New {info.name} questions tomorrow!</p> :
+      <Button onClick={start} className="mt-8 h-auto w-full justify-between whitespace-normal px-6 py-6 text-left font-display text-lg font-bold uppercase shadow-pop-marker sm:max-w-lg"><span>Start {info.name} Challenge</span><ArrowRight /></Button>}
     </main>}
     {screen.kind === "play" && <Play key={screen.key} mode="practice" challengeName={info.name} questions={screen.questions} rarity={frequencyRarity(counts)} onDone={done} onQuit={() => { request.current++; setScreen({ kind: "ready" }); }} />}
-    {screen.kind === "results" && <Results mode="practice" challengeName={info.name} answers={screen.answers} date={dateKey()} streak={0} best={best} isNewBest={screen.newBest} onAgain={start} onHome={() => navigate({ to: "/" })} />}
+    {screen.kind === "results" && <Results mode="practice" challengeName={info.name} answers={screen.answers} date={dateKey()} streak={0} best={best} isNewBest={screen.newBest} onAgain={() => setScreen({ kind: "ready" })} onHome={() => navigate({ to: "/" })} />}
   </>;
 }
