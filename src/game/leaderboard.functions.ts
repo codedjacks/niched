@@ -1,32 +1,15 @@
 import { createServerFn } from "@tanstack/react-start";
-import { createClient } from "@supabase/supabase-js";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import type { Database } from "@/integrations/supabase/types";
-import { dailyQuestions, dayIsCurrent } from "./selection";
-import { usesAiDaily } from "./ai-daily";
-import { frequencyRarity, normalize, type QuestionCounts } from "./scoring";
+import { getRequest } from "@tanstack/react-start/server";
+import type { QuestionCounts } from "./scoring";
 
-function publicClient() {
-  const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
-  return createClient<Database>(process.env["SUPABASE_URL"]!, key, {
-    auth: { persistSession: false, autoRefreshToken: false },
-    global: {
-      fetch: (input, init) => {
-        const h = new Headers(init?.headers);
-        if (key.startsWith("sb_") && h.get("Authorization") === `Bearer ${key}`) h.delete("Authorization");
-        h.set("apikey", key);
-        return fetch(input, { ...init, headers: h });
-      },
-    },
-  });
-}
+const publicClient = async () => (await import("./ranked.server")).publicClient();
 
 /** Real answer counts for a set of questions (powers frequency-based tiers). */
 export const getAnswerCounts = createServerFn({ method: "POST" })
   .inputValidator((d: { questionIds: string[] }) => ({ questionIds: d.questionIds.slice(0, 20).map(String) }))
   .handler(async ({ data }) => {
     const out: Record<string, QuestionCounts> = {};
-    const { data: rows, error } = await publicClient()
+    const { data: rows, error } = await (await publicClient())
       .rpc("question_answer_counts", { _question_ids: data.questionIds });
     if (error) { console.error(error); return out; }
     for (const r of rows ?? []) {
@@ -44,42 +27,16 @@ const DAY = /^\d{4}-\d{2}-\d{2}$/;
  * so the leaderboard can't be faked by sending a made-up score.
  */
 export const submitRanked = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
   .inputValidator((d: { day: string; typed: (string | null)[] }) => {
     if (!DAY.test(d.day) || !Array.isArray(d.typed)) throw new Error("Bad request");
-    return { day: d.day, typed: d.typed.slice(0, 7).map((t) => (t ? String(t).slice(0, 60) : null)) };
+    return { day: d.day, typed: d.typed };
   })
-  .handler(async ({ data, context }) => {
-    if (!dayIsCurrent(data.day)) return { ok: false as const, error: "That daily has closed" };
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: existing } = await supabaseAdmin.from("ranked_scores").select("score")
-      .eq("user_id", context.userId).eq("day", data.day).maybeSingle();
-    if (existing) return { ok: true as const, score: existing.score, already: true };
-
-    const { verifyAnswer, loadCounts } = await import("./judge.server");
-    const qs = usesAiDaily(data.day)
-      ? await (await import("./ai-daily.server")).aiDailyQuestions(data.day)
-      : dailyQuestions(data.day);
-    if (qs.length !== 7) return { ok: false as const, error: "Today's questions aren't ready yet" };
-    const rarity = frequencyRarity(await loadCounts(qs.map((q) => q.id)));
-    const results = await Promise.all(qs.map((q, i) => verifyAnswer(q, data.typed[i] ?? null, rarity)));
-    const score = results.reduce((s, r) => s + (r?.points ?? 0), 0);
-
-    const { error } = await supabaseAdmin.from("ranked_scores").insert({
-      user_id: context.userId, day: data.day, score,
-      tiers: results.map((r) => r?.tier ?? "none"),
-      answers: results.map((r, i) => ({ q: qs[i]!.id, typed: data.typed[i] ?? null, display: r?.display ?? null, points: r?.points ?? 0 })),
-    });
-    if (error) {
-      if (error.code === "23505") return { ok: true as const, score, already: true };
-      console.error(error);
-      return { ok: false as const, error: "Couldn't save your score" };
-    }
-    const hits = results.flatMap((r, i) => (r ? [{ q: qs[i]!.id, k: normalize(r.display) }] : []));
-    if (hits.length) {
-      await supabaseAdmin.rpc("bump_answers", { _question_ids: hits.map((h) => h.q), _keys: hits.map((h) => h.k) });
-    }
-    return { ok: true as const, score, already: false };
+  .handler(async ({ data }) => {
+    const { userIdFromToken, saveRanked, cleanTyped } = await import("./ranked.server");
+    const token = getRequest()?.headers.get("authorization")?.replace(/^Bearer /, "") ?? null;
+    const userId = await userIdFromToken(token);
+    if (!userId) return { ok: false as const, error: "Sign in to rank" };
+    return saveRanked(token!, userId, data.day, cleanTyped(data.typed));
   });
 
 export const getLeaderboard = createServerFn({ method: "POST" })
@@ -88,7 +45,7 @@ export const getLeaderboard = createServerFn({ method: "POST" })
     return d;
   })
   .handler(async ({ data }) => {
-    const sb = publicClient();
+    const sb = await publicClient();
     const [today, all] = await Promise.all([
       sb.rpc("ranked_daily", { _day: data.day }),
       sb.rpc("ranked_alltime", { _limit: 50 }),
