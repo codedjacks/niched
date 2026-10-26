@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { GameFrame, ResultCard, useDailyGame } from "@/components/game/SportsGame";
 import { TierBadge } from "@/components/game/ui";
-import { GRID_GUESSES, GRID_MAX, TAGS, cellAnswers, gridForDay, guessCell, tierForPlayer, type Player } from "@/game/grid";
+import { GRID_GUESSES, GRID_MAX, TAGS, cellAnswers, gridForDay, guessCell, pointsForPlayer, tierForPlayer, type Player } from "@/game/grid";
 
 export const Route = createFileRoute("/grid")({
   head: () => ({
@@ -27,7 +27,7 @@ function GridPage() {
   const [msg, setMsg] = useState<string | null>(null);
   if (!day) return <GameFrame note="gym class" title="Daily Grid" subtitle="Loading today's grid…">{null}</GameFrame>;
   const g = gridForDay(day);
-  const score = Object.values(cells).reduce((s, p) => s + (TIER_POINTS[tierForPlayer(p)] ?? 0), 0);
+  const score = Object.values(cells).reduce((s, p) => s + pointsForPlayer(p), 0);
   const over = doneToday || guesses >= GRID_GUESSES || Object.keys(cells).length === 9;
 
   const submit = () => {
@@ -42,7 +42,7 @@ function GridPage() {
     setMsg(res.ok ? `${res.player.name} ✓` : res.reason === "used" ? "Already used that player." : "Doesn't fit that square.");
     setTyped(""); setActive(null);
     if (n >= GRID_GUESSES || Object.keys(next).length === 9)
-      finish(Object.values(next).reduce((s, p) => s + (TIER_POINTS[tierForPlayer(p)] ?? 0), 0));
+      finish(Object.values(next).reduce((s, p) => s + pointsForPlayer(p), 0));
   };
 
   return (
@@ -81,9 +81,6 @@ function GridPage() {
   );
 }
 
-import { TIERS } from "@/game/scoring";
-const TIER_POINTS = Object.fromEntries(Object.entries(TIERS).map(([k, v]) => [k, v.points])) as Record<string, number>;
-
-function Row({ team, children }: { team: string; children: React.ReactNode }) {
+function Row({ team, children }: { team: string; children: ReactNode }) {
   return <><div className="flex items-center font-display text-xs font-bold uppercase sm:text-sm">{team}</div>{children}</>;
 }
