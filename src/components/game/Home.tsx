@@ -46,9 +46,9 @@ export function Home({ stats, streak, doneToday, todayScore, dailyAvailable = tr
       <section className="mt-10 grid animate-rise gap-4 [animation-delay:80ms]">
         {doneToday ? (
           <button onClick={onViewToday} className="group rounded-lg border-2 border-border bg-card px-7 py-6 text-left transition hover:-translate-y-0.5 hover:border-primary focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-primary">
-            <span className="font-display text-xs font-bold uppercase tracking-widest text-muted-foreground">Daily turned in · {todayScore}/{MAX_SCORE}</span>
+            <span className="font-display text-xs font-bold uppercase tracking-widest text-muted-foreground">Final whistle · {todayScore}/{MAX_SCORE}</span>
             <span className="mt-1 block font-display text-2xl font-bold uppercase sm:text-3xl">View today's results ▸</span>
-            <span className="mt-2 block font-sans text-sm text-muted-foreground">Next assignment in {left != null ? fmt(left) : "--:--:--"}</span>
+            <span className="mt-2 block font-sans text-sm text-muted-foreground">Next game in {left != null ? fmt(left) : "--:--:--"}</span>
           </button>
         ) : !dailyAvailable ? (
           <Button disabled variant="outline" className="h-auto whitespace-normal px-7 py-7 text-left font-display text-xl uppercase">
@@ -56,7 +56,7 @@ export function Home({ stats, streak, doneToday, todayScore, dailyAvailable = tr
           </Button>
         ) : (
           <button autoFocus onClick={onDaily} className="group relative rounded-lg bg-primary px-7 py-7 text-left text-primary-foreground shadow-pop-marker transition hover:-translate-y-1 hover:shadow-[8px_8px_0_0_var(--secondary)] focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-primary">
-            <span className="font-display text-xs font-bold uppercase tracking-widest opacity-80">Today's assignment · not turned in</span>
+            <span className="font-display text-xs font-bold uppercase tracking-widest opacity-80">Today's game · tip-off ready</span>
             <span className="mt-1 block font-display text-3xl font-bold uppercase leading-tight sm:text-4xl">Start Daily Challenge ▸</span>
             <span className="mt-2 block font-sans text-sm opacity-80">Same 7 questions for everyone today</span>
           </button>
@@ -85,7 +85,7 @@ export function Home({ stats, streak, doneToday, todayScore, dailyAvailable = tr
 
       <section className="relative mt-12 lg:mt-10 animate-rise rounded-lg border-2 border-border bg-card p-6 [animation-delay:240ms]">
         <span aria-hidden className="tape -rotate-3" />
-        <p className="absolute -right-1 -top-5 hidden font-hand text-xl text-secondary [transform:rotate(3deg)] sm:block">the cheat sheet ↓</p>
+        <p className="absolute -right-1 -top-5 hidden font-hand text-xl text-secondary [transform:rotate(3deg)] sm:block">the playbook ↓</p>
         <h2 className="font-display text-xs font-bold uppercase tracking-widest text-muted-foreground">How scoring works</h2>
         <p className="mt-2 font-sans text-sm text-muted-foreground">
           Every valid answer earns points by rarity tier — from a plain Pencil up to Valedictorian. The more obscure your answer, the more it's worth. 25 seconds per question. Max {MAX_SCORE}.
