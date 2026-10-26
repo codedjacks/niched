@@ -43,6 +43,13 @@
       "when": 1792957809793,
       "tag": "0005_ai_topic_daily",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793032217587,
+      "tag": "0006_sports_players",
+      "breakpoints": true
     }
   ]
 }

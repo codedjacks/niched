@@ -304,6 +304,69 @@ export type Database = {
           },
         ]
       }
+      sports_player_aliases: {
+        Row: {
+          espn_id: string | null
+          fetched_at: string
+          league: string
+          query_key: string
+        }
+        Insert: {
+          espn_id?: string | null
+          fetched_at?: string
+          league: string
+          query_key: string
+        }
+        Update: {
+          espn_id?: string | null
+          fetched_at?: string
+          league?: string
+          query_key?: string
+        }
+        Relationships: []
+      }
+      sports_players: {
+        Row: {
+          awards: string[]
+          birth_place: string | null
+          career: Json
+          draft: string | null
+          espn_id: string
+          fetched_at: string
+          league: string
+          name: string
+          name_key: string
+          seasons: Json
+          teams: string[]
+        }
+        Insert: {
+          awards?: string[]
+          birth_place?: string | null
+          career?: Json
+          draft?: string | null
+          espn_id: string
+          fetched_at?: string
+          league: string
+          name: string
+          name_key: string
+          seasons?: Json
+          teams?: string[]
+        }
+        Update: {
+          awards?: string[]
+          birth_place?: string | null
+          career?: Json
+          draft?: string | null
+          espn_id?: string
+          fetched_at?: string
+          league?: string
+          name?: string
+          name_key?: string
+          seasons?: Json
+          teams?: string[]
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
