@@ -14,7 +14,7 @@ describe("report-card grades", () => {
   it("grades just below each cut-off one step down", () => {
     expect(gradeFor(349)).toBe("C+");
     expect(gradeFor(399)).toBe("B-");
-    expect(gradeFor(449)).toBe("B-");
+    expect(gradeFor(449)).toBe("B");
     expect(gradeFor(499)).toBe("B+");
     expect(gradeFor(599)).toBe("A-");
     expect(gradeFor(649)).toBe("A");
