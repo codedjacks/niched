@@ -4,7 +4,6 @@ import { gradeFor, MAX_SCORE, TIERS, TIER_ORDER } from "@/game/scoring";
 import type { Mode, RoundAnswer, TierId } from "@/game/types";
 import { cn } from "@/lib/utils";
 import { TierBadge } from "./ui";
-import { RankStatus } from "./RankStatus";
 import { ALL_QUESTIONS } from "@/game/questions";
 
 export function buildShareText(answers: RoundAnswer[], mode: Mode, date: string, challengeName?: string) {
@@ -67,7 +66,6 @@ export function Results({ answers, mode, date, challengeName, streak, isNewBest,
         </div>
       )}
 
-      {mode === "daily" && <RankStatus />}
 
       <ol className="relative mt-10 grid gap-3">
         {answers.map((a, i) => {

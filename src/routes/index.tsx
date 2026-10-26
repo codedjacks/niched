@@ -8,9 +8,7 @@ import { dailyQuestions, dateKey, practiceQuestions } from "@/game/selection";
 import { loadSeen, markSeen, emptyStats, liveStreak, loadStats, recordDaily, recordPractice, saveStats, type Stats } from "@/game/storage";
 import type { Mode, Question, RoundAnswer } from "@/game/types";
 import { useServerFn } from "@tanstack/react-start";
-import { getAnswerCounts, submitRanked } from "@/game/leaderboard.functions";
-import { rankState } from "@/game/rank-state";
-import { supabase } from "@/integrations/supabase/client";
+import { getAnswerCounts } from "@/game/leaderboard.functions";
 import { QUESTIONS } from "@/game/questions";
 import { frequencyRarity, type QuestionCounts } from "@/game/scoring";
 import { toQuestion, usesAiDaily } from "@/game/ai-daily";
@@ -46,7 +44,6 @@ function Index() {
 
   const [counts, setCounts] = useState<Record<string, QuestionCounts>>({});
   const fetchCounts = useServerFn(getAnswerCounts);
-  const submit = useServerFn(submitRanked);
 
   const fetchAiDaily = useServerFn(getAiDaily);
   const [dailyMsg, setDailyMsg] = useState<string | null>(null);
@@ -98,20 +95,9 @@ function Index() {
       const prevBest = cur.mode === "daily" ? prev.bestDaily : prev.bestPractice;
       saveStats(next);
       setStats(next);
-      if (cur.mode === "daily") {
-        const day = dateKey();
-        const typed = answers.map((a) => (a.outcome.kind === "correct" ? a.outcome.typed ?? a.outcome.display : null));
-        rankState.set({ status: "pending" });
-        supabase.auth.getSession().then(({ data }) => {
-          if (!data.session) return rankState.set({ status: "guest" });
-          submit({ data: { day, typed } })
-            .then((r) => rankState.set(r.ok ? { status: "ranked", score: r.score, already: r.already } : { status: "error", error: r.error }))
-            .catch(() => rankState.set({ status: "error", error: "Couldn't reach the leaderboard" }));
-        });
-      }
       return { s: "results", mode: cur.mode, answers, newBest: score > prevBest && score > 0 };
     });
-  }, [submit]);
+  }, []);
 
   return (
     <>
