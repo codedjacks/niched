@@ -26,14 +26,6 @@ export function TierBadge({ tier, className }: { tier: TierId; className?: strin
   );
 }
 
-/** A short chalk doodle stroke. */
-function Doodle({ className, children }: { className: string; children: React.ReactNode }) {
-  return (
-    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" aria-hidden className={className}>
-      {children}
-    </svg>
-  );
-}
 
 /** 8-bit night game: stadium lights over a pixel turf field, drifting pixel balls. */
 export function GeoBackground() {
