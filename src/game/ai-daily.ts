@@ -3,6 +3,8 @@ import type { Question, TierId } from "./types";
 
 /** From this day on, Daily Challenge questions are written by AI (earlier days keep the static schedule). */
 export const AI_DAILY_FROM = "2026-10-26";
+/** From this day on, the AI-written Daily Challenge is sports-only. */
+export const SPORTS_DAILY_FROM = "2026-10-27";
 export const usesAiDaily = (day: string) => day >= AI_DAILY_FROM;
 
 export interface WireAnswer { name: string; tier: TierId; aliases: string[] }
