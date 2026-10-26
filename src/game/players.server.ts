@@ -6,6 +6,7 @@
 export type League = "nba" | "nfl" | "mlb" | "nhl";
 export const LEAGUES: League[] = ["nba", "nfl", "mlb", "nhl"];
 const SPORT: Record<League, string> = { nba: "basketball", nfl: "football", mlb: "baseball", nhl: "hockey" };
+const LEAGUE_ID: Record<League, string> = { nba: "46", nfl: "28", mlb: "10", nhl: "90" };
 const TTL_MS = 7 * 24 * 3600 * 1000;
 
 export interface PlayerRecord {
@@ -39,9 +40,16 @@ const num = (v: unknown) => {
 
 async function fetchFromEspn(league: League, query: string): Promise<PlayerRecord | null> {
   const search = await getJson(`https://site.web.api.espn.com/apis/common/v3/search?query=${encodeURIComponent(query)}&limit=10&type=player`);
-  const hit = (search?.items ?? []).find((i: any) => i.league === league);
-  if (!hit?.id) return null;
-  const id = String(hit.id);
+  let id: string | undefined = (search?.items ?? []).find((i: any) => i.league === league)?.id;
+  if (!id) {
+    // The v3 search only lists active players; v2 also finds retired ones (uid "s:40~l:46~a:609").
+    const v2 = await getJson(`https://site.web.api.espn.com/apis/search/v2?query=${encodeURIComponent(query)}&limit=10`);
+    const players = (v2?.results ?? []).find((r: any) => r.type === "player")?.contents ?? [];
+    const m = players.map((c: any) => String(c.uid ?? "").match(/l:(\d+)~a:(\d+)/)).find((m: RegExpMatchArray | null) => m && m[1] === LEAGUE_ID[league]);
+    id = m?.[2];
+  }
+  if (!id) return null;
+  id = String(id);
   const base = `https://site.web.api.espn.com/apis/common/v3/sports/${SPORT[league]}/${league}/athletes/${id}`;
   const [bio, stats, awardList] = await Promise.all([
     getJson(base),
@@ -84,7 +92,7 @@ async function fetchFromEspn(league: League, query: string): Promise<PlayerRecor
   }
 
   return {
-    league, espn_id: id, name: a.displayName ?? hit.displayName,
+    league, espn_id: id, name: a.displayName ?? query,
     teams: [...new Set(seasons.map((s) => s.team))],
     seasons: seasons.sort((x, y) => x.year - y.year),
     awards,
