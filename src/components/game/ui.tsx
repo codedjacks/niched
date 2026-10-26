@@ -2,14 +2,13 @@ import { TIERS } from "@/game/scoring";
 import type { TierId } from "@/game/types";
 import { cn } from "@/lib/utils";
 
-const glow = (v: string) => `shadow-[0_0_18px_-2px_var(--tier-${v})]`;
 const tierCls: Record<TierId, string> = {
   pencil: "bg-tier-pencil text-ink",
   paperclip: "bg-tier-paperclip text-ink",
   notebook: "bg-tier-notebook text-ink",
-  backpack: `bg-tier-backpack text-ink ${glow("backpack")}`,
-  goldstar: `bg-tier-goldstar text-ink ${glow("goldstar")}`,
-  valedictorian: `bg-tier-valedictorian text-ink animate-pulse ${glow("valedictorian")}`,
+  backpack: "bg-tier-backpack text-ink shadow-[0_0_18px_-2px_var(--tier-backpack)]",
+  goldstar: "bg-tier-goldstar text-ink shadow-[0_0_18px_-2px_var(--tier-goldstar)]",
+  valedictorian: "bg-tier-valedictorian text-ink animate-pulse shadow-[0_0_24px_0_var(--tier-valedictorian)]",
 };
 
 /** Loot-style rarity badge: emoji, bold color, glow on the top tiers. */
