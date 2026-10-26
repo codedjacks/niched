@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useCountUp } from "@/game/hooks";
-import { MAX_SCORE, TIERS, TIER_ORDER } from "@/game/scoring";
+import { gradeFor, MAX_SCORE, TIERS, TIER_ORDER } from "@/game/scoring";
 import type { Mode, RoundAnswer, TierId } from "@/game/types";
 import { cn } from "@/lib/utils";
 import { TierBadge } from "./ui";
@@ -11,15 +11,6 @@ export function buildShareText(answers: RoundAnswer[], mode: Mode, date: string,
   const score = answers.reduce((s, a) => s + a.outcome.points, 0);
   const row = answers.map((a) => (a.outcome.kind === "correct" ? TIERS[a.outcome.tier].emoji : "⬛")).join("");
   return `Niched ${challengeName ? `${challengeName} Challenge` : mode === "daily" ? date : "Practice"} — ${score}/${MAX_SCORE}\n${row}\nCan you find nichier answers?`;
-}
-
-function gradeFor(score: number) {
-  if (score >= 650) return "A+";
-  if (score >= 550) return "A";
-  if (score >= 450) return "B";
-  if (score >= 300) return "C";
-  if (score > 0) return "D";
-  return "F";
 }
 
 export function Results({ answers, mode, date, challengeName, streak, isNewBest, best, onAgain, onHome }: {
