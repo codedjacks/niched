@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { resolvePlayerName } from "@/game/players.functions";
 import { GameFrame, ResultCard, useDailyGame } from "@/components/game/SportsGame";
 import { MYSTERY_POINTS, isMysteryAnswer, mysteryForDay, mysteryScore } from "@/game/mystery";
 
@@ -23,15 +25,22 @@ function MysteryPage() {
   const [typed, setTyped] = useState("");
   const [wrong, setWrong] = useState<string[]>([]);
   const [result, setResult] = useState<number | null>(null);
+  const [checking, setChecking] = useState(false);
+  const resolve = useServerFn(resolvePlayerName);
   if (!day) return <GameFrame note="scouting report" title="Mystery Athlete" subtitle="Loading today's athlete…">{null}</GameFrame>;
   const m = mysteryForDay(day);
   const over = doneToday || result !== null;
   const score = result ?? progress.score ?? 0;
 
   const end = (pts: number) => { setResult(pts); finish(pts); };
-  const guess = () => {
-    if (!typed.trim()) return;
+  const guess = async () => {
+    if (!typed.trim() || checking) return;
     if (isMysteryAnswer(m, typed)) return end(mysteryScore(shown));
+    // Typos/nicknames: ask the shared player database who they meant before counting it wrong.
+    setChecking(true);
+    const real = await resolve({ data: { typed } }).catch(() => null);
+    setChecking(false);
+    if (real && isMysteryAnswer(m, real.name)) return end(mysteryScore(shown));
     setWrong((w) => [...w, typed]); setTyped("");
     if (shown >= 6) end(0); else setShown(shown + 1);
   };
@@ -47,7 +56,7 @@ function MysteryPage() {
         ))}
       </ol>
       {!over && (
-        <form onSubmit={(e) => { e.preventDefault(); guess(); }} className="mt-4 flex flex-wrap gap-2">
+        <form onSubmit={(e) => { e.preventDefault(); void guess(); }} className="mt-4 flex flex-wrap gap-2">
           <input autoFocus value={typed} onChange={(e) => setTyped(e.target.value)} placeholder="Name the athlete…" aria-label="Athlete name"
             className="min-w-0 flex-1 rounded-lg border-2 border-border bg-card px-4 py-3 font-sans text-foreground outline-none focus:border-primary" />
           <button className="rounded-lg bg-primary px-5 py-3 font-display text-sm font-bold uppercase text-primary-foreground">Guess</button>

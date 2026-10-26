@@ -14,6 +14,20 @@ export const judgeGridGuess = createServerFn({ method: "POST" })
     return { team, tag, answer: String(d.answer).slice(0, 80) };
   })
   .handler(async ({ data }): Promise<GridJudge> => {
+    // 1) Real records from the shared player database (ESPN-backed). AI is only a last resort.
+    try {
+      const { findRealPlayer, playedFor, nbaHasTag, fameOf } = await import("./players.server");
+      const rec = await findRealPlayer("nba", data.answer);
+      if (rec && rec.seasons.length) {
+        const hasTag = nbaHasTag(rec, data.tag);
+        if (hasTag !== null) {
+          if (playedFor(rec, data.team) && hasTag) return { ok: true, name: rec.name, fame: fameOf(rec) };
+          return { ok: false, message: `${rec.name} doesn't fit that square.` };
+        }
+      }
+    } catch (e) {
+      console.error("player database lookup failed", e);
+    }
     const lovableKey = process.env["LOVABLE_API_KEY"];
     const openaiKey = process.env["OPENAI_API_KEY"];
     if (!lovableKey && !openaiKey) return { ok: false, message: "Not in our player list — try someone else." };

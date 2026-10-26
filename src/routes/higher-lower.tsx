@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { getVerifiedStats, VERIFIED_GROUPS } from "@/game/players.functions";
 import { GameFrame, ResultCard, useDailyGame } from "@/components/game/SportsGame";
 import { HL_ROUNDS, isHigher, pairsForDay } from "@/game/higherlower";
 
@@ -22,8 +24,22 @@ function HigherLowerPage() {
   const [round, setRound] = useState(0);
   const [results, setResults] = useState<boolean[]>([]);
   const [reveal, setReveal] = useState(false);
+  const [verified, setVerified] = useState<Record<string, Record<string, number>>>({});
+  const verify = useServerFn(getVerifiedStats);
+  const basePairs = useMemo(() => (day ? pairsForDay(day) : []), [day]);
+  // Swap bundled numbers for real career totals from the shared player database when available.
+  useEffect(() => {
+    const groups = new Map<string, Set<string>>();
+    for (const q of basePairs) if (VERIFIED_GROUPS[q.group]) {
+      const s = groups.get(q.group) ?? new Set<string>(); s.add(q.a.name); s.add(q.b.name); groups.set(q.group, s);
+    }
+    groups.forEach((names, group) => {
+      verify({ data: { group, names: [...names] } }).then((v) => setVerified((o) => ({ ...o, [group]: v }))).catch(() => {});
+    });
+  }, [basePairs, verify]);
   if (!day) return <GameFrame note="stat sheet" title="Higher or Lower" subtitle="Loading today's matchups…">{null}</GameFrame>;
-  const pairs = pairsForDay(day);
+  const val = <S extends { name: string; value: number }>(g: string, s: S): S => ({ ...s, value: verified[g]?.[s.name] ?? s.value });
+  const pairs = basePairs.map((q) => ({ ...q, a: val(q.group, q.a), b: val(q.group, q.b) }));
   const over = doneToday || results.length === HL_ROUNDS && !reveal;
   const score = doneToday && results.length === 0 ? progress.score ?? 0 : results.filter(Boolean).length;
   const p = pairs[round]!;
