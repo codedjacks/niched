@@ -13,7 +13,7 @@ export const Route = createFileRoute("/account")({
       { title: "Your account — Niched" },
       { name: "description", content: "Pick your Niched display name and sticker avatar." },
       { property: "og:title", content: "Your Niched account" },
-      { property: "og:description", content: "Pick your display name and avatar for the rankings." },
+      { property: "og:description", content: "Pick your display name and avatar." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
