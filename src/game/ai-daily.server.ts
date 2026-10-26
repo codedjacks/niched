@@ -4,7 +4,7 @@ import { z } from "zod";
 import { ALL_QUESTIONS } from "./questions";
 import { normalize, TIER_ORDER } from "./scoring";
 import type { TierId } from "./types";
-import { toQuestion, type WireQuestion } from "./ai-daily";
+import { SPORTS_DAILY_FROM, toQuestion, type WireQuestion } from "./ai-daily";
 import { CHALLENGES, challengePool, type ChallengeId } from "./challenges";
 import type { Question } from "./types";
 
@@ -141,7 +141,9 @@ export async function getOrCreateAiDaily(day: string, track: Track = "main"): Pr
 }
 
 async function generate(day: string, track: Track): Promise<WireQuestion[]> {
-  const topic = track === "main" ? null : CHALLENGES[track];
+  // From SPORTS_DAILY_FROM the main Daily Challenge is sports-only too.
+  const topicId: ChallengeId | null = track === "main" ? (day >= SPORTS_DAILY_FROM ? "sports" : null) : track;
+  const topic = topicId ? CHALLENGES[topicId] : null;
   const apiKey = process.env["LOVABLE_API_KEY"];
   const openaiKey = process.env["OPENAI_API_KEY"];
   if (!apiKey && !openaiKey) throw new Error("No AI key (LOVABLE_API_KEY or OPENAI_API_KEY)");
@@ -167,7 +169,7 @@ async function generate(day: string, track: Track): Promise<WireQuestion[]> {
       "Each prompt must be unambiguous, factual and clearly different from every prompt in the 'already used' list (not a rewording). " +
       "For each prompt give 30-45 answers using the most common name, with aliases (alternate spellings, abbreviations, short names). Tier by how often typical players would say it: " +
       "pencil = the obvious top few, paperclip = very common, notebook = common, backpack = less common, goldstar = rare but still recognisable, valedictorian = obscure yet clearly correct and famous within its field. Include several of each tier.",
-    prompt: `Date: ${day}\nKnown categories: ${(topic ? topic.categories : CATEGORIES).join(", ")}\n\nEXAMPLES of the quality and style to match:\n${examples(8, topic && track !== "main" ? challengePool(track) : ALL_QUESTIONS)}\n\nAlready used prompts (normalized):\n${recent}`,
+    prompt: `Date: ${day}\nKnown categories: ${(topic ? topic.categories : CATEGORIES).join(", ")}\n\nEXAMPLES of the quality and style to match:\n${examples(8, topicId ? challengePool(topicId) : ALL_QUESTIONS)}\n\nAlready used prompts (normalized):\n${recent}`,
     providerOptions: { openai: { store: false, forceReasoning: true, reasoningEffort: "low" } },
   });
   const out = await result.output;

@@ -9,7 +9,9 @@ import { loadSeen, markSeen, emptyStats, liveStreak, loadStats, recordDaily, rec
 import type { Mode, Question, RoundAnswer } from "@/game/types";
 import { useServerFn } from "@tanstack/react-start";
 import { getAnswerCounts } from "@/game/leaderboard.functions";
-import { QUESTIONS } from "@/game/questions";
+import { challengePool } from "@/game/challenges";
+
+const SPORTS_POOL = challengePool("sports");
 import { frequencyRarity, type QuestionCounts } from "@/game/scoring";
 import { toQuestion, usesAiDaily } from "@/game/ai-daily";
 import { getAiDaily } from "@/game/ai-daily.functions";
@@ -17,10 +19,10 @@ import { getAiDaily } from "@/game/ai-daily.functions";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Niched — the rarity trivia game" },
-      { name: "description", content: "Seven open-ended trivia questions. The less common your correct answer, the more points you score. Play the daily challenge." },
-      { property: "og:title", content: "Niched — the rarity trivia game" },
-      { property: "og:description", content: "Find the niche answers. Daily challenge, streaks and practice mode." },
+      { title: "Niched — the sports rarity trivia game" },
+      { name: "description", content: "Seven open-ended sports trivia questions. The less common your correct answer, the more points you score. Play the daily challenge." },
+      { property: "og:title", content: "Niched — the sports rarity trivia game" },
+      { property: "og:description", content: "Find the niche sports answers. Daily challenge, grid, mystery athlete and more." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -51,7 +53,7 @@ function Index() {
 
   const launch = (mode: Mode, questions: Question[]) => {
     if (questions.length !== 7) return;
-    if (mode === "practice") markSeen(questions.map((q) => q.id), QUESTIONS.length);
+    if (mode === "practice") markSeen(questions.map((q) => q.id), SPORTS_POOL.length);
     setCounts({});
     fetchCounts({ data: { questionIds: questions.map((q) => q.id) } }).then(setCounts).catch(() => {});
     setScreen({ s: "play", mode, questions, key: Date.now() });
@@ -82,7 +84,7 @@ function Index() {
     setToday(d);
     if (mode === "daily" && usesAiDaily(d)) return void startAiDaily(d);
     // Practice avoids anything already played in practice and today's daily.
-    const questions = mode === "daily" ? dailyQuestions(d) : practiceQuestions([...loadSeen(), ...dailyQuestions(d).map((q) => q.id)]);
+    const questions = mode === "daily" ? dailyQuestions(d) : practiceQuestions([...loadSeen(), ...dailyQuestions(d).map((q) => q.id)], SPORTS_POOL);
     launch(mode, questions);
   };
 
