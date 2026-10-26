@@ -12,7 +12,7 @@ export type ProLeague = "nfl" | "mlb";
 export interface ProPlayer { name: string; aliases?: string[]; teams: string[]; tags: string[]; fame: 1 | 2 | 3 | 4 | 5 | 6 }
 export interface ProGridConfig { league: ProLeague; label: string; emoji: string; teams: string[]; tags: Record<string, string>; players: ProPlayer[]; baseCount: number }
 
-const P = (name: string, teams: string[], tags: string[], fame: ProPlayer["fame"], aliases?: string[]): ProPlayer => ({ name, teams, tags, fame, aliases });
+const P = (name: string, teams: string[], tags: string[], fame: ProPlayer["fame"], aliases?: string[]): ProPlayer => (aliases ? { name, teams, tags, fame, aliases } : { name, teams, tags, fame });
 
 const NFL_PLAYERS: ProPlayer[] = [
   P("Tom Brady", ["Patriots"], ["qb", "champ", "2020s"], 1, ["Brady"]),
