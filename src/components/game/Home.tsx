@@ -8,7 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 
 const GAMES = [
-  { to: "/grid", icon: "🏀", name: "Daily Grid", blurb: "Fill the NBA team × feat grid" },
+  { to: "/grid", icon: "🏀", name: "NBA Grid", blurb: "Fill the NBA team × feat grid" },
+  { to: "/grid-nfl", icon: "🏈", name: "NFL Grid", blurb: "Fill the NFL team × feat grid" },
+  { to: "/grid-mlb", icon: "⚾", name: "MLB Grid", blurb: "Fill the MLB team × feat grid" },
   { to: "/mystery", icon: "🕵️", name: "Mystery Athlete", blurb: "Guess the star in six clues" },
   { to: "/higher-lower", icon: "📈", name: "Higher / Lower", blurb: "Which career stat is bigger?" },
 ] as const;
