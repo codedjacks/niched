@@ -50,6 +50,13 @@
       "when": 1793032217587,
       "tag": "0006_sports_players",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1793032710920,
+      "tag": "0007_sports_players_position",
+      "breakpoints": true
     }
   ]
 }

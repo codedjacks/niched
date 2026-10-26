@@ -336,6 +336,7 @@ export type Database = {
           league: string
           name: string
           name_key: string
+          position: string | null
           seasons: Json
           teams: string[]
         }
@@ -349,6 +350,7 @@ export type Database = {
           league: string
           name: string
           name_key: string
+          position?: string | null
           seasons?: Json
           teams?: string[]
         }
@@ -362,6 +364,7 @@ export type Database = {
           league?: string
           name?: string
           name_key?: string
+          position?: string | null
           seasons?: Json
           teams?: string[]
         }
