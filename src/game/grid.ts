@@ -78,6 +78,97 @@ export const PLAYERS: Player[] = [
   { name: "Tracy McGrady", aliases: ["T-Mac"], teams: ["Rockets", "Spurs", "Knicks"], tags: [], fame: 5 },
   { name: "Jason Kidd", teams: ["Suns", "Knicks"], tags: ["champ", "roy"], fame: 5 },
   { name: "Grant Hill", teams: ["Suns"], tags: ["roy"], fame: 6 },
+  // ---- expanded roster (appended; puzzle selection only uses the first 60 entries) ----
+  { name: "Giannis Antetokounmpo", aliases: ["Giannis"], teams: [], tags: ["mvp", "champ", "intl", "2020s"], fame: 2 },
+  { name: "Nikola Jokic", aliases: ["Jokic"], teams: [], tags: ["mvp", "champ", "intl", "2020s"], fame: 3 },
+  { name: "Joel Embiid", teams: [], tags: ["mvp", "intl", "2020s"], fame: 3 },
+  { name: "Dirk Nowitzki", aliases: ["Dirk"], teams: [], tags: ["mvp", "champ", "intl"], fame: 3 },
+  { name: "Allen Iverson", aliases: ["AI"], teams: [], tags: ["mvp", "pick1", "roy"], fame: 3 },
+  { name: "Karl-Anthony Towns", aliases: ["KAT"], teams: ["Knicks"], tags: ["pick1", "roy", "2020s"], fame: 4 },
+  { name: "Mikal Bridges", teams: ["Suns", "Knicks"], tags: ["2020s"], fame: 5 },
+  { name: "OG Anunoby", teams: ["Knicks"], tags: ["champ", "intl", "2020s"], fame: 5 },
+  { name: "Josh Hart", teams: ["Knicks"], tags: ["2020s"], fame: 5 },
+  { name: "Mitchell Robinson", teams: ["Knicks"], tags: ["2020s"], fame: 6 },
+  { name: "RJ Barrett", teams: ["Knicks"], tags: ["intl", "2020s"], fame: 5 },
+  { name: "Immanuel Quickley", teams: ["Knicks"], tags: ["2020s"], fame: 6 },
+  { name: "Derrick Rose", teams: ["Bulls"], tags: [], fame: 4 },
+  { name: "Walt Frazier", teams: ["Knicks"], tags: ["champ"], fame: 6 },
+  { name: "Willis Reed", teams: ["Knicks"], tags: ["mvp", "champ", "roy"], fame: 6 },
+  { name: "Darius Garland", teams: ["Cavaliers"], tags: ["2020s"], fame: 5 },
+  { name: "Evan Mobley", teams: ["Cavaliers"], tags: ["2020s"], fame: 5 },
+  { name: "Jarrett Allen", teams: ["Cavaliers"], tags: ["2020s"], fame: 6 },
+  { name: "Kevin Love", teams: ["Cavaliers", "Heat"], tags: ["champ", "2020s"], fame: 4 },
+  { name: "Tristan Thompson", teams: ["Cavaliers", "Celtics", "Bulls", "Lakers"], tags: ["champ", "intl", "2020s"], fame: 6 },
+  { name: "Anthony Bennett", teams: ["Cavaliers"], tags: ["pick1", "intl"], fame: 6 },
+  { name: "Brad Daugherty", teams: ["Cavaliers"], tags: ["pick1"], fame: 6 },
+  { name: "Mark Price", teams: ["Cavaliers"], tags: [], fame: 6 },
+  { name: "Zydrunas Ilgauskas", aliases: ["Big Z"], teams: ["Cavaliers", "Heat"], tags: ["intl"], fame: 6 },
+  { name: "Tyler Herro", teams: ["Heat"], tags: ["2020s"], fame: 5 },
+  { name: "Alonzo Mourning", teams: ["Heat"], tags: ["champ"], fame: 5 },
+  { name: "Udonis Haslem", teams: ["Heat"], tags: ["champ", "2020s"], fame: 6 },
+  { name: "Chris Bosh", teams: ["Heat"], tags: ["champ", "intl"], fame: 4 },
+  { name: "Goran Dragic", teams: ["Suns", "Heat", "Bulls"], tags: ["intl", "2020s"], fame: 6 },
+  { name: "Tim Hardaway", teams: ["Warriors", "Heat"], tags: [], fame: 6 },
+  { name: "Mario Chalmers", teams: ["Heat"], tags: ["champ"], fame: 6 },
+  { name: "Shane Battier", teams: ["Rockets", "Heat"], tags: ["champ"], fame: 6 },
+  { name: "Duncan Robinson", teams: ["Heat"], tags: ["2020s"], fame: 6 },
+  { name: "Alperen Sengun", teams: ["Rockets"], tags: ["intl", "2020s"], fame: 5 },
+  { name: "Jalen Green", teams: ["Rockets", "Suns"], tags: ["2020s"], fame: 5 },
+  { name: "Fred VanVleet", teams: ["Rockets"], tags: ["champ", "2020s"], fame: 6 },
+  { name: "Clyde Drexler", teams: ["Rockets"], tags: ["champ"], fame: 5 },
+  { name: "Moses Malone", teams: ["Rockets", "Spurs"], tags: ["mvp", "champ"], fame: 5 },
+  { name: "Ralph Sampson", teams: ["Rockets", "Warriors"], tags: ["pick1", "roy"], fame: 6 },
+  { name: "Elvin Hayes", teams: ["Rockets"], tags: ["champ"], fame: 6 },
+  { name: "Clint Capela", teams: ["Rockets"], tags: ["intl", "2020s"], fame: 6 },
+  { name: "Eric Gordon", teams: ["Rockets", "Suns"], tags: ["2020s"], fame: 6 },
+  { name: "Bradley Beal", teams: ["Suns"], tags: ["2020s"], fame: 5 },
+  { name: "Deandre Ayton", teams: ["Suns"], tags: ["pick1", "intl", "2020s"], fame: 5 },
+  { name: "Shawn Marion", teams: ["Suns", "Heat", "Cavaliers"], tags: ["champ"], fame: 6 },
+  { name: "Alvan Adams", teams: ["Suns"], tags: ["roy"], fame: 6 },
+  { name: "Kevin Johnson", teams: ["Suns", "Cavaliers"], tags: [], fame: 6 },
+  { name: "Draymond Green", teams: ["Warriors"], tags: [], fame: 3 },
+  { name: "Jonathan Kuminga", teams: ["Warriors"], tags: ["intl", "2020s"], fame: 6 },
+  { name: "Andrew Bogut", teams: ["Warriors", "Cavaliers", "Lakers"], tags: ["champ", "pick1", "intl"], fame: 6 },
+  { name: "Chris Webber", teams: ["Warriors"], tags: ["pick1", "roy"], fame: 6 },
+  { name: "Chris Mullin", teams: ["Warriors"], tags: [], fame: 6 },
+  { name: "Rick Barry", teams: ["Warriors", "Rockets"], tags: ["champ", "roy"], fame: 6 },
+  { name: "Baron Davis", teams: ["Warriors", "Cavaliers", "Knicks"], tags: [], fame: 6 },
+  { name: "Jordan Poole", teams: ["Warriors"], tags: ["champ", "2020s"], fame: 6 },
+  { name: "Austin Reaves", teams: ["Lakers"], tags: ["2020s"], fame: 5 },
+  { name: "Lamar Odom", teams: ["Lakers"], tags: ["champ"], fame: 5 },
+  { name: "Derek Fisher", teams: ["Lakers"], tags: ["champ"], fame: 6 },
+  { name: "James Worthy", teams: ["Lakers"], tags: ["champ", "pick1"], fame: 5 },
+  { name: "Jerry West", teams: ["Lakers"], tags: ["champ"], fame: 5 },
+  { name: "Elgin Baylor", teams: ["Lakers"], tags: ["pick1", "roy"], fame: 6 },
+  { name: "Metta World Peace", aliases: ["Ron Artest"], teams: ["Lakers", "Rockets", "Knicks"], tags: ["champ"], fame: 5 },
+  { name: "Kentavious Caldwell-Pope", aliases: ["KCP"], teams: ["Lakers"], tags: ["champ", "2020s"], fame: 6 },
+  { name: "Isaiah Thomas", teams: ["Celtics", "Suns", "Cavaliers", "Lakers"], tags: ["2020s"], fame: 5 },
+  { name: "Jrue Holiday", teams: ["Celtics"], tags: ["champ", "2020s"], fame: 5 },
+  { name: "Kristaps Porzingis", aliases: ["Porzingis"], teams: ["Knicks", "Celtics"], tags: ["champ", "intl", "2020s"], fame: 5 },
+  { name: "Al Horford", teams: ["Celtics"], tags: ["champ", "intl", "2020s"], fame: 5 },
+  { name: "Derrick White", teams: ["Spurs", "Celtics"], tags: ["champ", "2020s"], fame: 6 },
+  { name: "Marcus Smart", teams: ["Celtics"], tags: ["2020s"], fame: 5 },
+  { name: "Kevin McHale", teams: ["Celtics"], tags: ["champ"], fame: 5 },
+  { name: "Robert Parish", teams: ["Celtics", "Bulls"], tags: ["champ"], fame: 6 },
+  { name: "John Havlicek", teams: ["Celtics"], tags: ["champ"], fame: 6 },
+  { name: "Dave Cowens", teams: ["Celtics"], tags: ["mvp", "champ", "roy"], fame: 6 },
+  { name: "Bob Cousy", teams: ["Celtics"], tags: ["mvp", "champ"], fame: 6 },
+  { name: "DeMar DeRozan", teams: ["Spurs", "Bulls"], tags: ["2020s"], fame: 5 },
+  { name: "Toni Kukoc", teams: ["Bulls"], tags: ["champ", "intl"], fame: 6 },
+  { name: "Horace Grant", teams: ["Bulls", "Lakers"], tags: ["champ"], fame: 6 },
+  { name: "Joakim Noah", teams: ["Bulls", "Knicks"], tags: ["intl"], fame: 5 },
+  { name: "Luol Deng", teams: ["Bulls", "Heat", "Cavaliers", "Lakers"], tags: ["intl"], fame: 6 },
+  { name: "Elton Brand", teams: ["Bulls"], tags: ["pick1", "roy"], fame: 6 },
+  { name: "Coby White", teams: ["Bulls"], tags: ["2020s"], fame: 6 },
+  { name: "Nikola Vucevic", teams: ["Bulls"], tags: ["intl", "2020s"], fame: 6 },
+  { name: "LaMarcus Aldridge", teams: ["Spurs"], tags: ["2020s"], fame: 5 },
+  { name: "George Gervin", aliases: ["Iceman"], teams: ["Spurs", "Bulls"], tags: [], fame: 6 },
+  { name: "Bruce Bowen", teams: ["Heat", "Suns", "Spurs"], tags: ["champ"], fame: 6 },
+  { name: "Boris Diaw", teams: ["Suns", "Spurs"], tags: ["champ", "intl"], fame: 6 },
+  { name: "Patty Mills", teams: ["Spurs", "Heat"], tags: ["champ", "intl", "2020s"], fame: 6 },
+  { name: "Dejounte Murray", teams: ["Spurs"], tags: ["2020s"], fame: 6 },
+  { name: "De'Aaron Fox", teams: ["Spurs"], tags: ["2020s"], fame: 5 },
+  { name: "Stephon Castle", teams: ["Spurs"], tags: ["roy", "2020s"], fame: 6 },
 ];
 
 const FAME_TIER: Record<Player["fame"], TierId> = { 1: "pencil", 2: "paperclip", 3: "notebook", 4: "backpack", 5: "goldstar", 6: "valedictorian" };
@@ -87,6 +178,8 @@ export const pointsForPlayer = (p: Player) => TIERS[tierForPlayer(p)].points;
 export const fits = (p: Player, team: Team, tag: Tag) => p.teams.includes(team) && p.tags.includes(tag);
 export const cellAnswers = (team: Team, tag: Tag) => PLAYERS.filter((p) => fits(p, team, tag));
 
+/** Frozen base roster for puzzle selection so adding players never changes past or current grids. */
+const GRID_BASE = PLAYERS.slice(0, 60);
 export interface GridPuzzle { teams: Team[]; tags: Tag[] }
 const ALL_TEAMS: Team[] = ["Lakers", "Celtics", "Bulls", "Warriors", "Heat", "Spurs", "Knicks", "Cavaliers", "Rockets", "Suns"];
 const ALL_TAGS = Object.keys(TAGS) as Tag[];
@@ -96,7 +189,7 @@ export const VALID_GRIDS: GridPuzzle[] = (() => {
   const out: GridPuzzle[] = [];
   const triples = <T,>(a: T[]) => a.flatMap((x, i) => a.slice(i + 1).flatMap((y, j) => a.slice(i + j + 2).map((z) => [x, y, z])));
   for (const teams of triples(ALL_TEAMS)) for (const tags of triples(ALL_TAGS))
-    if (teams.every((t) => tags.every((g) => cellAnswers(t, g).length >= 2))) out.push({ teams, tags });
+    if (teams.every((t) => tags.every((g) => GRID_BASE.filter((p) => fits(p, t, g)).length >= 2))) out.push({ teams, tags });
   return out;
 })();
 
