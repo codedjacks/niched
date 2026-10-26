@@ -36,7 +36,7 @@ export function Home({ stats, streak, doneToday, todayScore, dailyAvailable = tr
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 pb-16 pt-12 sm:pt-20 lg:max-w-6xl lg:px-10">
       <AccountNav />
       <header className="animate-rise relative text-center">
-        <p className="font-display text-xs font-bold uppercase tracking-[0.3em] text-secondary sm:text-sm">★ The sports trivia arcade ★</p>
+        <p className="font-display text-xs font-bold uppercase tracking-[0.15em] text-secondary sm:text-sm sm:tracking-[0.3em]">★ The sports trivia arcade ★</p>
         <h1 className="mt-3 font-jersey text-6xl uppercase leading-none text-foreground [text-shadow:4px_4px_0_var(--primary)] sm:text-8xl lg:text-9xl">
           Niched
         </h1>
