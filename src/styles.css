@@ -107,6 +107,7 @@
 
 @theme inline {
   --font-display: "Silkscreen", system-ui, sans-serif;
+  --font-jersey: "Bungee", "Silkscreen", system-ui, sans-serif;
   --font-sans: "Space Mono", ui-monospace, monospace;
   --font-hand: "VT323", ui-monospace, monospace;
   --color-tier-pencil: var(--tier-pencil);
