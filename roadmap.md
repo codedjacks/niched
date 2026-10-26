@@ -1,4 +1,6 @@
 # Roadmap
+- [ ] Calibrate sports answer rarity for recognition and older eras, preserving historical results
+- [ ] Verify consistent client/server rarity and regression tests
 - [x] Remove top bar
 - [x] Rankings + daily leaderboard
 - [x] Real answer-frequency tiers
