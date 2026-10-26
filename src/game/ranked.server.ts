@@ -6,8 +6,8 @@ import { frequencyRarity, normalize } from "./scoring";
 
 export type RankedResult = { ok: true; score: number; already: boolean } | { ok: false; error: string };
 
-export const sbUrl = () => process.env["SUPABASE_URL"] || import.meta.env.VITE_SUPABASE_URL;
-export const sbKey = () => process.env["SUPABASE_PUBLISHABLE_KEY"] || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+export const sbUrl = () => process.env["SUPABASE_URL"] || import.meta.env["VITE_SUPABASE_URL"];
+export const sbKey = () => process.env["SUPABASE_PUBLISHABLE_KEY"] || import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"];
 const UPSTREAM = () => process.env["NICHED_UPSTREAM_URL"] || "https://niched.lovable.app";
 
 export function publicClient(token?: string) {
