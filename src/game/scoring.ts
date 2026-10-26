@@ -64,6 +64,26 @@ export function usesRealData(data: Record<string, QuestionCounts> | undefined, q
   return (data?.[qid]?.total ?? 0) >= min;
 }
 
+/** Report-card letter grade. Deliberately generous: 350 is a B-, 650+ is an A+. */
+export const GRADE_LADDER: [number, string][] = [
+  [650, "A+"],
+  [600, "A"],
+  [500, "A-"],
+  [450, "B+"],
+  [400, "B"],
+  [350, "B-"],
+  [300, "C+"],
+  [250, "C"],
+  [200, "C-"],
+  [150, "D+"],
+  [100, "D"],
+  [1, "D-"],
+];
+
+export function gradeFor(score: number): string {
+  return GRADE_LADDER.find(([min]) => score >= min)?.[1] ?? "F";
+}
+
 /** Levenshtein distance (small strings only). */
 export function editDistance(a: string, b: string): number {
   const dp = Array.from({ length: b.length + 1 }, (_, i) => i);
