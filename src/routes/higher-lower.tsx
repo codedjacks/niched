@@ -38,7 +38,7 @@ function HigherLowerPage() {
     });
   }, [basePairs, verify]);
   if (!day) return <GameFrame note="stat sheet" title="Higher or Lower" subtitle="Loading today's matchups…">{null}</GameFrame>;
-  const val = (g: string, s: { name: string; value: number }) => ({ ...s, value: verified[g]?.[s.name] ?? s.value });
+  const val = <S extends { name: string; value: number }>(g: string, s: S): S => ({ ...s, value: verified[g]?.[s.name] ?? s.value });
   const pairs = basePairs.map((q) => ({ ...q, a: val(q.group, q.a), b: val(q.group, q.b) }));
   const over = doneToday || results.length === HL_ROUNDS && !reveal;
   const score = doneToday && results.length === 0 ? progress.score ?? 0 : results.filter(Boolean).length;
