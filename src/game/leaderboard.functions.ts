@@ -45,7 +45,7 @@ export const getLeaderboard = createServerFn({ method: "POST" })
     return d;
   })
   .handler(async ({ data }) => {
-    const sb = publicClient();
+    const sb = await publicClient();
     const [today, all] = await Promise.all([
       sb.rpc("ranked_daily", { _day: data.day }),
       sb.rpc("ranked_alltime", { _limit: 50 }),
