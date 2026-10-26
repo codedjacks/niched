@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as GridRouteImport } from './routes/grid'
+import { Route as HigherLowerRouteImport } from './routes/higher-lower'
+import { Route as MysteryRouteImport } from './routes/mystery'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ApiPublicDailyRoundRouteImport } from './routes/api/public/daily-round'
 import { Route as ApiPublicRankedRouteImport } from './routes/api/public/ranked'
@@ -36,6 +38,16 @@ const AuthRoute = AuthRouteImport.update({
 const GridRoute = GridRouteImport.update({
   id: '/grid',
   path: '/grid',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HigherLowerRoute = HigherLowerRouteImport.update({
+  id: '/higher-lower',
+  path: '/higher-lower',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MysteryRoute = MysteryRouteImport.update({
+  id: '/mystery',
+  path: '/mystery',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -64,6 +76,8 @@ export interface FileRoutesByFullPath {
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
   '/grid': typeof GridRoute
+  '/higher-lower': typeof HigherLowerRoute
+  '/mystery': typeof MysteryRoute
   '/reset-password': typeof ResetPasswordRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
   '/api/public/ranked': typeof ApiPublicRankedRoute
@@ -74,6 +88,8 @@ export interface FileRoutesByTo {
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
   '/grid': typeof GridRoute
+  '/higher-lower': typeof HigherLowerRoute
+  '/mystery': typeof MysteryRoute
   '/reset-password': typeof ResetPasswordRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
   '/api/public/ranked': typeof ApiPublicRankedRoute
@@ -85,6 +101,8 @@ export interface FileRoutesById {
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
   '/grid': typeof GridRoute
+  '/higher-lower': typeof HigherLowerRoute
+  '/mystery': typeof MysteryRoute
   '/reset-password': typeof ResetPasswordRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
   '/api/public/ranked': typeof ApiPublicRankedRoute
@@ -97,6 +115,8 @@ export interface FileRouteTypes {
     | '/account'
     | '/auth'
     | '/grid'
+    | '/higher-lower'
+    | '/mystery'
     | '/reset-password'
     | '/api/public/daily-round'
     | '/api/public/ranked'
@@ -107,6 +127,8 @@ export interface FileRouteTypes {
     | '/account'
     | '/auth'
     | '/grid'
+    | '/higher-lower'
+    | '/mystery'
     | '/reset-password'
     | '/api/public/daily-round'
     | '/api/public/ranked'
@@ -117,6 +139,8 @@ export interface FileRouteTypes {
     | '/account'
     | '/auth'
     | '/grid'
+    | '/higher-lower'
+    | '/mystery'
     | '/reset-password'
     | '/api/public/daily-round'
     | '/api/public/ranked'
@@ -128,6 +152,8 @@ export interface RootRouteChildren {
   AccountRoute: typeof AccountRoute
   AuthRoute: typeof AuthRoute
   GridRoute: typeof GridRoute
+  HigherLowerRoute: typeof HigherLowerRoute
+  MysteryRoute: typeof MysteryRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ApiPublicDailyRoundRoute: typeof ApiPublicDailyRoundRoute
   ApiPublicRankedRoute: typeof ApiPublicRankedRoute
@@ -162,6 +188,20 @@ declare module '@tanstack/react-router' {
       path: '/grid'
       fullPath: '/grid'
       preLoaderRoute: typeof GridRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/higher-lower': {
+      id: '/higher-lower'
+      path: '/higher-lower'
+      fullPath: '/higher-lower'
+      preLoaderRoute: typeof HigherLowerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mystery': {
+      id: '/mystery'
+      path: '/mystery'
+      fullPath: '/mystery'
+      preLoaderRoute: typeof MysteryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -200,6 +240,8 @@ const rootRouteChildren: RootRouteChildren = {
   AccountRoute: AccountRoute,
   AuthRoute: AuthRoute,
   GridRoute: GridRoute,
+  HigherLowerRoute: HigherLowerRoute,
+  MysteryRoute: MysteryRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ApiPublicDailyRoundRoute: ApiPublicDailyRoundRoute,
   ApiPublicRankedRoute: ApiPublicRankedRoute,
