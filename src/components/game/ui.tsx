@@ -35,47 +35,32 @@ function Doodle({ className, children }: { className: string; children: React.Re
   );
 }
 
-/** Night-classroom world: chalk graph paper, red margin line, drifting chalk doodles. */
+/** 8-bit night game: stadium lights over a pixel turf field, drifting pixel balls. */
 export function GeoBackground() {
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden grid-bg">
-      {/* notebook margin */}
-      <div className="absolute inset-y-0 left-8 w-px bg-secondary/25 sm:left-12" />
-      <div className="absolute inset-y-0 left-10 w-px bg-secondary/10 sm:left-14" />
-      {/* paper plane */}
-      <Doodle className="absolute right-[9%] top-[16%] h-28 w-28 animate-drift text-foreground/20">
-        <path d="M8 55 92 18 62 88 46 60Z" />
-        <path d="M46 60 92 18" />
-      </Doodle>
-      {/* orbiting atom */}
-      <Doodle className="absolute bottom-[14%] right-[16%] h-24 w-24 animate-drift text-foreground/15 [animation-delay:-6s]">
-        <circle cx="50" cy="50" r="30" />
-        <ellipse cx="50" cy="50" rx="44" ry="16" transform="rotate(-25 50 50)" />
-        <circle cx="82" cy="34" r="4" fill="currentColor" stroke="none" />
-      </Doodle>
-      {/* star doodle */}
-      <Doodle className="absolute left-[14%] top-[38%] h-16 w-16 animate-drift text-secondary/30 [animation-delay:-11s]">
-        <path d="M50 10 60 40 92 40 66 58 76 90 50 70 24 90 34 58 8 40 40 40Z" />
-      </Doodle>
-      {/* circled A+ */}
-      <Doodle className="absolute bottom-[24%] left-[8%] h-20 w-20 animate-drift text-foreground/15 [animation-delay:-3s]">
-        <circle cx="50" cy="50" r="40" />
-        <path d="M34 62 46 30 58 62M38 52h16" />
-        <path d="M66 38v20M56 48h20" />
-      </Doodle>
-      {/* arrow doodle */}
-      <Doodle className="absolute right-[28%] top-[8%] h-14 w-14 animate-drift text-marker/40 [animation-delay:-8s]">
-        <path d="M12 80 C 40 60, 55 40, 80 22" />
-        <path d="M80 22l-16 2M80 22l-2 16" />
-      </Doodle>
-      {/* scattered plus marks */}
-      <Doodle className="absolute left-[30%] bottom-[8%] h-10 w-10 animate-drift text-foreground/15 [animation-delay:-14s]">
-        <path d="M50 25v50M25 50h50" />
-      </Doodle>
-      <Doodle className="absolute right-[6%] top-[52%] h-8 w-8 animate-drift text-foreground/15 [animation-delay:-9s]">
-        <path d="M50 25v50M25 50h50" />
-      </Doodle>
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-background led">
+      {/* stadium light glow */}
+      <div className="absolute -top-24 left-1/4 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
+      <div className="absolute -top-24 right-1/4 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
+      {/* pixel field along the bottom */}
+      <div className="absolute inset-x-0 bottom-0 h-28 turf-bg opacity-60 [image-rendering:pixelated]" />
+      <div className="absolute inset-x-0 bottom-28 h-1 bg-foreground/30" />
+      <Pixel className="absolute right-[9%] top-[18%] h-20 w-20 animate-drift text-secondary/50" art={BALL} />
+      <Pixel className="absolute bottom-[26%] left-[8%] h-16 w-16 animate-drift text-primary/40 [animation-delay:-6s]" art={FOOTBALL} />
+      <Pixel className="absolute left-[30%] top-[10%] h-12 w-12 animate-drift text-foreground/20 [animation-delay:-11s]" art={STAR} />
+      <Pixel className="absolute bottom-[34%] right-[18%] h-14 w-14 animate-drift text-foreground/20 [animation-delay:-3s]" art={BALL} />
     </div>
+  );
+}
+
+const BALL = ["..xxxx..", ".xx..xx.", "x.x..x.x", "x..xx..x", "x..xx..x", "x.x..x.x", ".xx..xx.", "..xxxx.."];
+const FOOTBALL = ["........", "..xxxx..", ".xxxxxx.", "xx.x.x.x", "x.x.x.xx", ".xxxxxx.", "..xxxx..", "........"];
+const STAR = ["...xx...", "...xx...", "xxxxxxxx", ".xxxxxx.", "..xxxx..", ".xx..xx.", "xx....xx", "........"];
+function Pixel({ className, art }: { className: string; art: string[] }) {
+  return (
+    <svg viewBox="0 0 8 8" className={className} shapeRendering="crispEdges" fill="currentColor">
+      {art.flatMap((row, y) => [...row].map((c, x) => (c === "x" ? <rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" /> : null)))}
+    </svg>
   );
 }
 
