@@ -1,0 +1,1 @@
+ALTER TABLE public.sports_players ADD COLUMN IF NOT EXISTS position text;
