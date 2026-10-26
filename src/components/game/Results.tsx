@@ -82,7 +82,7 @@ export function Results({ answers, mode, date, challengeName, streak, isNewBest,
               <div className="min-w-0 flex-1">
                 <div className="break-words font-sans text-xs text-muted-foreground">
                   {a.prompt}
-                  {rarest && <span className="ml-2 font-hand text-base font-bold text-primary">★ rarest pick!</span>}
+                  {rarest && <span className="ml-2 font-hand text-base font-bold text-primary">👑 THE NICHEST</span>}
                 </div>
                 <div className="break-words font-display text-base font-bold sm:text-lg">
                   {o.kind === "correct" ? o.display : <span className="text-muted-foreground">{o.kind === "timeout" ? "Time's up" : "Skipped"}</span>}

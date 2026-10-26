@@ -1,12 +1,12 @@
 import type { Question, Tier, TierId } from "./types";
 
 export const TIERS: Record<TierId, Tier> = {
-  pencil: { id: "pencil", label: "Pencil", points: 10, emoji: "✏️" },
-  paperclip: { id: "paperclip", label: "Paperclip", points: 15, emoji: "📎" },
-  notebook: { id: "notebook", label: "Notebook", points: 30, emoji: "📓" },
-  backpack: { id: "backpack", label: "Backpack", points: 60, emoji: "🎒" },
-  goldstar: { id: "goldstar", label: "Gold Star", points: 85, emoji: "⭐" },
-  valedictorian: { id: "valedictorian", label: "Valedictorian", points: 100, emoji: "🎓" },
+  pencil: { id: "pencil", label: "Common", points: 10, emoji: "⚪" },
+  paperclip: { id: "paperclip", label: "Rare", points: 15, emoji: "🔷" },
+  notebook: { id: "notebook", label: "Ultra", points: 30, emoji: "💜" },
+  backpack: { id: "backpack", label: "Legendary", points: 60, emoji: "🏆" },
+  goldstar: { id: "goldstar", label: "Mystic", points: 85, emoji: "🔮" },
+  valedictorian: { id: "valedictorian", label: "Insane", points: 100, emoji: "🔥" },
 };
 export const TIER_ORDER: TierId[] = ["pencil", "paperclip", "notebook", "backpack", "goldstar", "valedictorian"];
 export const QUESTIONS_PER_ROUND = 7;

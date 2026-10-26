@@ -2,26 +2,28 @@ import { TIERS } from "@/game/scoring";
 import type { TierId } from "@/game/types";
 import { cn } from "@/lib/utils";
 
+const glow = (v: string) => `shadow-[0_0_18px_-2px_var(--tier-${v})]`;
 const tierCls: Record<TierId, string> = {
   pencil: "bg-tier-pencil text-ink",
   paperclip: "bg-tier-paperclip text-ink",
   notebook: "bg-tier-notebook text-ink",
-  backpack: "bg-tier-backpack text-ink",
-  goldstar: "bg-tier-goldstar text-ink",
-  valedictorian: "bg-tier-valedictorian text-ink shadow-[0_0_20px_-4px_var(--tier-valedictorian)]",
+  backpack: `bg-tier-backpack text-ink ${glow("backpack")}`,
+  goldstar: `bg-tier-goldstar text-ink ${glow("goldstar")}`,
+  valedictorian: `bg-tier-valedictorian text-ink animate-pulse ${glow("valedictorian")}`,
 };
 
-/** Sticker-style badge: chunky border, hard offset shadow, slight tilt. */
+/** Loot-style rarity badge: emoji, bold color, glow on the top tiers. */
 export function TierBadge({ tier, className }: { tier: TierId; className?: string }) {
+  const t = TIERS[tier];
   return (
     <span
       className={cn(
-        "inline-flex -rotate-1 items-center rounded-md border-2 border-ink/40 px-2.5 py-0.5 font-display text-[11px] font-bold uppercase tracking-wider shadow-pop-sm",
+        "inline-flex items-center gap-1.5 rounded-md border-2 border-ink/50 px-2.5 py-1 font-display text-xs font-bold uppercase tracking-wider shadow-pop-sm",
         tierCls[tier],
         className,
       )}
     >
-      {TIERS[tier].label}
+      <span aria-hidden>{t.emoji}</span>{t.label}<span className="opacity-70">+{t.points}</span>
     </span>
   );
 }
