@@ -17,6 +17,7 @@ export interface PlayerRecord {
   seasons: { year: number; team: string }[];
   awards: string[]; // e.g. "MVP", "Rookie of the Year"
   birth_place: string | null;
+  position: string | null; // ESPN abbreviation, e.g. QB, WR, SP
   draft: string | null;
   career: Record<string, number>; // regular-season career totals, e.g. points, homeRuns, goals
 }
@@ -97,6 +98,7 @@ async function fetchFromEspn(league: League, query: string): Promise<PlayerRecor
     seasons: seasons.sort((x, y) => x.year - y.year),
     awards,
     birth_place: a.displayBirthPlace ?? null,
+    position: a.position?.abbreviation ?? null,
     draft: a.displayDraft ?? null,
     career,
   };
@@ -182,4 +184,61 @@ export function fameOf(p: PlayerRecord): 1 | 2 | 3 | 4 | 5 | 6 {
   if (big >= 3) return 3;
   if (big >= 1) return 4;
   return games >= 600 ? 5 : 6;
+}
+
+// ---------- NFL / MLB grid facts ----------
+
+/** Super Bowl winners by season start year (the year ESPN labels the season). */
+const SB_CHAMPS: Record<number, string[]> = {
+  1966: ["packers"], 1967: ["packers"], 1968: ["jets"], 1969: ["chiefs"], 1970: ["colts"], 1971: ["cowboys"], 1972: ["dolphins"], 1973: ["dolphins"],
+  1974: ["steelers"], 1975: ["steelers"], 1976: ["raiders"], 1977: ["cowboys"], 1978: ["steelers"], 1979: ["steelers"], 1980: ["raiders"], 1981: ["49ers"],
+  1982: ["redskins", "commanders"], 1983: ["raiders"], 1984: ["49ers"], 1985: ["bears"], 1986: ["giants"], 1987: ["redskins", "commanders"], 1988: ["49ers"],
+  1989: ["49ers"], 1990: ["giants"], 1991: ["redskins", "commanders"], 1992: ["cowboys"], 1993: ["cowboys"], 1994: ["49ers"], 1995: ["cowboys"], 1996: ["packers"],
+  1997: ["broncos"], 1998: ["broncos"], 1999: ["rams"], 2000: ["ravens"], 2001: ["patriots"], 2002: ["buccaneers"], 2003: ["patriots"], 2004: ["patriots"],
+  2005: ["steelers"], 2006: ["colts"], 2007: ["giants"], 2008: ["steelers"], 2009: ["saints"], 2010: ["packers"], 2011: ["giants"], 2012: ["ravens"],
+  2013: ["seahawks"], 2014: ["patriots"], 2015: ["broncos"], 2016: ["patriots"], 2017: ["eagles"], 2018: ["patriots"], 2019: ["chiefs"], 2020: ["buccaneers"],
+  2021: ["rams"], 2022: ["chiefs"], 2023: ["chiefs"], 2024: ["eagles"],
+};
+/** World Series winners by year. */
+const WS_CHAMPS: Record<number, string[]> = {
+  1970: ["orioles"], 1971: ["pirates"], 1972: ["athletics"], 1973: ["athletics"], 1974: ["athletics"], 1975: ["reds"], 1976: ["reds"], 1977: ["yankees"],
+  1978: ["yankees"], 1979: ["pirates"], 1980: ["phillies"], 1981: ["dodgers"], 1982: ["cardinals"], 1983: ["orioles"], 1984: ["tigers"], 1985: ["royals"],
+  1986: ["mets"], 1987: ["twins"], 1988: ["dodgers"], 1989: ["athletics"], 1990: ["reds"], 1991: ["twins"], 1992: ["blue-jays"], 1993: ["blue-jays"],
+  1995: ["braves"], 1996: ["yankees"], 1997: ["marlins"], 1998: ["yankees"], 1999: ["yankees"], 2000: ["yankees"], 2001: ["diamondbacks"], 2002: ["angels"],
+  2003: ["marlins"], 2004: ["red-sox"], 2005: ["white-sox"], 2006: ["cardinals"], 2007: ["red-sox"], 2008: ["phillies"], 2009: ["yankees"], 2010: ["giants"],
+  2011: ["cardinals"], 2012: ["giants"], 2013: ["red-sox"], 2014: ["giants"], 2015: ["royals"], 2016: ["cubs"], 2017: ["astros"], 2018: ["red-sox"],
+  2019: ["nationals"], 2020: ["dodgers"], 2021: ["braves"], 2022: ["astros"], 2023: ["rangers"], 2024: ["dodgers"], 2025: ["dodgers"],
+};
+
+function wonTitle(p: PlayerRecord, table: Record<number, string[]>, from: number): boolean | null {
+  if (!p.seasons.length) return null;
+  if (p.seasons.some((s) => (table[s.year] ?? []).some((c) => s.team === c || s.team.endsWith(`-${c}`)))) return true;
+  return p.seasons[0]!.year >= from ? false : null; // careers older than our table can't be ruled out
+}
+function bornAbroad(p: PlayerRecord): boolean | null {
+  if (!p.birth_place) return null;
+  const last = p.birth_place.split(",").pop()!.trim();
+  return !(US_STATES.has(last) || /USA|United States/i.test(last));
+}
+
+/** Tag ids match src/game/grid-pro.ts. */
+export function proHasTag(league: "nfl" | "mlb", p: PlayerRecord, tag: string): boolean | null {
+  const pos = (p.position ?? "").toUpperCase();
+  const in2020s = p.seasons.length ? p.seasons.some((s) => s.year >= 2020) : null;
+  if (league === "nfl") switch (tag) {
+    case "qb": return pos ? pos === "QB" : null;
+    case "skill": return pos ? ["RB", "WR", "FB", "HB"].includes(pos) : null;
+    case "champ": return wonTitle(p, SB_CHAMPS, 1966);
+    case "pick1": return p.draft ? /Rd 1, Pk 1 \(/.test(p.draft) : null;
+    case "2020s": return in2020s;
+  }
+  if (league === "mlb") switch (tag) {
+    case "pitcher": return pos ? /^(P|SP|RP|TWP)$/.test(pos) : null;
+    case "mvp": return p.awards.includes("MVP");
+    case "cy": return p.awards.some((a) => /Cy Young/i.test(a));
+    case "champ": return wonTitle(p, WS_CHAMPS, 1971);
+    case "intl": return bornAbroad(p);
+    case "2020s": return in2020s;
+  }
+  return null;
 }
