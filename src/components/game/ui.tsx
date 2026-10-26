@@ -22,7 +22,7 @@ export function TierBadge({ tier, className }: { tier: TierId; className?: strin
         className,
       )}
     >
-      <span aria-hidden>{t.emoji}</span>{t.label}<span className="opacity-70">+{t.points}</span>
+      <span aria-hidden>{t.emoji}</span>{t.label}
     </span>
   );
 }
