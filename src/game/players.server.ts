@@ -117,7 +117,9 @@ export async function findRealPlayer(league: League, typed: string): Promise<Pla
 
   if (db) {
     const { data: alias } = await db.from("sports_player_aliases").select("espn_id, fetched_at").eq("league", league).eq("query_key", q).maybeSingle();
-    if (alias && fresh(alias.fetched_at)) {
+    // Misses are only trusted for a few hours so a temporary ESPN hiccup can't block a real player for long.
+    const missFresh = (t: string) => Date.now() - new Date(t).getTime() < 6 * 3600 * 1000;
+    if (alias && (alias.espn_id ? fresh(alias.fetched_at) : missFresh(alias.fetched_at))) {
       if (!alias.espn_id) return null;
       const { data: row } = await db.from("sports_players").select("*").eq("league", league).eq("espn_id", alias.espn_id).maybeSingle();
       if (row && fresh(row.fetched_at)) return row as unknown as PlayerRecord;
