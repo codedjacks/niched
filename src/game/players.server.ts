@@ -124,7 +124,7 @@ export async function findRealPlayer(league: League, typed: string): Promise<Pla
     if (alias && (alias.espn_id ? fresh(alias.fetched_at) : missFresh(alias.fetched_at))) {
       if (!alias.espn_id) return null;
       const { data: row } = await db.from("sports_players").select("*").eq("league", league).eq("espn_id", alias.espn_id).maybeSingle();
-      if (row && fresh(row.fetched_at)) return row as unknown as PlayerRecord;
+      if (row && row.position && fresh(row.fetched_at)) return row as unknown as PlayerRecord;
     }
   }
 
