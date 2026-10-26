@@ -164,7 +164,7 @@ export function nbaHasTag(p: PlayerRecord, tag: NbaTag): boolean | null {
     case "roy": return p.awards.includes("Rookie of the Year");
     case "2020s": return p.seasons.length ? p.seasons.some((s) => s.year >= 2020) : null;
     case "champ": return p.seasons.length ? p.seasons.some((s) => (NBA_CHAMPS[s.year] ?? []).some((c) => s.team === c || s.team.endsWith(`-${c}`))) : null;
-    case "pick1": return p.draft ? /Rd 1, Pk 1 \(/.test(p.draft) : null;
+    case "pick1": return p.draft ? /Rd 1, Pk 1 \(/.test(p.draft) : (p.seasons[0]?.year ?? 0) >= 1990 ? false : null; // modern players with no draft line went undrafted
     case "intl": {
       if (!p.birth_place) return null;
       const last = p.birth_place.split(",").pop()!.trim();
