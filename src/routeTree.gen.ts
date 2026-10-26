@@ -12,11 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as EntertainmentRouteImport } from './routes/entertainment'
-import { Route as HistoryRouteImport } from './routes/history'
-import { Route as RankingsRouteImport } from './routes/rankings'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as SportsRouteImport } from './routes/sports'
 import { Route as ApiPublicDailyRoundRouteImport } from './routes/api/public/daily-round'
 import { Route as ApiPublicRankedRouteImport } from './routes/api/public/ranked'
 import { Route as ApiPublicJobsAiDailyRouteImport } from './routes/api/public/jobs/ai-daily'
@@ -36,29 +32,9 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EntertainmentRoute = EntertainmentRouteImport.update({
-  id: '/entertainment',
-  path: '/entertainment',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HistoryRoute = HistoryRouteImport.update({
-  id: '/history',
-  path: '/history',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RankingsRoute = RankingsRouteImport.update({
-  id: '/rankings',
-  path: '/rankings',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SportsRoute = SportsRouteImport.update({
-  id: '/sports',
-  path: '/sports',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicDailyRoundRoute = ApiPublicDailyRoundRouteImport.update({
@@ -81,11 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
-  '/entertainment': typeof EntertainmentRoute
-  '/history': typeof HistoryRoute
-  '/rankings': typeof RankingsRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/sports': typeof SportsRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
   '/api/public/ranked': typeof ApiPublicRankedRoute
   '/api/public/jobs/ai-daily': typeof ApiPublicJobsAiDailyRoute
@@ -94,11 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
-  '/entertainment': typeof EntertainmentRoute
-  '/history': typeof HistoryRoute
-  '/rankings': typeof RankingsRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/sports': typeof SportsRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
   '/api/public/ranked': typeof ApiPublicRankedRoute
   '/api/public/jobs/ai-daily': typeof ApiPublicJobsAiDailyRoute
@@ -108,11 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
-  '/entertainment': typeof EntertainmentRoute
-  '/history': typeof HistoryRoute
-  '/rankings': typeof RankingsRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/sports': typeof SportsRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
   '/api/public/ranked': typeof ApiPublicRankedRoute
   '/api/public/jobs/ai-daily': typeof ApiPublicJobsAiDailyRoute
@@ -123,11 +87,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/auth'
-    | '/entertainment'
-    | '/history'
-    | '/rankings'
     | '/reset-password'
-    | '/sports'
     | '/api/public/daily-round'
     | '/api/public/ranked'
     | '/api/public/jobs/ai-daily'
@@ -136,11 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/auth'
-    | '/entertainment'
-    | '/history'
-    | '/rankings'
     | '/reset-password'
-    | '/sports'
     | '/api/public/daily-round'
     | '/api/public/ranked'
     | '/api/public/jobs/ai-daily'
@@ -149,11 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/auth'
-    | '/entertainment'
-    | '/history'
-    | '/rankings'
     | '/reset-password'
-    | '/sports'
     | '/api/public/daily-round'
     | '/api/public/ranked'
     | '/api/public/jobs/ai-daily'
@@ -163,11 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
   AuthRoute: typeof AuthRoute
-  EntertainmentRoute: typeof EntertainmentRoute
-  HistoryRoute: typeof HistoryRoute
-  RankingsRoute: typeof RankingsRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
-  SportsRoute: typeof SportsRoute
   ApiPublicDailyRoundRoute: typeof ApiPublicDailyRoundRoute
   ApiPublicRankedRoute: typeof ApiPublicRankedRoute
   ApiPublicJobsAiDailyRoute: typeof ApiPublicJobsAiDailyRoute
@@ -196,39 +144,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/entertainment': {
-      id: '/entertainment'
-      path: '/entertainment'
-      fullPath: '/entertainment'
-      preLoaderRoute: typeof EntertainmentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/history': {
-      id: '/history'
-      path: '/history'
-      fullPath: '/history'
-      preLoaderRoute: typeof HistoryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/rankings': {
-      id: '/rankings'
-      path: '/rankings'
-      fullPath: '/rankings'
-      preLoaderRoute: typeof RankingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sports': {
-      id: '/sports'
-      path: '/sports'
-      fullPath: '/sports'
-      preLoaderRoute: typeof SportsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/daily-round': {
@@ -259,11 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
   AuthRoute: AuthRoute,
-  EntertainmentRoute: EntertainmentRoute,
-  HistoryRoute: HistoryRoute,
-  RankingsRoute: RankingsRoute,
   ResetPasswordRoute: ResetPasswordRoute,
-  SportsRoute: SportsRoute,
   ApiPublicDailyRoundRoute: ApiPublicDailyRoundRoute,
   ApiPublicRankedRoute: ApiPublicRankedRoute,
   ApiPublicJobsAiDailyRoute: ApiPublicJobsAiDailyRoute,
