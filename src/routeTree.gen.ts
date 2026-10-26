@@ -18,6 +18,7 @@ import { Route as RankingsRouteImport } from './routes/rankings'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SportsRouteImport } from './routes/sports'
 import { Route as ApiPublicDailyRoundRouteImport } from './routes/api/public/daily-round'
+import { Route as ApiPublicRankedRouteImport } from './routes/api/public/ranked'
 import { Route as ApiPublicJobsAiDailyRouteImport } from './routes/api/public/jobs/ai-daily'
 
 const IndexRoute = IndexRouteImport.update({
@@ -65,6 +66,11 @@ const ApiPublicDailyRoundRoute = ApiPublicDailyRoundRouteImport.update({
   path: '/api/public/daily-round',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicRankedRoute = ApiPublicRankedRouteImport.update({
+  id: '/api/public/ranked',
+  path: '/api/public/ranked',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicJobsAiDailyRoute = ApiPublicJobsAiDailyRouteImport.update({
   id: '/api/public/jobs/ai-daily',
   path: '/api/public/jobs/ai-daily',
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/sports': typeof SportsRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
+  '/api/public/ranked': typeof ApiPublicRankedRoute
   '/api/public/jobs/ai-daily': typeof ApiPublicJobsAiDailyRoute
 }
 export interface FileRoutesByTo {
@@ -93,6 +100,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/sports': typeof SportsRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
+  '/api/public/ranked': typeof ApiPublicRankedRoute
   '/api/public/jobs/ai-daily': typeof ApiPublicJobsAiDailyRoute
 }
 export interface FileRoutesById {
@@ -106,6 +114,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/sports': typeof SportsRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
+  '/api/public/ranked': typeof ApiPublicRankedRoute
   '/api/public/jobs/ai-daily': typeof ApiPublicJobsAiDailyRoute
 }
 export interface FileRouteTypes {
@@ -120,6 +129,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sports'
     | '/api/public/daily-round'
+    | '/api/public/ranked'
     | '/api/public/jobs/ai-daily'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -132,6 +142,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sports'
     | '/api/public/daily-round'
+    | '/api/public/ranked'
     | '/api/public/jobs/ai-daily'
   id:
     | '__root__'
@@ -144,6 +155,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sports'
     | '/api/public/daily-round'
+    | '/api/public/ranked'
     | '/api/public/jobs/ai-daily'
   fileRoutesById: FileRoutesById
 }
@@ -157,6 +169,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SportsRoute: typeof SportsRoute
   ApiPublicDailyRoundRoute: typeof ApiPublicDailyRoundRoute
+  ApiPublicRankedRoute: typeof ApiPublicRankedRoute
   ApiPublicJobsAiDailyRoute: typeof ApiPublicJobsAiDailyRoute
 }
 
@@ -225,6 +238,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicDailyRoundRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/ranked': {
+      id: '/api/public/ranked'
+      path: '/api/public/ranked'
+      fullPath: '/api/public/ranked'
+      preLoaderRoute: typeof ApiPublicRankedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/jobs/ai-daily': {
       id: '/api/public/jobs/ai-daily'
       path: '/api/public/jobs/ai-daily'
@@ -245,6 +265,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SportsRoute: SportsRoute,
   ApiPublicDailyRoundRoute: ApiPublicDailyRoundRoute,
+  ApiPublicRankedRoute: ApiPublicRankedRoute,
   ApiPublicJobsAiDailyRoute: ApiPublicJobsAiDailyRoute,
 }
 export const routeTree = rootRouteImport
