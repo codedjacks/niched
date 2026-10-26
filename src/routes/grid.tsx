@@ -30,11 +30,23 @@ function GridPage() {
   const score = Object.values(cells).reduce((s, p) => s + pointsForPlayer(p), 0);
   const over = doneToday || guesses >= GRID_GUESSES || Object.keys(cells).length === 9;
 
-  const submit = () => {
-    if (!active || !typed.trim()) return;
+  const submit = async () => {
+    if (!active || !typed.trim() || checking) return;
     const [r, c] = active.split(":").map(Number) as [number, number];
-    const res = guessCell(typed, g.teams[r]!, g.tags[c]!, Object.values(cells).map((p) => p.name));
-    if (!res.ok && res.reason === "unknown") return setMsg("Not in our player list — check the spelling (no guess used).");
+    const team = g.teams[r]!, tag = g.tags[c]!;
+    const used = Object.values(cells).map((p) => p.name);
+    let res = guessCell(typed, team, tag, used);
+    if (!res.ok && res.reason === "unknown") {
+      // Not in the curated list: fact-check the real player's career.
+      setChecking(true); setMsg("Checking the record books…");
+      const j = await judge({ data: { team, tag, answer: typed } }).catch(() => ({ ok: false as const, message: "Couldn't check that one — try again." }));
+      setChecking(false);
+      if (!j.ok && !/doesn't fit/.test(j.message)) return setMsg(`${j.message} (no guess used)`);
+      if (j.ok) {
+        const p: Player = { name: j.name, teams: [team], tags: [tag], fame: j.fame };
+        res = used.some((u) => u.toLowerCase() === j.name.toLowerCase()) ? { ok: false, reason: "used" } : { ok: true, player: p, points: pointsForPlayer(p) };
+      } else res = { ok: false, reason: "wrong" };
+    }
     const n = guesses + 1;
     setGuesses(n);
     const next = res.ok ? { ...cells, [active]: res.player } : cells;
