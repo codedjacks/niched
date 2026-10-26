@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { judgeGridGuess } from "@/game/grid.functions";
 import { useState, type ReactNode } from "react";
 import { GameFrame, ResultCard, useDailyGame } from "@/components/game/SportsGame";
 import { TierBadge } from "@/components/game/ui";
@@ -25,7 +27,9 @@ function GridPage() {
   const [active, setActive] = useState<string | null>(null);
   const [typed, setTyped] = useState("");
   const [msg, setMsg] = useState<string | null>(null);
-  if (!day) return <GameFrame note="gym class" title="Daily Grid" subtitle="Loading today's grid…">{null}</GameFrame>;
+  const [checking, setChecking] = useState(false);
+  const judge = useServerFn(judgeGridGuess);
+  if (!day) return <GameFrame note="game night" title="Daily Grid" subtitle="Loading today's grid…">{null}</GameFrame>;
   const g = gridForDay(day);
   const score = Object.values(cells).reduce((s, p) => s + pointsForPlayer(p), 0);
   const over = doneToday || guesses >= GRID_GUESSES || Object.keys(cells).length === 9;
@@ -58,7 +62,7 @@ function GridPage() {
   };
 
   return (
-    <GameFrame note="gym class" title="Daily Grid" subtitle="Name an NBA player who fits each team + achievement. Nine guesses, each player once. Deep cuts score more.">
+    <GameFrame note="game night" title="Daily Grid" subtitle="Name any NBA player who fits each team + achievement — every real career counts. Nine guesses, each player once. Deep cuts score more.">
       <p className="mb-3 font-display text-xs uppercase tracking-widest text-muted-foreground">Guesses left {Math.max(0, GRID_GUESSES - guesses)} · Score {doneToday ? progress.score : score}</p>
       <div className="grid grid-cols-[5rem_repeat(3,minmax(0,1fr))] gap-2 sm:grid-cols-[7rem_repeat(3,minmax(0,1fr))]">
         <div />
@@ -80,10 +84,10 @@ function GridPage() {
         ))}
       </div>
       {active && !over && (
-        <form onSubmit={(e) => { e.preventDefault(); submit(); }} className="mt-4 flex gap-2">
+        <form onSubmit={(e) => { e.preventDefault(); void submit(); }} className="mt-4 flex gap-2">
           <input autoFocus value={typed} onChange={(e) => setTyped(e.target.value)} placeholder="Type a player…" aria-label="Player name"
             className="min-w-0 flex-1 rounded-lg border-2 border-border bg-card px-4 py-3 font-sans text-foreground outline-none focus:border-primary" />
-          <button className="rounded-lg bg-primary px-5 font-display text-sm font-bold uppercase text-primary-foreground">Guess</button>
+          <button className="rounded-lg bg-primary px-5 font-display text-sm font-bold uppercase text-primary-foreground disabled:opacity-60" disabled={checking}>{checking ? "…" : "Guess"}</button>
         </form>
       )}
       {msg && <p className="mt-3 font-sans text-sm" role="status">{msg}</p>}
