@@ -177,13 +177,14 @@ export function nbaHasTag(p: PlayerRecord, tag: NbaTag): boolean | null {
 
 /** 1 = household name … 6 = deep cut, from real honors and games played. */
 export function fameOf(p: PlayerRecord): 1 | 2 | 3 | 4 | 5 | 6 {
-  const big = p.awards.filter((a) => /^(MVP|Finals MVP|All-NBA|All-Pro|Cy Young|Hart|Conn Smythe|Super Bowl MVP|World Series MVP)/.test(a)).length;
+  const big = p.awards.filter((a) => /^(MVP|Finals MVP|All-NBA|All-Pro|All-MLB|Cy Young|Hart|Conn Smythe|Super Bowl MVP|World Series MVP|Pro Bowl|All-Star)/.test(a)).length;
   const games = p.career["gamesPlayed"] ?? p.career["games"] ?? 0;
   if (big >= 10) return 1;
   if (big >= 6) return 2;
   if (big >= 3) return 3;
   if (big >= 1) return 4;
-  return games >= 600 ? 5 : 6;
+  const longCareer = { nba: 600, nfl: 100, mlb: 1000, nhl: 600 }[p.league];
+  return games >= longCareer ? 5 : 6;
 }
 
 // ---------- NFL / MLB grid facts ----------
