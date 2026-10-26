@@ -2,6 +2,7 @@ import { normalize } from "./scoring";
 import type { Question, TierId } from "./types";
 import { practiceBank } from "./questions.practice";
 import { themedBank } from "./questions.themed";
+import { sportsBank } from "./questions.sports";
 import { expansionBank } from "./questions.expansion";
 import { reviewedBank } from "./questions.reviewed";
 import { supplyBank } from "./questions.supply";
@@ -252,4 +253,5 @@ export const QUESTIONS: Question[] = [...ORIGINAL_FULL_QUESTIONS, ...EXPANSION_Q
 
 /** Topic extras stay separate so published daily decks and scores never change. */
 export const THEMED_QUESTIONS: Question[] = themedBank(q);
-export const ALL_QUESTIONS: Question[] = [...QUESTIONS, ...THEMED_QUESTIONS];
+export const SPORTS_PRACTICE_QUESTIONS: Question[] = sportsBank(q);
+export const ALL_QUESTIONS: Question[] = [...QUESTIONS, ...THEMED_QUESTIONS, ...SPORTS_PRACTICE_QUESTIONS];
