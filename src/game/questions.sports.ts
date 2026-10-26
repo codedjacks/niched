@@ -29,7 +29,7 @@ export const sportsBank = (q: Q): Question[] => [
     s: "Terry Bradshaw|Steve Young|Ben Roethlisberger|Brett Favre|Joe Flacco|Nick Foles|Matthew Stafford|Jalen Hurts",
     r: "Roger Staubach|Bart Starr|Joe Namath|Kurt Warner|Dan Marino",
     d: "Jim Plunkett|Phil Simms|Doug Williams|Mark Rypien|Trent Dilfer|Brad Johnson|Jim McMahon|Ken Stabler|Bob Griese",
-    m: "Len Dawson|Johnny Unitas|Jeff Hostetler|Earl Morrall|Joe Theismann|Mark Rypien",
+    m: "Len Dawson|Johnny Unitas|Jeff Hostetler|Earl Morrall|Joe Theismann",
   }),
   q("sp-world-cup-host", "Sports", "Name a country that has hosted the men's FIFA World Cup", {
     p: "Brazil|USA=United States|Germany|Qatar|Russia",
@@ -37,7 +37,6 @@ export const sportsBank = (q: Q): Question[] => [
     s: "Argentina|Japan|South Korea|Uruguay",
     r: "Sweden|Switzerland|Chile",
     d: "West Germany",
-    m: "",
   }),
   q("sp-golf-major", "Sports", "Name one of golf's four men's major championships", {
     p: "The Masters=Masters",
@@ -105,7 +104,6 @@ export const sportsBank = (q: Q): Question[] => [
     s: "Sammy Sosa|Mark McGwire|Mickey Mantle|Jim Thome|Frank Thomas|Manny Ramirez|Miguel Cabrera",
     r: "Ted Williams|Reggie Jackson|Rafael Palmeiro|Gary Sheffield|Harmon Killebrew|Frank Robinson|Mike Schmidt",
     d: "Willie McCovey|Eddie Murray|Ernie Banks|Eddie Mathews|Mel Ott|Jimmie Foxx",
-    m: "",
   }),
   q("sp-nhl-player", "Sports", "Name an NHL player, past or present", {
     p: "Wayne Gretzky|Sidney Crosby|Alex Ovechkin|Connor McDavid",
@@ -135,7 +133,7 @@ export const sportsBank = (q: Q): Question[] => [
     p: "Phil Jackson|Gregg Popovich|Steve Kerr|Pat Riley",
     c: "Red Auerbach|Doc Rivers|Erik Spoelstra|Tyronn Lue|Mike D'Antoni",
     s: "Larry Brown|Jerry Sloan|Rick Carlisle|Mike Budenholzer|Joe Mazzulla|Tom Thibodeau|Jason Kidd|JJ Redick",
-    r: "Chuck Daly|Don Nelson|Lenny Wilkens|Rudy Tomjanovich|Pat Riley|Michael Malone|Nick Nurse|Mark Jackson",
+    r: "Chuck Daly|Don Nelson|Lenny Wilkens|Rudy Tomjanovich|Michael Malone|Nick Nurse|Mark Jackson",
     d: "Red Holzman|K.C. Jones|Bill Fitch|Jeff Van Gundy|George Karl|Mike Brown|Monty Williams|Frank Vogel|Ime Udoka",
     m: "John Kundla|Alex Hannum|Bill Sharman|Dick Motta|Cotton Fitzsimmons|Hubie Brown|Paul Westhead|Avery Johnson|Flip Saunders",
   }),
@@ -145,7 +143,6 @@ export const sportsBank = (q: Q): Question[] => [
     s: "Moscow|Seoul|Berlin|Montreal|Mexico City",
     r: "Munich|Rome|Melbourne|Helsinki|Amsterdam",
     d: "St. Louis|Stockholm|Antwerp",
-    m: "",
   }),
   q("sp-f1-team", "Sports", "Name a Formula One team, past or present", {
     p: "Ferrari|Mercedes|Red Bull|McLaren",
@@ -297,7 +294,6 @@ export const sportsBank = (q: Q): Question[] => [
     s: "Sarajevo|Albertville|Innsbruck|St. Moritz|Milan|Cortina d'Ampezzo=Cortina",
     r: "Squaw Valley|Grenoble|Sapporo|Oslo|Chamonix",
     d: "Garmisch-Partenkirchen",
-    m: "",
   }),
   q("sp-motorsport", "Sports", "Name a NASCAR driver, past or present", {
     p: "Dale Earnhardt|Jeff Gordon|Jimmie Johnson|Richard Petty|Dale Earnhardt Jr.",
@@ -309,7 +305,7 @@ export const sportsBank = (q: Q): Question[] => [
   }),
   q("sp-coach-nfl", "Sports", "Name an NFL head coach who won a Super Bowl", {
     p: "Bill Belichick|Andy Reid|Vince Lombardi|Sean McVay",
-    c: "Tom Brady|Bill Parcells|Mike Tomlin|Bill Walsh|Tom Coughlin|Sean Payton|Jimmy Johnson",
+    c: "Bill Parcells|Mike Tomlin|Bill Walsh|Tom Coughlin|Sean Payton|Jimmy Johnson",
     s: "Don Shula|Chuck Noll|Joe Gibbs|Tony Dungy|Bruce Arians|Pete Carroll|John Harbaugh|Nick Sirianni",
     r: "Tom Landry|Mike Ditka|Jon Gruden|Mike Holmgren|Mike McCarthy|Doug Pederson|Gary Kubiak|Brian Billick|Dick Vermeil",
     d: "Hank Stram|John Madden|Tom Flores|George Seifert|Barry Switzer|Mike Shanahan|Weeb Ewbank|Don McCafferty",
