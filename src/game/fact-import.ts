@@ -16,6 +16,8 @@ export function validateFactImport(input: unknown) {
   const record = sourceSchema.parse(input);
   const expected = `https://site.web.api.espn.com/apis/common/v3/sports/${sports[record.league]}/${record.league}/athletes/${record.player_id}/stats`;
   if (record.url !== expected || record.payload.athlete.id !== record.player_id || record.payload.athlete.displayName !== record.player_name) throw new Error("Source identity mismatch");
+  // ESPN labels Tony Gwynn Jr. as "Tony Gwynn"; a name-only search picks the wrong generation.
+  if (record.league === "mlb" && record.player_id === "28516" && record.player_name === "Tony Gwynn") throw new Error("Ambiguous athlete identity: use Tony Gwynn Jr. and review explicitly");
   for (const fact of record.facts) {
     if (!FACT_METRICS[`${record.league}:${fact.metric}`] || !categories[record.league]?.includes(fact.category)) throw new Error("Unsupported statistic");
     if (record.league === "mlb" && ["strikeouts", "wins"].includes(fact.metric) && fact.category !== "career-pitching") throw new Error("Pitching scope required");
