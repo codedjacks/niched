@@ -21,7 +21,7 @@ export const DRAFT_CLOCK = 20;
 export const draftPickScore = (correct: boolean, secondsLeft: number) => (!correct || secondsLeft <= 0 ? 0 : secondsLeft >= 10 ? 100 : 60);
 
 /** Team Trio: each wrong pennant costs 20, floor 20. */
-export const trioPickScore = (wrongTaps: number) => Math.max(20, 100 - 20 * wrongTaps);
+export const trioPickScore = (wrongGuesses: number) => [100, 80, 60, 40, 20][wrongGuesses] ?? 0;
 
 /** Locker Number: each opened locker costs 20, each miss 15, floor 10. */
 export const lockerScore = (opened: number, misses: number) => Math.max(10, 100 - 20 * opened - 15 * misses);
