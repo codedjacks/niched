@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { GRID_MAX, VALID_GRIDS, cellAnswers, gridForDay, guessCell } from "./grid";
 import { mysteryForDay, mysteryScore, isMysteryAnswer, MYSTERIES } from "./mystery";
-import { HL_ROUNDS, pairsForDay } from "./higherlower";
+import { HL_ROUNDS, pairsForDay, STATS } from "./higherlower";
 import { recordGame } from "./daily-games";
 
 describe("daily sports games", () => {
