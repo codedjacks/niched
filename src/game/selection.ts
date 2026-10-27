@@ -27,9 +27,11 @@ export function pick(rand: () => number, bank: Question[] = QUESTIONS, n = QUEST
   return arr.slice(0, n);
 }
 
+/** The daily rolls over at midnight US Central time for every player, wherever they are. */
+export const DAILY_TZ = "America/Chicago";
+const fmt = new Intl.DateTimeFormat("en-CA", { timeZone: DAILY_TZ, year: "numeric", month: "2-digit", day: "2-digit" });
 export function dateKey(d = new Date()) {
-  const p = (n: number) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+  return fmt.format(d);
 }
 /** First day the daily pool includes the full bank. Earlier days keep the original pool so past results still verify. */
 export const FULL_BANK_DAILY_FROM = "2026-10-24";
@@ -72,14 +74,14 @@ export function practiceQuestions(exclude: Iterable<string> = [], bank: Question
   return [...fresh, ...pick(Math.random, bank.filter((q) => !ids.has(q.id)), QUESTIONS_PER_ROUND - fresh.length)];
 }
 export function msUntilNextDaily(now = new Date()) {
-  const next = new Date(now);
-  next.setHours(24, 0, 0, 0);
-  return next.getTime() - now.getTime();
+  const today = dateKey(now);
+  // Step forward in 15-minute ticks to find the next Central-time date change (DST-safe).
+  let t = Math.ceil(now.getTime() / 900_000) * 900_000;
+  while (dateKey(new Date(t)) === today) t += 900_000;
+  return t - now.getTime();
 }
 
-/** A client's local date may differ from the server's UTC date by at most one day. */
+/** Today's Central-time daily, or yesterday's for a round still in progress at midnight. */
 export function dayIsCurrent(day: string, now = new Date()) {
-  const d = new Date(`${day}T12:00:00Z`).getTime();
-  const utc = now.toISOString().slice(0, 10);
-  return Number.isFinite(d) && Math.abs(d - new Date(`${utc}T12:00:00Z`).getTime()) <= 36 * 3600_000;
+  return day === dateKey(now) || day === dateKey(new Date(now.getTime() - 2 * 3600_000));
 }

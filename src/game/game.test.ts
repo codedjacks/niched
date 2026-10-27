@@ -62,10 +62,10 @@ describe("leniency + real frequency", () => {
 import { dayIsCurrent } from "./selection";
 describe("ranked daily window", () => {
   const now = new Date("2026-10-23T18:00:00Z");
-  it("accepts today and neighbouring time-zone days only", () => {
+  it("accepts only today's Central-time daily", () => {
     expect(dayIsCurrent("2026-10-23", now)).toBe(true);
-    expect(dayIsCurrent("2026-10-22", now)).toBe(true);
-    expect(dayIsCurrent("2026-10-24", now)).toBe(true);
+    expect(dayIsCurrent("2026-10-22", now)).toBe(false);
+    expect(dayIsCurrent("2026-10-24", now)).toBe(false);
     expect(dayIsCurrent("2026-10-20", now)).toBe(false);
   });
 });
