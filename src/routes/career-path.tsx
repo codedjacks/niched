@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { GameFrame, useDailyGame } from "@/components/game/SportsGame";
-import { GuessGame } from "@/components/game/GuessGame";
-import { CAREER_POINTS, careerForDay, careerHints, isCareerAnswer } from "@/game/career";
+import { RoadTrip } from "@/components/game/NewModes";
+import { CAREER_POINTS, careerForDay, isCareerAnswer } from "@/game/career";
 
 export const Route = createFileRoute("/career-path")({
   head: () => ({
@@ -19,22 +19,12 @@ export const Route = createFileRoute("/career-path")({
 
 function CareerPage() {
   const game = useDailyGame("career");
-  const frame = { note: "the team trail", title: "Career Path", subtitle: "Name the player from the teams they played for, in order. Each miss reveals a hint. Five guesses." };
+  const frame = { note: "the team trail", title: "Career Path", subtitle: "Name the player from the teams they played for, in order. Every miss drives one stop further. Five guesses." };
   if (!game.day) return <GameFrame {...frame}>{null}</GameFrame>;
   const p = careerForDay(game.day);
   return (
     <GameFrame {...frame}>
-      <GuessGame game={game} hints={careerHints(p)} points={CAREER_POINTS} isAnswer={(t) => isCareerAnswer(p, t)} answer={p.name} shareLabel="Career Path" emoji="🧭"
-        puzzle={
-          <ol className="flex flex-wrap items-center gap-2 font-display text-sm font-bold uppercase">
-            {p.teams.map((t, i) => (
-              <li key={i} className="flex items-center gap-2">
-                {i > 0 && <span aria-hidden className="text-primary">→</span>}
-                <span className="rounded-md border-2 border-border bg-background px-3 py-2">{t}</span>
-              </li>
-            ))}
-          </ol>
-        } />
+      <RoadTrip game={game} teams={p.teams} points={CAREER_POINTS} isAnswer={(t) => isCareerAnswer(p, t)} answer={p.name} />
     </GameFrame>
   );
 }

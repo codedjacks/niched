@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { GameFrame, useDailyGame } from "@/components/game/SportsGame";
-import { GuessGame } from "@/components/game/GuessGame";
-import { JERSEY_POINTS, isJerseyAnswer, jerseyForDay, jerseyHints } from "@/game/jersey";
+import { LockerRoom } from "@/components/game/NewModes";
+import { isJerseyAnswer, jerseyForDay } from "@/game/jersey";
 
 export const Route = createFileRoute("/locker-number")({
   head: () => ({
@@ -24,13 +24,7 @@ function JerseyPage() {
   const p = jerseyForDay(game.day);
   return (
     <GameFrame {...frame}>
-      <GuessGame game={game} hints={jerseyHints(p)} points={JERSEY_POINTS} isAnswer={(t) => isJerseyAnswer(p, t)} answer={p.name} shareLabel="Locker Number" emoji="👕"
-        puzzle={
-          <div className="flex flex-col items-center gap-2">
-            <span className="font-jersey text-7xl text-primary">#{p.number}</span>
-            <span className="font-display text-lg font-bold uppercase">{p.team}</span>
-          </div>
-        } />
+      <LockerRoom game={game} number={p.number} team={p.team} clues={[["League", p.league], ["Position", p.position], ["Debut", `${p.era}`], ["Trophy case", p.award]]} isAnswer={(t) => isJerseyAnswer(p, t)} answer={p.name} />
     </GameFrame>
   );
 }

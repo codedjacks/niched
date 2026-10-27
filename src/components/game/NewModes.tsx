@@ -235,7 +235,7 @@ export function PennantPick({ game, players, teams, answer, clue }: { game: Game
           const state = over && t === answer ? "animate-pop bg-primary text-primary-foreground" : isStruck ? "animate-shake bg-background text-muted-foreground line-through opacity-60" : "bg-card hover:-translate-y-0.5";
           return (
             <button key={t} type="button" disabled={over || isStruck} onClick={() => tap(t)}
-              className={`relative rounded-md border-2 border-border py-4 pl-3 pr-6 text-left font-display text-xs font-bold uppercase transition [clip-path:polygon(0_0,100%_50%,0_100%)] ${state}`}>{t}</button>
+              className={`relative rounded-md border-2 border-border py-4 pl-3 pr-6 text-left font-display text-xs font-bold uppercase transition [clip-path:polygon(0_0,100%_18%,100%_82%,0_100%)] ${state}`}>{t}</button>
           );
         })}
       </div>

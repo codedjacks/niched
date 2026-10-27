@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { GameFrame, useDailyGame } from "@/components/game/SportsGame";
-import { GuessGame } from "@/components/game/GuessGame";
-import { NICKNAME_POINTS, isNicknameAnswer, nicknameForDay, nicknameHints } from "@/game/nickname";
+import { LetterTiles } from "@/components/game/NewModes";
+import { NICKNAME_POINTS, isNicknameAnswer, nicknameForDay } from "@/game/nickname";
 
 export const Route = createFileRoute("/nicknames")({
   head: () => ({
@@ -19,13 +19,12 @@ export const Route = createFileRoute("/nicknames")({
 
 function NicknamePage() {
   const game = useDailyGame("nickname");
-  const frame = { note: "who's that?", title: "Nicknames", subtitle: "Name the player behind the nickname. Each miss reveals a hint." };
+  const frame = { note: "who's that?", title: "Nicknames", subtitle: "Name the player. Every miss flips more letters." };
   if (!game.day) return <GameFrame {...frame}>{null}</GameFrame>;
   const p = nicknameForDay(game.day);
   return (
     <GameFrame {...frame}>
-      <GuessGame game={game} hints={nicknameHints(p)} points={NICKNAME_POINTS} isAnswer={(t) => isNicknameAnswer(p, t)} answer={p.name} shareLabel="Nicknames" emoji="🏷️"
-        puzzle={<p className="text-center font-display text-2xl font-bold uppercase md:text-3xl">“{p.nickname}”</p>} />
+      <LetterTiles game={game} nickname={p.nickname} name={p.name} points={NICKNAME_POINTS} isAnswer={(t) => isNicknameAnswer(p, t)} />
     </GameFrame>
   );
 }

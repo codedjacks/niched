@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { GameFrame, useDailyGame } from "@/components/game/SportsGame";
-import { GuessGame } from "@/components/game/GuessGame";
-import { STAT_POINTS, isStatAnswer, statForDay, statHints } from "@/game/statline";
+import { BoxScore } from "@/components/game/NewModes";
+import { STAT_POINTS, isStatAnswer, statForDay } from "@/game/statline";
 
 export const Route = createFileRoute("/stat-line")({
   head: () => ({
@@ -19,13 +19,12 @@ export const Route = createFileRoute("/stat-line")({
 
 function StatPage() {
   const game = useDailyGame("statline");
-  const frame = { note: "box score", title: "Stat Line", subtitle: "Name the player behind this famous season. Each miss reveals a hint." };
+  const frame = { note: "box score", title: "Stat Line", subtitle: "Name the player. Every miss clears a column of the scoreboard." };
   if (!game.day) return <GameFrame {...frame}>{null}</GameFrame>;
   const p = statForDay(game.day);
   return (
     <GameFrame {...frame}>
-      <GuessGame game={game} hints={statHints(p)} points={STAT_POINTS} isAnswer={(t) => isStatAnswer(p, t)} answer={p.name} shareLabel="Stat Line" emoji="📊"
-        puzzle={<p className="text-center font-display text-xl font-bold uppercase md:text-2xl">{p.line}</p>} />
+      <BoxScore game={game} line={p.line} columns={[["Season", p.season], ["League", p.league], ["Position", p.position], ["Team", p.team]]} points={STAT_POINTS} isAnswer={(t) => isStatAnswer(p, t)} answer={p.name} />
     </GameFrame>
   );
 }
