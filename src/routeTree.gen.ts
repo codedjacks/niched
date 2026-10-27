@@ -15,8 +15,12 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CareerPathRouteImport } from './routes/career-path'
 import { Route as DraftDayRouteImport } from './routes/draft-day'
 import { Route as HigherLowerRouteImport } from './routes/higher-lower'
+import { Route as LockerNumberRouteImport } from './routes/locker-number'
 import { Route as MysteryRouteImport } from './routes/mystery'
+import { Route as NicknamesRouteImport } from './routes/nicknames'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as StatLineRouteImport } from './routes/stat-line'
+import { Route as TeamTrioRouteImport } from './routes/team-trio'
 import { Route as ApiPublicDailyRoundRouteImport } from './routes/api/public/daily-round'
 import { Route as ApiPublicRankedRouteImport } from './routes/api/public/ranked'
 import { Route as ApiPublicJobsAiDailyRouteImport } from './routes/api/public/jobs/ai-daily'
@@ -51,14 +55,34 @@ const HigherLowerRoute = HigherLowerRouteImport.update({
   path: '/higher-lower',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LockerNumberRoute = LockerNumberRouteImport.update({
+  id: '/locker-number',
+  path: '/locker-number',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MysteryRoute = MysteryRouteImport.update({
   id: '/mystery',
   path: '/mystery',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NicknamesRoute = NicknamesRouteImport.update({
+  id: '/nicknames',
+  path: '/nicknames',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StatLineRoute = StatLineRouteImport.update({
+  id: '/stat-line',
+  path: '/stat-line',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamTrioRoute = TeamTrioRouteImport.update({
+  id: '/team-trio',
+  path: '/team-trio',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicDailyRoundRoute = ApiPublicDailyRoundRouteImport.update({
@@ -84,8 +108,12 @@ export interface FileRoutesByFullPath {
   '/career-path': typeof CareerPathRoute
   '/draft-day': typeof DraftDayRoute
   '/higher-lower': typeof HigherLowerRoute
+  '/locker-number': typeof LockerNumberRoute
   '/mystery': typeof MysteryRoute
+  '/nicknames': typeof NicknamesRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/stat-line': typeof StatLineRoute
+  '/team-trio': typeof TeamTrioRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
   '/api/public/ranked': typeof ApiPublicRankedRoute
   '/api/public/jobs/ai-daily': typeof ApiPublicJobsAiDailyRoute
@@ -97,8 +125,12 @@ export interface FileRoutesByTo {
   '/career-path': typeof CareerPathRoute
   '/draft-day': typeof DraftDayRoute
   '/higher-lower': typeof HigherLowerRoute
+  '/locker-number': typeof LockerNumberRoute
   '/mystery': typeof MysteryRoute
+  '/nicknames': typeof NicknamesRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/stat-line': typeof StatLineRoute
+  '/team-trio': typeof TeamTrioRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
   '/api/public/ranked': typeof ApiPublicRankedRoute
   '/api/public/jobs/ai-daily': typeof ApiPublicJobsAiDailyRoute
@@ -111,8 +143,12 @@ export interface FileRoutesById {
   '/career-path': typeof CareerPathRoute
   '/draft-day': typeof DraftDayRoute
   '/higher-lower': typeof HigherLowerRoute
+  '/locker-number': typeof LockerNumberRoute
   '/mystery': typeof MysteryRoute
+  '/nicknames': typeof NicknamesRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/stat-line': typeof StatLineRoute
+  '/team-trio': typeof TeamTrioRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
   '/api/public/ranked': typeof ApiPublicRankedRoute
   '/api/public/jobs/ai-daily': typeof ApiPublicJobsAiDailyRoute
@@ -126,8 +162,12 @@ export interface FileRouteTypes {
     | '/career-path'
     | '/draft-day'
     | '/higher-lower'
+    | '/locker-number'
     | '/mystery'
+    | '/nicknames'
     | '/reset-password'
+    | '/stat-line'
+    | '/team-trio'
     | '/api/public/daily-round'
     | '/api/public/ranked'
     | '/api/public/jobs/ai-daily'
@@ -139,8 +179,12 @@ export interface FileRouteTypes {
     | '/career-path'
     | '/draft-day'
     | '/higher-lower'
+    | '/locker-number'
     | '/mystery'
+    | '/nicknames'
     | '/reset-password'
+    | '/stat-line'
+    | '/team-trio'
     | '/api/public/daily-round'
     | '/api/public/ranked'
     | '/api/public/jobs/ai-daily'
@@ -152,8 +196,12 @@ export interface FileRouteTypes {
     | '/career-path'
     | '/draft-day'
     | '/higher-lower'
+    | '/locker-number'
     | '/mystery'
+    | '/nicknames'
     | '/reset-password'
+    | '/stat-line'
+    | '/team-trio'
     | '/api/public/daily-round'
     | '/api/public/ranked'
     | '/api/public/jobs/ai-daily'
@@ -166,8 +214,12 @@ export interface RootRouteChildren {
   CareerPathRoute: typeof CareerPathRoute
   DraftDayRoute: typeof DraftDayRoute
   HigherLowerRoute: typeof HigherLowerRoute
+  LockerNumberRoute: typeof LockerNumberRoute
   MysteryRoute: typeof MysteryRoute
+  NicknamesRoute: typeof NicknamesRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  StatLineRoute: typeof StatLineRoute
+  TeamTrioRoute: typeof TeamTrioRoute
   ApiPublicDailyRoundRoute: typeof ApiPublicDailyRoundRoute
   ApiPublicRankedRoute: typeof ApiPublicRankedRoute
   ApiPublicJobsAiDailyRoute: typeof ApiPublicJobsAiDailyRoute
@@ -217,6 +269,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HigherLowerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/locker-number': {
+      id: '/locker-number'
+      path: '/locker-number'
+      fullPath: '/locker-number'
+      preLoaderRoute: typeof LockerNumberRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mystery': {
       id: '/mystery'
       path: '/mystery'
@@ -224,11 +283,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MysteryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/nicknames': {
+      id: '/nicknames'
+      path: '/nicknames'
+      fullPath: '/nicknames'
+      preLoaderRoute: typeof NicknamesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stat-line': {
+      id: '/stat-line'
+      path: '/stat-line'
+      fullPath: '/stat-line'
+      preLoaderRoute: typeof StatLineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/team-trio': {
+      id: '/team-trio'
+      path: '/team-trio'
+      fullPath: '/team-trio'
+      preLoaderRoute: typeof TeamTrioRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/daily-round': {
@@ -262,8 +342,12 @@ const rootRouteChildren: RootRouteChildren = {
   CareerPathRoute: CareerPathRoute,
   DraftDayRoute: DraftDayRoute,
   HigherLowerRoute: HigherLowerRoute,
+  LockerNumberRoute: LockerNumberRoute,
   MysteryRoute: MysteryRoute,
+  NicknamesRoute: NicknamesRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  StatLineRoute: StatLineRoute,
+  TeamTrioRoute: TeamTrioRoute,
   ApiPublicDailyRoundRoute: ApiPublicDailyRoundRoute,
   ApiPublicRankedRoute: ApiPublicRankedRoute,
   ApiPublicJobsAiDailyRoute: ApiPublicJobsAiDailyRoute,
