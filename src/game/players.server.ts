@@ -3,11 +3,6 @@
  * (NBA, NFL, MLB, NHL) and are cached in the sports_players table so every game
  * reads the same verified record. Server-only.
  */
-import { PLAYERS } from "./grid";
-import { PRO_GRIDS } from "./grid-pro";
-import { RECOGNITION_LEVELS, sportsTier } from "./sports-rarity";
-import { TIER_ORDER } from "./scoring";
-
 export type League = "nba" | "nfl" | "mlb" | "nhl";
 export const LEAGUES: League[] = ["nba", "nfl", "mlb", "nhl"];
 const SPORT: Record<League, string> = { nba: "basketball", nfl: "football", mlb: "baseball", nhl: "hockey" };
@@ -180,18 +175,16 @@ export function nbaHasTag(p: PlayerRecord, tag: NbaTag): boolean | null {
   }
 }
 
-/** Editorial roster first; honors/participation are only a fallback proxy for recognition. */
-export function fameOf(p: PlayerRecord, referenceYear = new Date().getUTCFullYear()): 1 | 2 | 3 | 4 | 5 | 6 {
-  const roster = p.league === "nba" ? PLAYERS : p.league === "nfl" || p.league === "mlb" ? PRO_GRIDS[p.league].players : [];
-  const known = roster.find((r) => keyOf(r.name) === keyOf(p.name) || r.aliases?.some((a) => keyOf(a) === keyOf(p.name)));
-  if (known) return known.fame;
+/** 1 = household name … 6 = deep cut, from real honors and games played. */
+export function fameOf(p: PlayerRecord): 1 | 2 | 3 | 4 | 5 | 6 {
   const big = p.awards.filter((a) => /^(MVP|Finals MVP|All-NBA|All-Pro|All-MLB|Cy Young|Hart|Conn Smythe|Super Bowl MVP|World Series MVP|Pro Bowl|All-Star)/.test(a)).length;
   const games = p.career["gamesPlayed"] ?? p.career["games"] ?? 0;
+  if (big >= 10) return 1;
+  if (big >= 6) return 2;
+  if (big >= 3) return 3;
+  if (big >= 1) return 4;
   const longCareer = { nba: 600, nfl: 100, mlb: 1000, nhl: 600 }[p.league];
-  const base = big >= 10 ? 1 : big >= 6 ? 2 : big >= 3 ? 3 : big >= 1 ? 4 : games >= longCareer ? 5 : 6;
-  const lastYear = p.seasons.length ? Math.max(...p.seasons.map((s) => s.year)) : null;
-  const tier = sportsTier(RECOGNITION_LEVELS[base - 1] ?? "deep_cut", lastYear, referenceYear);
-  return (TIER_ORDER.indexOf(tier) + 1) as 1 | 2 | 3 | 4 | 5 | 6;
+  return games >= longCareer ? 5 : 6;
 }
 
 // ---------- NFL / MLB grid facts ----------

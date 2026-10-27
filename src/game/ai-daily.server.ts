@@ -7,7 +7,6 @@ import type { TierId } from "./types";
 import { SPORTS_DAILY_FROM, toQuestion, type WireQuestion } from "./ai-daily";
 import { CHALLENGES, challengePool, type ChallengeId } from "./challenges";
 import type { Question } from "./types";
-import { RECOGNITION_LEVELS, SPORTS_RARITY_GUIDANCE, sportsTier } from "./sports-rarity";
 
 /** "main" = Daily Challenge; otherwise a topic challenge with its own daily AI round. */
 export type Track = "main" | ChallengeId;
@@ -43,8 +42,6 @@ const schema = z.object({
       name: z.string(),
       aliases: z.array(z.string()),
       tier: z.enum(TIER_ORDER as [TierId, ...TierId[]]),
-      recognition: z.enum(RECOGNITION_LEVELS).nullable(),
-      last_relevant_year: z.number().int().nullable(),
     })),
   })),
 });
@@ -168,11 +165,10 @@ async function generate(day: string, track: Track): Promise<WireQuestion[]> {
       "Write exactly 9 open-ended 'Name a…' prompts in the same style as the hand-written EXAMPLES you are given: short, everyday-friendly categories a typical player instantly understands (e.g. 'Name a pizza topping', 'Name an NBA team', 'Name a Pixar movie'). " +
       (topic ? `EVERY prompt must be about ${topic.name} (categories: ${topic.categories.join(", ")}); vary sub-topics so no two prompts feel alike. ` : "Mix categories across food, science, geography, history, music, movies/TV, sports, gaming, brands, nature, literature. ") +
       "QUALITY RULES: Prefer broad, popular categories over narrow or academic ones. Avoid trick wording, compound conditions, date ranges, 'that starts with…', or anything needing research. " +
-      "Every answer must be REAL and factually verifiable — include lesser-known and older examples, not invented items or borderline or debatable members. If unsure an answer is correct, leave it out. " +
+      "Every answer must be a REAL, well-known, verifiable thing a reasonable person could recognise — no invented items, no Wikipedia-deep trivia, no borderline or debatable members. If unsure an answer is correct, leave it out. " +
       "Each prompt must be unambiguous, factual and clearly different from every prompt in the 'already used' list (not a rewording). " +
       "For each prompt give 30-45 answers using the most common name, with aliases (alternate spellings, abbreviations, short names). Tier by how often typical players would say it: " +
-      "pencil = the obvious top few, paperclip = very common, notebook = common, backpack = less common, goldstar = rare but still recognisable, valedictorian = obscure yet clearly correct. Include several of each tier. " +
-      SPORTS_RARITY_GUIDANCE + "For non-sports answers set recognition and last_relevant_year null.",
+      "pencil = the obvious top few, paperclip = very common, notebook = common, backpack = less common, goldstar = rare but still recognisable, valedictorian = obscure yet clearly correct and famous within its field. Include several of each tier.",
     prompt: `Date: ${day}\nKnown categories: ${(topic ? topic.categories : CATEGORIES).join(", ")}\n\nEXAMPLES of the quality and style to match:\n${examples(8, topicId ? challengePool(topicId) : ALL_QUESTIONS)}\n\nAlready used prompts (normalized):\n${recent}`,
     providerOptions: { openai: { store: false, forceReasoning: true, reasoningEffort: "low" } },
   });
@@ -187,11 +183,7 @@ async function generate(day: string, track: Track): Promise<WireQuestion[]> {
       id: track === "main" ? `ai-${day}-${picked.length}` : `ai-${track}-${day}-${picked.length}`,
       category: q.category.trim().slice(0, 40),
       prompt: q.prompt.trim().slice(0, 160),
-      answers: q.answers.slice(0, 60).map((a) => ({
-        name: a.name.trim(),
-        tier: topicId === "sports" && a.recognition ? sportsTier(a.recognition, a.last_relevant_year, Number(day.slice(0, 4))) : a.tier,
-        aliases: a.aliases.slice(0, 6),
-      })),
+      answers: q.answers.slice(0, 60).map((a) => ({ name: a.name.trim(), tier: a.tier, aliases: a.aliases.slice(0, 6) })),
     });
     if (picked.length === 7) break;
   }

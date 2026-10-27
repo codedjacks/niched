@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { normalize, frequencyRarity } from "./scoring";
+import { normalize } from "./scoring";
 import type { Question } from "./types";
 
 const model = vi.hoisted(() => ({ output: vi.fn() }));
@@ -42,21 +42,5 @@ describe("generous answer grading", () => {
     vi.stubEnv("OPENAI_API_KEY", "test-openai");
     model.output.mockResolvedValue({ valid: true, matched_curated: null, display: "Tomato", tier: "notebook" });
     expect(await aiJudge(question, "tomato")).toMatchObject({ ok: true, display: "Tomato" });
-  });
-  it("awards older lesser-known sports answers the same calibrated tier during play and verification", async () => {
-    const sports: Question = { id: "ai-2026-10-26-0", category: "Sports", prompt: "Name an NFL quarterback", answers: new Map() };
-    model.output.mockResolvedValue({ valid: true, matched_curated: null, display: "Mark Rypien", tier: "notebook", recognition: "specialist", last_relevant_year: 2002 });
-    expect(await aiJudge(sports, "Mark Rypien")).toMatchObject({ ok: true, tier: "goldstar", points: 85 });
-    expect(await verifyAnswer(sports, "Mark Rypien")).toEqual({ display: "Mark Rypien", tier: "goldstar", points: 85 });
-  });
-  it("uses real frequencies instead of estimated recognition once enough answers exist", async () => {
-    const sports: Question = { id: "sports-qb", category: "Sports", prompt: "Name an NFL quarterback", answers: new Map() };
-    model.output.mockResolvedValue({ valid: true, matched_curated: null, display: "Mark Rypien", tier: "notebook", recognition: "specialist", last_relevant_year: 2002 });
-    const rarity = frequencyRarity({ "sports-qb": { total: 100, counts: { "mark rypien": 30 } } });
-    expect(await verifyAnswer(sports, "Mark Rypien", rarity)).toEqual({ display: "Mark Rypien", tier: "pencil", points: 10 });
-  });
-  it("prevents translations or missed curated matches from inflating a famous answer", async () => {
-    model.output.mockResolvedValue({ valid: true, matched_curated: null, display: "Carrot", tier: "valedictorian", recognition: null, last_relevant_year: null });
-    expect(await verifyAnswer(question, "胡萝卜")).toEqual({ display: "Carrot", tier: "pencil", points: 10 });
   });
 });

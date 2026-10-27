@@ -10,7 +10,6 @@
 <!-- LOVABLE:END -->
 
 - Game logic lives in src/game (questions, scoring, selection, storage, hooks) separate from UI in src/components/game; rarity goes through the RaritySource interface; frequencyRarity uses real answer counts from the backend once a question has MIN_SAMPLES answers, else the curated tier, so new questions still score sensibly.
-- Sports AI rarity uses shared recognition/era calibration for new rounds and unlisted answers; persisted daily tiers stay frozen and canonical aliases reuse their existing tier, so grading cannot inflate names or rewrite played results.
 - Ranked daily scores and answer counts are written only by server functions that re-score typed answers server-side (judge.server.ts verifyAnswer), so clients can't fake points; guests can play but only signed-in accounts rank.
 - Raw game tables are owner/participant-scoped; public rankings and question-scoped frequency data use bounded projection RPCs, so public features never require unrestricted raw-record access.
 - Avatars are preset sticker emoji ids stored on the profile, because public storage buckets are blocked for this workspace.
