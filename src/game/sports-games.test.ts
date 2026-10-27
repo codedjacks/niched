@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { GRID_MAX, VALID_GRIDS, cellAnswers, gridForDay, guessCell } from "./grid";
 import { mysteryForDay, mysteryScore, isMysteryAnswer, MYSTERIES } from "./mystery";
-import { HL_ROUNDS, pairsForDay } from "./higherlower";
+import { HL_ROUNDS, pairsForDay, STATS } from "./higherlower";
 import { recordGame } from "./daily-games";
 
 describe("daily sports games", () => {
@@ -30,6 +30,25 @@ describe("daily sports games", () => {
     const p = pairsForDay("2026-10-30");
     expect(p).toHaveLength(HL_ROUNDS);
     for (const r of p) { expect(r.a.group).toBe(r.b.group); expect(r.a.value).not.toBe(r.b.value); }
+  });
+  it("higher or lower stat bank is large and clean", () => {
+    expect(STATS.length).toBeGreaterThan(250);
+    const seen = new Set<string>();
+    for (const s of STATS) {
+      expect(s.value).toBeGreaterThan(0);
+      expect(seen.has(`${s.group}|${s.name}`)).toBe(false);
+      seen.add(`${s.group}|${s.name}`);
+    }
+    const groups = new Set(STATS.map((s) => s.group));
+    expect(groups.size).toBeGreaterThanOrEqual(12);
+    for (const g of groups) {
+      expect(STATS.filter((s) => s.group === g).length).toBeGreaterThanOrEqual(8);
+    }
+    for (const day of ["2026-10-27", "2026-11-01", "2026-11-15", "2027-01-05"]) {
+      const p = pairsForDay(day);
+      expect(p).toHaveLength(HL_ROUNDS);
+      for (const r of p) expect(r.a.value).not.toBe(r.b.value);
+    }
   });
   it("streak grows on consecutive days and ignores replays", () => {
     let s = recordGame({ best: 0, streak: 0 }, "2026-10-27", 5);
