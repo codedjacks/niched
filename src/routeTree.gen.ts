@@ -14,6 +14,7 @@ import { Route as AccountRouteImport } from './routes/account'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CareerPathRouteImport } from './routes/career-path'
 import { Route as DraftDayRouteImport } from './routes/draft-day'
+import { Route as FactsRouteImport } from './routes/facts'
 import { Route as HigherLowerRouteImport } from './routes/higher-lower'
 import { Route as LockerNumberRouteImport } from './routes/locker-number'
 import { Route as MysteryRouteImport } from './routes/mystery'
@@ -48,6 +49,11 @@ const CareerPathRoute = CareerPathRouteImport.update({
 const DraftDayRoute = DraftDayRouteImport.update({
   id: '/draft-day',
   path: '/draft-day',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FactsRoute = FactsRouteImport.update({
+  id: '/facts',
+  path: '/facts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HigherLowerRoute = HigherLowerRouteImport.update({
@@ -107,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/career-path': typeof CareerPathRoute
   '/draft-day': typeof DraftDayRoute
+  '/facts': typeof FactsRoute
   '/higher-lower': typeof HigherLowerRoute
   '/locker-number': typeof LockerNumberRoute
   '/mystery': typeof MysteryRoute
@@ -124,6 +131,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/career-path': typeof CareerPathRoute
   '/draft-day': typeof DraftDayRoute
+  '/facts': typeof FactsRoute
   '/higher-lower': typeof HigherLowerRoute
   '/locker-number': typeof LockerNumberRoute
   '/mystery': typeof MysteryRoute
@@ -142,6 +150,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/career-path': typeof CareerPathRoute
   '/draft-day': typeof DraftDayRoute
+  '/facts': typeof FactsRoute
   '/higher-lower': typeof HigherLowerRoute
   '/locker-number': typeof LockerNumberRoute
   '/mystery': typeof MysteryRoute
@@ -161,6 +170,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/career-path'
     | '/draft-day'
+    | '/facts'
     | '/higher-lower'
     | '/locker-number'
     | '/mystery'
@@ -178,6 +188,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/career-path'
     | '/draft-day'
+    | '/facts'
     | '/higher-lower'
     | '/locker-number'
     | '/mystery'
@@ -195,6 +206,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/career-path'
     | '/draft-day'
+    | '/facts'
     | '/higher-lower'
     | '/locker-number'
     | '/mystery'
@@ -213,6 +225,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   CareerPathRoute: typeof CareerPathRoute
   DraftDayRoute: typeof DraftDayRoute
+  FactsRoute: typeof FactsRoute
   HigherLowerRoute: typeof HigherLowerRoute
   LockerNumberRoute: typeof LockerNumberRoute
   MysteryRoute: typeof MysteryRoute
@@ -260,6 +273,13 @@ declare module '@tanstack/react-router' {
       path: '/draft-day'
       fullPath: '/draft-day'
       preLoaderRoute: typeof DraftDayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/facts': {
+      id: '/facts'
+      path: '/facts'
+      fullPath: '/facts'
+      preLoaderRoute: typeof FactsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/higher-lower': {
@@ -341,6 +361,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   CareerPathRoute: CareerPathRoute,
   DraftDayRoute: DraftDayRoute,
+  FactsRoute: FactsRoute,
   HigherLowerRoute: HigherLowerRoute,
   LockerNumberRoute: LockerNumberRoute,
   MysteryRoute: MysteryRoute,
