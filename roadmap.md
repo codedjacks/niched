@@ -1,4 +1,7 @@
 # Roadmap
+- [x] Create and populate a source-backed sports facts catalog
+- [x] Connect Higher / Lower and add a searchable sources page
+- [x] Verify sourced records, access controls, and the live facts flow
 - [x] Remove top bar
 - [x] Rankings + daily leaderboard
 - [x] Real answer-frequency tiers

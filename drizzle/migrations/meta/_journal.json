@@ -64,6 +64,13 @@
       "when": 1793113360640,
       "tag": "0008_restrict_sports_players",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1793124187645,
+      "tag": "0009_sourced_sports_facts",
+      "breakpoints": true
     }
   ]
 }

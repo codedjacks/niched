@@ -304,6 +304,80 @@ export type Database = {
           },
         ]
       }
+      sports_fact_sources: {
+        Row: {
+          id: string
+          payload: Json
+          payload_hash: string
+          provider: string
+          retrieved_at: string
+          url: string
+        }
+        Insert: {
+          id: string
+          payload: Json
+          payload_hash: string
+          provider: string
+          retrieved_at: string
+          url: string
+        }
+        Update: {
+          id?: string
+          payload?: Json
+          payload_hash?: string
+          provider?: string
+          retrieved_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
+      sports_facts: {
+        Row: {
+          id: string
+          league: string
+          metric: string
+          player_id: string
+          player_name: string
+          scope: string
+          source_id: string
+          unit: string
+          value: number
+          verified_at: string
+        }
+        Insert: {
+          id: string
+          league: string
+          metric: string
+          player_id: string
+          player_name: string
+          scope?: string
+          source_id: string
+          unit: string
+          value: number
+          verified_at: string
+        }
+        Update: {
+          id?: string
+          league?: string
+          metric?: string
+          player_id?: string
+          player_name?: string
+          scope?: string
+          source_id?: string
+          unit?: string
+          value?: number
+          verified_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sports_facts_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "sports_fact_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sports_player_aliases: {
         Row: {
           espn_id: string | null
