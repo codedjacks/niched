@@ -17,7 +17,7 @@ const schema = z.object({
 
 /** AI referee: checks a free-text answer against a question's curated answers and assigns a tier. */
 export async function aiJudge(q: Question, answer: string): Promise<JudgeResult> {
-  const lovableKey = process.env["LOVABLE_API_KEY"];
+  const lovableKey = (process.env["OPENAI_API_KEY"] ? undefined : process.env["LOVABLE_API_KEY"]);
   const openaiKey = process.env["OPENAI_API_KEY"];
   // No AI key (e.g. self-hosted): curated list + typo matching already ran, so just reject.
   if (!lovableKey && !openaiKey) return { ok: false, reason: "invalid", message: `"${answer.trim()}" doesn't count — try another` };

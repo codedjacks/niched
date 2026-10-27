@@ -144,7 +144,7 @@ async function generate(day: string, track: Track): Promise<WireQuestion[]> {
   // From SPORTS_DAILY_FROM the main Daily Challenge is sports-only too.
   const topicId: ChallengeId | null = track === "main" ? (day >= SPORTS_DAILY_FROM ? "sports" : null) : track;
   const topic = topicId ? CHALLENGES[topicId] : null;
-  const apiKey = process.env["LOVABLE_API_KEY"];
+  const apiKey = (process.env["OPENAI_API_KEY"] ? undefined : process.env["LOVABLE_API_KEY"]);
   const openaiKey = process.env["OPENAI_API_KEY"];
   if (!apiKey && !openaiKey) throw new Error("No AI key (LOVABLE_API_KEY or OPENAI_API_KEY)");
   const db = await admin();
