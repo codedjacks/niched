@@ -57,6 +57,13 @@
       "when": 1793032710920,
       "tag": "0007_sports_players_position",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1793113360640,
+      "tag": "0008_restrict_sports_players",
+      "breakpoints": true
     }
   ]
 }
