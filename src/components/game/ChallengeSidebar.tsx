@@ -1,10 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import { UserSearch, ArrowUpDown } from "lucide-react";
+import { UserSearch, ArrowUpDown, Route as RouteIcon, Mic } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const topics = [
   { to: "/mystery", name: "Mystery Athlete", Icon: UserSearch, color: "text-secondary" },
   { to: "/higher-lower", name: "Higher / Lower", Icon: ArrowUpDown, color: "text-marker" },
+  { to: "/career-path", name: "Career Path", Icon: RouteIcon, color: "text-primary" },
+  { to: "/draft-day", name: "Draft Day", Icon: Mic, color: "text-secondary" },
 ] as const;
 
 export function ChallengeSidebar() {
