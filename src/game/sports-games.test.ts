@@ -31,6 +31,25 @@ describe("daily sports games", () => {
     expect(p).toHaveLength(HL_ROUNDS);
     for (const r of p) { expect(r.a.group).toBe(r.b.group); expect(r.a.value).not.toBe(r.b.value); }
   });
+  it("higher or lower stat bank is large and clean", () => {
+    expect(STATS.length).toBeGreaterThan(250);
+    const seen = new Set<string>();
+    for (const s of STATS) {
+      expect(s.value).toBeGreaterThan(0);
+      expect(seen.has(`${s.group}|${s.name}`)).toBe(false);
+      seen.add(`${s.group}|${s.name}`);
+    }
+    const groups = new Set(STATS.map((s) => s.group));
+    expect(groups.size).toBeGreaterThanOrEqual(12);
+    for (const g of groups) {
+      expect(STATS.filter((s) => s.group === g).length).toBeGreaterThanOrEqual(8);
+    }
+    for (const day of ["2026-10-27", "2026-11-01", "2026-11-15", "2027-01-05"]) {
+      const p = pairsForDay(day);
+      expect(p).toHaveLength(HL_ROUNDS);
+      for (const r of p) expect(r.a.value).not.toBe(r.b.value);
+    }
+  });
   it("streak grows on consecutive days and ignores replays", () => {
     let s = recordGame({ best: 0, streak: 0 }, "2026-10-27", 5);
     s = recordGame(s, "2026-10-28", 7);
