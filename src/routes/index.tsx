@@ -22,7 +22,7 @@ export const Route = createFileRoute("/")({
       { title: "Niched — the sports rarity trivia game" },
       { name: "description", content: "Seven open-ended sports trivia questions. The less common your correct answer, the more points you score. Play the daily challenge." },
       { property: "og:title", content: "Niched — the sports rarity trivia game" },
-      { property: "og:description", content: "Find the niche sports answers. Daily challenge, grid, mystery athlete and more." },
+      { property: "og:description", content: "Find the niche sports answers. Daily challenge, mystery athlete and more." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

@@ -1,11 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { Grid3x3, UserSearch, ArrowUpDown } from "lucide-react";
+import { UserSearch, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const topics = [
-  { to: "/grid", name: "NBA Grid", Icon: Grid3x3, color: "text-primary" },
-  { to: "/grid-nfl", name: "NFL Grid", Icon: Grid3x3, color: "text-secondary" },
-  { to: "/grid-mlb", name: "MLB Grid", Icon: Grid3x3, color: "text-marker" },
   { to: "/mystery", name: "Mystery Athlete", Icon: UserSearch, color: "text-secondary" },
   { to: "/higher-lower", name: "Higher / Lower", Icon: ArrowUpDown, color: "text-marker" },
 ] as const;
