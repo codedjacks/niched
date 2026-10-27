@@ -12,6 +12,10 @@ const GAMES = [
   { to: "/higher-lower", icon: "📈", name: "Higher / Lower", blurb: "Which career stat is bigger?" },
   { to: "/career-path", icon: "🧭", name: "Career Path", blurb: "Name the player from their teams" },
   { to: "/draft-day", icon: "🎤", name: "Draft Day", blurb: "Who went #1 overall?" },
+  { to: "/nicknames", icon: "🏷️", name: "Nicknames", blurb: "Who goes by this name?" },
+  { to: "/locker-number", icon: "👕", name: "Locker Number", blurb: "Who wore this number?" },
+  { to: "/stat-line", icon: "📊", name: "Stat Line", blurb: "Whose season was this?" },
+  { to: "/team-trio", icon: "🤝", name: "Team Trio", blurb: "Name the team of three teammates" },
 ] as const;
 
 function fmt(ms: number) {

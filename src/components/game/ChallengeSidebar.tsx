@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { UserSearch, ArrowUpDown, Route as RouteIcon, Mic } from "lucide-react";
+import { UserSearch, ArrowUpDown, Route as RouteIcon, Mic, Tag, Shirt, BarChart3, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const topics = [
@@ -7,6 +7,10 @@ const topics = [
   { to: "/higher-lower", name: "Higher / Lower", Icon: ArrowUpDown, color: "text-marker" },
   { to: "/career-path", name: "Career Path", Icon: RouteIcon, color: "text-primary" },
   { to: "/draft-day", name: "Draft Day", Icon: Mic, color: "text-secondary" },
+  { to: "/nicknames", name: "Nicknames", Icon: Tag, color: "text-marker" },
+  { to: "/locker-number", name: "Locker Number", Icon: Shirt, color: "text-primary" },
+  { to: "/stat-line", name: "Stat Line", Icon: BarChart3, color: "text-secondary" },
+  { to: "/team-trio", name: "Team Trio", Icon: Users, color: "text-marker" },
 ] as const;
 
 export function ChallengeSidebar() {
