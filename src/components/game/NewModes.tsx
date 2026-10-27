@@ -115,13 +115,13 @@ export function BoxScore({ game, line, columns, points, isAnswer, answer }: { ga
   const { over, score, form } = useTypedGuess(game, isAnswer, () => { if (step + 1 >= max) return true; setStep(step + 1); return false; }, () => points[step]!);
   return (
     <>
-      <div className="rounded-lg border-4 border-border bg-foreground p-4 text-background shadow-pop-sm">
-        <p className="text-center font-jersey text-2xl text-accent md:text-3xl">{line}</p>
+      <div className="rounded-lg border-4 border-border bg-background p-4 text-foreground shadow-pop-sm">
+        <p className="text-center font-jersey text-2xl text-primary md:text-3xl">{line}</p>
         <div className="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4">
           {columns.map(([k, v], i) => {
             const open = over || i < step;
             return (
-              <div key={k} className="rounded-md border-2 border-background/30 p-2 text-center">
+              <div key={k} className="rounded-md border-2 border-border p-2 text-center">
                 <p className="font-display text-[10px] uppercase opacity-70">{k}</p>
                 <p className={`font-display text-sm font-bold uppercase transition ${open ? "animate-pop" : "select-none blur-sm"}`} aria-hidden={!open}>{open ? v : "██████"}</p>
               </div>
@@ -187,9 +187,9 @@ export function DraftBoard({ game, header, choices, answer }: { game: Game; head
   const score = result ?? game.progress.score ?? 0;
   return (
     <>
-      <div className="rounded-lg border-4 border-border bg-foreground p-5 text-center text-background shadow-pop-sm">
+      <div className="rounded-lg border-4 border-border bg-background p-5 text-center text-foreground shadow-pop-sm">
         {header}
-        {!over && <p className={`mt-3 font-jersey text-5xl ${left < 10 ? "animate-pulse text-destructive" : "text-accent"}`} role="timer" aria-live="off">0:{String(left).padStart(2, "0")}</p>}
+        {!over && <p className={`mt-3 font-jersey text-5xl ${left < 10 ? "animate-pulse text-destructive" : "text-primary"}`} role="timer" aria-live="off">0:{String(left).padStart(2, "0")}</p>}
         {!over && <p className="font-display text-[10px] uppercase opacity-70">{left >= 10 ? "Pick now for 100" : "Late pick · 60"}</p>}
       </div>
       <div className="mt-4 grid gap-2 md:grid-cols-2">
