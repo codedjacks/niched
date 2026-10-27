@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { GameFrame, useDailyGame } from "@/components/game/SportsGame";
-import { GuessGame } from "@/components/game/GuessGame";
-import { DRAFT_POINTS, draftForDay, draftHints, isDraftAnswer } from "@/game/draft";
+import { DraftBoard } from "@/components/game/NewModes";
+import { choicesFor } from "@/game/modes";
+import { DRAFTS, draftForDay } from "@/game/draft";
 
 export const Route = createFileRoute("/draft-day")({
   head: () => ({
@@ -19,13 +20,13 @@ export const Route = createFileRoute("/draft-day")({
 
 function DraftPage() {
   const game = useDailyGame("draft");
-  const frame = { note: "on the clock", title: "Draft Day", subtitle: "Who went #1 overall? Each miss reveals a hint. Three guesses." };
+  const frame = { note: "on the clock", title: "Draft Day", subtitle: "Who went #1 overall? One pick, clock is running." };
   if (!game.day) return <GameFrame {...frame}>{null}</GameFrame>;
   const p = draftForDay(game.day);
   return (
     <GameFrame {...frame}>
-      <GuessGame game={game} hints={draftHints(p)} points={DRAFT_POINTS} isAnswer={(t) => isDraftAnswer(p, t)} answer={p.name} shareLabel="Draft Day" emoji="🎤"
-        puzzle={<p className="font-display text-2xl font-black uppercase sm:text-3xl">{p.year} {p.league} Draft<span className="block text-base text-primary">#1 overall pick</span></p>} />
+      <DraftBoard game={game} answer={p.name} choices={choicesFor(p, DRAFTS, (d) => d.name, 4, game.day)}
+        header={<><p className="font-display text-xs uppercase opacity-70">{p.year} {p.league} Draft · #1 overall · {p.team}</p><p className="mt-1 font-display text-lg font-bold uppercase">{p.position} · {p.school}</p></>} />
     </GameFrame>
   );
 }
