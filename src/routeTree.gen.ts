@@ -12,9 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as GridRouteImport } from './routes/grid'
-import { Route as GridMlbRouteImport } from './routes/grid-mlb'
-import { Route as GridNflRouteImport } from './routes/grid-nfl'
 import { Route as HigherLowerRouteImport } from './routes/higher-lower'
 import { Route as MysteryRouteImport } from './routes/mystery'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
@@ -35,21 +32,6 @@ const AccountRoute = AccountRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GridRoute = GridRouteImport.update({
-  id: '/grid',
-  path: '/grid',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GridMlbRoute = GridMlbRouteImport.update({
-  id: '/grid-mlb',
-  path: '/grid-mlb',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GridNflRoute = GridNflRouteImport.update({
-  id: '/grid-nfl',
-  path: '/grid-nfl',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HigherLowerRoute = HigherLowerRouteImport.update({
@@ -87,9 +69,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
-  '/grid': typeof GridRoute
-  '/grid-mlb': typeof GridMlbRoute
-  '/grid-nfl': typeof GridNflRoute
   '/higher-lower': typeof HigherLowerRoute
   '/mystery': typeof MysteryRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -101,9 +80,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
-  '/grid': typeof GridRoute
-  '/grid-mlb': typeof GridMlbRoute
-  '/grid-nfl': typeof GridNflRoute
   '/higher-lower': typeof HigherLowerRoute
   '/mystery': typeof MysteryRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -116,9 +92,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
-  '/grid': typeof GridRoute
-  '/grid-mlb': typeof GridMlbRoute
-  '/grid-nfl': typeof GridNflRoute
   '/higher-lower': typeof HigherLowerRoute
   '/mystery': typeof MysteryRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -132,9 +105,6 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/auth'
-    | '/grid'
-    | '/grid-mlb'
-    | '/grid-nfl'
     | '/higher-lower'
     | '/mystery'
     | '/reset-password'
@@ -146,9 +116,6 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/auth'
-    | '/grid'
-    | '/grid-mlb'
-    | '/grid-nfl'
     | '/higher-lower'
     | '/mystery'
     | '/reset-password'
@@ -160,9 +127,6 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/auth'
-    | '/grid'
-    | '/grid-mlb'
-    | '/grid-nfl'
     | '/higher-lower'
     | '/mystery'
     | '/reset-password'
@@ -175,9 +139,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
   AuthRoute: typeof AuthRoute
-  GridRoute: typeof GridRoute
-  GridMlbRoute: typeof GridMlbRoute
-  GridNflRoute: typeof GridNflRoute
   HigherLowerRoute: typeof HigherLowerRoute
   MysteryRoute: typeof MysteryRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -207,27 +168,6 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/grid': {
-      id: '/grid'
-      path: '/grid'
-      fullPath: '/grid'
-      preLoaderRoute: typeof GridRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/grid-mlb': {
-      id: '/grid-mlb'
-      path: '/grid-mlb'
-      fullPath: '/grid-mlb'
-      preLoaderRoute: typeof GridMlbRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/grid-nfl': {
-      id: '/grid-nfl'
-      path: '/grid-nfl'
-      fullPath: '/grid-nfl'
-      preLoaderRoute: typeof GridNflRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/higher-lower': {
@@ -279,9 +219,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
   AuthRoute: AuthRoute,
-  GridRoute: GridRoute,
-  GridMlbRoute: GridMlbRoute,
-  GridNflRoute: GridNflRoute,
   HigherLowerRoute: HigherLowerRoute,
   MysteryRoute: MysteryRoute,
   ResetPasswordRoute: ResetPasswordRoute,

@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Grid3x3, UserSearch, ArrowUpDown } from "lucide-react";
+import { UserSearch, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const topics = [
