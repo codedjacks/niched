@@ -17,7 +17,7 @@ function Done({ game, score, answer, label, emoji, max = 100 }: { game: Game; sc
 }
 
 /** Typed-guess loop where each miss changes the board itself (not a hint list). */
-function useTypedGuess(game: Game, isAnswer: (t: string) => boolean, onMiss: () => boolean, scoreNow: () => number) {
+function useTypedGuess(game: Game, isAnswer: (t: string) => boolean, onMiss: () => boolean, scoreNow: () => number, opts: { resolveNames?: boolean; placeholder?: string } = {}) {
   const [typed, setTyped] = useState("");
   const [wrong, setWrong] = useState<string[]>([]);
   const [result, setResult] = useState<number | null>(null);
@@ -34,6 +34,7 @@ function useTypedGuess(game: Game, isAnswer: (t: string) => boolean, onMiss: () 
   const guess = async () => {
     if (!typed.trim() || checking || over) return;
     if (isAnswer(typed)) return end(scoreNow());
+    if (opts.resolveNames === false) { miss(typed); return; }
     setChecking(true);
     const real = await resolve({ data: { typed } }).catch(() => null);
     setChecking(false);
