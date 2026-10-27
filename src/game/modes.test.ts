@@ -9,7 +9,7 @@ describe("game modes", () => {
     expect(draftPickScore(false, 15)).toBe(0);
     expect(draftPickScore(true, 0)).toBe(0);
   });
-  it("trio: -20 per wrong pennant, floor 20", () => { expect(trioPickScore(0)).toBe(100); expect(trioPickScore(2)).toBe(60); expect(trioPickScore(9)).toBe(20); });
+  it("trio: 100/80/60/40/20 by guess, zero after the fifth miss", () => { expect(trioPickScore(0)).toBe(100); expect(trioPickScore(2)).toBe(60); expect(trioPickScore(4)).toBe(20); expect(trioPickScore(5)).toBe(0); });
   it("locker: -20 per locker, -15 per miss, floor 10", () => { expect(lockerScore(0, 0)).toBe(100); expect(lockerScore(2, 1)).toBe(45); expect(lockerScore(4, 3)).toBe(10); });
   it("letters: hidden at 0, full at max", () => {
     expect(letterMask("Karl Malone", 0, 4)).toBe("____ ______");

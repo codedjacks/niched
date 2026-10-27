@@ -1,8 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { GameFrame, useDailyGame } from "@/components/game/SportsGame";
 import { PennantPick } from "@/components/game/NewModes";
-import { choicesFor } from "@/game/modes";
-import { TRIOS, trioForDay } from "@/game/trio";
+import { TRIOS, TRIO_POINTS, trioForDay, isTrioAnswer } from "@/game/trio";
 
 export const Route = createFileRoute("/team-trio")({
   head: () => ({
@@ -20,12 +19,12 @@ export const Route = createFileRoute("/team-trio")({
 
 function TrioPage() {
   const game = useDailyGame("trio");
-  const frame = { note: "same locker room", title: "Team Trio", subtitle: "Tap the team these three shared. Each wrong pennant brings in another teammate." };
+  const frame = { note: "same locker room", title: "Team Trio", subtitle: "Name the team these three shared. The teams are never listed — each wrong guess walks in another teammate." };
   if (!game.day) return <GameFrame {...frame}>{null}</GameFrame>;
   const p = trioForDay(game.day);
   return (
     <GameFrame {...frame}>
-      <PennantPick game={game} players={p.players} answer={p.team} clue={`${p.league} · ${p.decade}`} teams={choicesFor(p, TRIOS, (x) => x.team, 8, game.day)} />
+      <PennantPick game={game} players={p.players} answer={p.team} clue={`${p.league} · ${p.decade}`} points={TRIO_POINTS} isAnswer={(t) => isTrioAnswer(p, t)} />
     </GameFrame>
   );
 }

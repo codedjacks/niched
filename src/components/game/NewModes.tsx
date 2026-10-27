@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { resolvePlayerName } from "@/game/players.functions";
 import { ResultCard, type useDailyGame } from "./SportsGame";
-import { DRAFT_CLOCK, LOCKER_GUESSES, draftPickScore, letterMask, lockerScore, trioPickScore } from "@/game/modes";
+import { DRAFT_CLOCK, LOCKER_GUESSES, draftPickScore, letterMask, lockerScore } from "@/game/modes";
 
 type Game = ReturnType<typeof useDailyGame>;
 const card = "rounded-lg border-2 border-border bg-card p-5 shadow-pop-sm";
@@ -17,7 +17,7 @@ function Done({ game, score, answer, label, emoji, max = 100 }: { game: Game; sc
 }
 
 /** Typed-guess loop where each miss changes the board itself (not a hint list). */
-function useTypedGuess(game: Game, isAnswer: (t: string) => boolean, onMiss: () => boolean, scoreNow: () => number) {
+function useTypedGuess(game: Game, isAnswer: (t: string) => boolean, onMiss: () => boolean, scoreNow: () => number, opts: { resolveNames?: boolean; placeholder?: string } = {}) {
   const [typed, setTyped] = useState("");
   const [wrong, setWrong] = useState<string[]>([]);
   const [result, setResult] = useState<number | null>(null);
@@ -34,6 +34,7 @@ function useTypedGuess(game: Game, isAnswer: (t: string) => boolean, onMiss: () 
   const guess = async () => {
     if (!typed.trim() || checking || over) return;
     if (isAnswer(typed)) return end(scoreNow());
+    if (opts.resolveNames === false) { miss(typed); return; }
     setChecking(true);
     const real = await resolve({ data: { typed } }).catch(() => null);
     setChecking(false);
@@ -45,7 +46,7 @@ function useTypedGuess(game: Game, isAnswer: (t: string) => boolean, onMiss: () 
     <>
       <p className="mt-4 font-display text-xs uppercase text-muted-foreground">{worth}</p>
       <form key={shake} onSubmit={(e) => { e.preventDefault(); void guess(); }} className={`mt-2 flex flex-wrap gap-2 ${shake ? "animate-shake" : ""}`}>
-        <input autoFocus value={typed} onChange={(e) => setTyped(e.target.value)} placeholder="Name the player…" aria-label="Player name" disabled={checking}
+        <input autoFocus value={typed} onChange={(e) => setTyped(e.target.value)} placeholder={opts.placeholder ?? "Name the player…"} aria-label={opts.placeholder ?? "Player name"} disabled={checking}
           className="min-w-0 flex-1 rounded-lg border-2 border-border bg-card px-4 py-3 font-sans text-foreground outline-none focus:border-primary" />
         <button disabled={checking} className="rounded-lg bg-primary px-5 py-3 font-display text-sm font-bold uppercase text-primary-foreground">{checking ? "Checking…" : "Guess"}</button>
         <button type="button" onClick={() => miss()} className="rounded-lg border-2 border-border px-4 py-3 font-display text-xs uppercase">{skip}</button>
@@ -208,18 +209,12 @@ export function DraftBoard({ game, header, choices, answer }: { game: Game; head
   );
 }
 
-/** Team Trio: tap pennants; wrong ones get struck out and the next teammate walks in. */
-export function PennantPick({ game, players, teams, answer, clue }: { game: Game; players: string[]; teams: string[]; answer: string; clue: string }) {
-  const [struck, setStruck] = useState<string[]>([]);
-  const [result, setResult] = useState<number | null>(null);
-  const over = game.doneToday || result !== null;
-  const shown = over ? players.length : Math.min(players.length, 1 + struck.length);
-  const tap = (t: string) => {
-    if (over) return;
-    if (t === answer) { const pts = trioPickScore(struck.length); setResult(pts); game.finish(pts); }
-    else setStruck((s) => [...s, t]);
-  };
-  const score = result ?? game.progress.score ?? 0;
+/** Team Trio: name the team by typing — the teams are never listed; every miss walks another teammate out. */
+export function PennantPick({ game, players, points, isAnswer, answer, clue }: { game: Game; players: string[]; points: readonly number[]; isAnswer: (t: string) => boolean; answer: string; clue: string }) {
+  const [step, setStep] = useState(0);
+  const max = points.length;
+  const { over, score, form } = useTypedGuess(game, isAnswer, () => { if (step + 1 >= max) return true; setStep(step + 1); return false; }, () => points[step]!, { resolveNames: false, placeholder: "Name the team…" });
+  const shown = over ? players.length : Math.min(players.length, step + 1);
   return (
     <>
       <div className={card}>
@@ -228,17 +223,7 @@ export function PennantPick({ game, players, teams, answer, clue }: { game: Game
           {players.map((n, i) => <li key={n} className={`rounded-md border-2 border-border px-3 py-2 ${i < shown ? "animate-rise bg-background" : "border-dashed text-muted-foreground"}`}>{i < shown ? n : "? ? ?"}</li>)}
         </ul>
       </div>
-      {!over && <p className="mt-4 font-display text-xs uppercase text-muted-foreground">Tap their team · worth {trioPickScore(struck.length)} pts</p>}
-      <div className="mt-2 grid grid-cols-2 gap-2 md:grid-cols-4">
-        {teams.map((t) => {
-          const isStruck = struck.includes(t);
-          const state = over && t === answer ? "animate-pop bg-primary text-primary-foreground" : isStruck ? "animate-shake bg-background text-muted-foreground line-through opacity-60" : "bg-card hover:-translate-y-0.5";
-          return (
-            <button key={t} type="button" disabled={over || isStruck} onClick={() => tap(t)}
-              className={`relative rounded-md border-2 border-border py-4 pl-3 pr-6 text-left font-display text-xs font-bold uppercase transition [clip-path:polygon(0_0,100%_18%,100%_82%,0_100%)] ${state}`}>{t}</button>
-          );
-        })}
-      </div>
+      {form(`Name the team · Guess ${step + 1} of ${max} · worth ${points[step]} pts`, step + 1 >= max ? "Give up" : "Walk one in")}
       {over && <Done game={game} score={score} answer={answer} label="Team Trio" emoji="🚩" />}
     </>
   );
