@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CareerPathRouteImport } from './routes/career-path'
+import { Route as DraftDayRouteImport } from './routes/draft-day'
 import { Route as HigherLowerRouteImport } from './routes/higher-lower'
 import { Route as MysteryRouteImport } from './routes/mystery'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
@@ -32,6 +34,16 @@ const AccountRoute = AccountRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareerPathRoute = CareerPathRouteImport.update({
+  id: '/career-path',
+  path: '/career-path',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DraftDayRoute = DraftDayRouteImport.update({
+  id: '/draft-day',
+  path: '/draft-day',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HigherLowerRoute = HigherLowerRouteImport.update({
@@ -69,6 +81,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
+  '/career-path': typeof CareerPathRoute
+  '/draft-day': typeof DraftDayRoute
   '/higher-lower': typeof HigherLowerRoute
   '/mystery': typeof MysteryRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -80,6 +94,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
+  '/career-path': typeof CareerPathRoute
+  '/draft-day': typeof DraftDayRoute
   '/higher-lower': typeof HigherLowerRoute
   '/mystery': typeof MysteryRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -92,6 +108,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
+  '/career-path': typeof CareerPathRoute
+  '/draft-day': typeof DraftDayRoute
   '/higher-lower': typeof HigherLowerRoute
   '/mystery': typeof MysteryRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -105,6 +123,8 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/auth'
+    | '/career-path'
+    | '/draft-day'
     | '/higher-lower'
     | '/mystery'
     | '/reset-password'
@@ -116,6 +136,8 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/auth'
+    | '/career-path'
+    | '/draft-day'
     | '/higher-lower'
     | '/mystery'
     | '/reset-password'
@@ -127,6 +149,8 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/auth'
+    | '/career-path'
+    | '/draft-day'
     | '/higher-lower'
     | '/mystery'
     | '/reset-password'
@@ -139,6 +163,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
   AuthRoute: typeof AuthRoute
+  CareerPathRoute: typeof CareerPathRoute
+  DraftDayRoute: typeof DraftDayRoute
   HigherLowerRoute: typeof HigherLowerRoute
   MysteryRoute: typeof MysteryRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -168,6 +194,20 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/career-path': {
+      id: '/career-path'
+      path: '/career-path'
+      fullPath: '/career-path'
+      preLoaderRoute: typeof CareerPathRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/draft-day': {
+      id: '/draft-day'
+      path: '/draft-day'
+      fullPath: '/draft-day'
+      preLoaderRoute: typeof DraftDayRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/higher-lower': {
@@ -219,6 +259,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
   AuthRoute: AuthRoute,
+  CareerPathRoute: CareerPathRoute,
+  DraftDayRoute: DraftDayRoute,
   HigherLowerRoute: HigherLowerRoute,
   MysteryRoute: MysteryRoute,
   ResetPasswordRoute: ResetPasswordRoute,
