@@ -30,7 +30,7 @@ export function ChallengeSidebar() {
           ))}
         </nav>
       </div>
-      <div aria-hidden className="absolute bottom-10 left-6 hidden -rotate-6 font-hand text-2xl text-muted-foreground md:block">game night ★<br /><span className="text-base">new games every day.</span></div>
+      <div aria-hidden className="absolute bottom-10 left-6 hidden -rotate-6 font-hand text-2xl text-muted-foreground md:block">{"\n"}</div>
     </aside>
   );
 }
