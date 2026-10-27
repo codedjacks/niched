@@ -209,18 +209,12 @@ export function DraftBoard({ game, header, choices, answer }: { game: Game; head
   );
 }
 
-/** Team Trio: tap pennants; wrong ones get struck out and the next teammate walks in. */
-export function PennantPick({ game, players, teams, answer, clue }: { game: Game; players: string[]; teams: string[]; answer: string; clue: string }) {
-  const [struck, setStruck] = useState<string[]>([]);
-  const [result, setResult] = useState<number | null>(null);
-  const over = game.doneToday || result !== null;
-  const shown = over ? players.length : Math.min(players.length, 1 + struck.length);
-  const tap = (t: string) => {
-    if (over) return;
-    if (t === answer) { const pts = trioPickScore(struck.length); setResult(pts); game.finish(pts); }
-    else setStruck((s) => [...s, t]);
-  };
-  const score = result ?? game.progress.score ?? 0;
+/** Team Trio: name the team by typing — the teams are never listed; every miss walks another teammate out. */
+export function PennantPick({ game, players, points, isAnswer, answer, clue }: { game: Game; players: string[]; points: readonly number[]; isAnswer: (t: string) => boolean; answer: string; clue: string }) {
+  const [step, setStep] = useState(0);
+  const max = points.length;
+  const { over, score, form } = useTypedGuess(game, isAnswer, () => { if (step + 1 >= max) return true; setStep(step + 1); return false; }, () => points[step]!, { resolveNames: false, placeholder: "Name the team…" });
+  const shown = over ? players.length : Math.min(players.length, step + 1);
   return (
     <>
       <div className={card}>
@@ -229,17 +223,7 @@ export function PennantPick({ game, players, teams, answer, clue }: { game: Game
           {players.map((n, i) => <li key={n} className={`rounded-md border-2 border-border px-3 py-2 ${i < shown ? "animate-rise bg-background" : "border-dashed text-muted-foreground"}`}>{i < shown ? n : "? ? ?"}</li>)}
         </ul>
       </div>
-      {!over && <p className="mt-4 font-display text-xs uppercase text-muted-foreground">Tap their team · worth {trioPickScore(struck.length)} pts</p>}
-      <div className="mt-2 grid grid-cols-2 gap-2 md:grid-cols-4">
-        {teams.map((t) => {
-          const isStruck = struck.includes(t);
-          const state = over && t === answer ? "animate-pop bg-primary text-primary-foreground" : isStruck ? "animate-shake bg-background text-muted-foreground line-through opacity-60" : "bg-card hover:-translate-y-0.5";
-          return (
-            <button key={t} type="button" disabled={over || isStruck} onClick={() => tap(t)}
-              className={`relative rounded-md border-2 border-border py-4 pl-3 pr-6 text-left font-display text-xs font-bold uppercase transition [clip-path:polygon(0_0,100%_18%,100%_82%,0_100%)] ${state}`}>{t}</button>
-          );
-        })}
-      </div>
+      {form(`Name the team · Guess ${step + 1} of ${max} · worth ${points[step]} pts`, step + 1 >= max ? "Give up" : "Walk one in")}
       {over && <Done game={game} score={score} answer={answer} label="Team Trio" emoji="🚩" />}
     </>
   );
