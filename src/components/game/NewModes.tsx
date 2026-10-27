@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { resolvePlayerName } from "@/game/players.functions";
 import { ResultCard, type useDailyGame } from "./SportsGame";
-import { DRAFT_CLOCK, LOCKER_GUESSES, draftPickScore, letterMask, lockerScore, trioPickScore } from "@/game/modes";
+import { DRAFT_CLOCK, LOCKER_GUESSES, draftPickScore, letterMask, lockerScore } from "@/game/modes";
 
 type Game = ReturnType<typeof useDailyGame>;
 const card = "rounded-lg border-2 border-border bg-card p-5 shadow-pop-sm";

@@ -1,8 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { GameFrame, useDailyGame } from "@/components/game/SportsGame";
 import { PennantPick } from "@/components/game/NewModes";
-import { choicesFor } from "@/game/modes";
-import { TRIOS, trioForDay } from "@/game/trio";
+import { TRIOS, TRIO_POINTS, trioForDay, isTrioAnswer } from "@/game/trio";
 
 export const Route = createFileRoute("/team-trio")({
   head: () => ({
