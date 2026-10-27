@@ -3,7 +3,7 @@ import { dailyItem, dayNumber, namesMatch } from "./daily-games";
 export interface DraftPick { league: "NBA" | "NFL" | "MLB"; year: number; name: string; aliases?: string[]; position: string; school: string; team: string }
 
 const d = (league: DraftPick["league"], year: number, name: string, team: string, position: string, school: string, aliases?: string[]): DraftPick =>
-  ({ league, year, name, team, position, school, aliases });
+  ({ league, year, name, team, position, school, ...(aliases ? { aliases } : {}) });
 
 /** #1 overall picks. Frozen, append-only: the daily deck order depends on this list. */
 export const DRAFTS: DraftPick[] = [

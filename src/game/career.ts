@@ -3,7 +3,7 @@ import { dailyItem, dayNumber, namesMatch } from "./daily-games";
 export interface Career { name: string; aliases?: string[]; league: "NBA" | "NFL" | "MLB"; teams: string[]; position: string; debut: string; award: string }
 
 const c = (league: Career["league"], name: string, teams: string, position: string, debut: string, award: string, aliases?: string[]): Career =>
-  ({ league, name, teams: teams.split(", "), position, debut, award, aliases });
+  ({ league, name, teams: teams.split(", "), position, debut, award, ...(aliases ? { aliases } : {}) });
 
 /** Frozen, append-only: the daily deck order depends on this list. */
 export const CAREERS: Career[] = [
