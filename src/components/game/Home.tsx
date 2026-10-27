@@ -46,7 +46,8 @@ export function Home({ stats, streak, doneToday, todayScore, dailyAvailable = tr
           Niched
         </h1>
         <p className="mx-auto mt-5 max-w-xl font-sans text-base text-muted-foreground sm:text-lg">
-          Daily sports games. Any right answer counts — the rarer it is, the more it's worth.
+          Daily sports games. Any right answer counts 
+          The rarer it is, The more it's worth.
         </p>
       </header>
 
