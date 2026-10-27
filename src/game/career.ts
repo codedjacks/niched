@@ -1,0 +1,90 @@
+import { dailyItem, dayNumber, namesMatch } from "./daily-games";
+
+export interface Career { name: string; aliases?: string[]; league: "NBA" | "NFL" | "MLB"; teams: string[]; position: string; debut: string; award: string }
+
+const c = (league: Career["league"], name: string, teams: string, position: string, debut: string, award: string, aliases?: string[]): Career =>
+  ({ league, name, teams: teams.split(", "), position, debut, award, ...(aliases ? { aliases } : {}) });
+
+/** Frozen, append-only: the daily deck order depends on this list. */
+export const CAREERS: Career[] = [
+  c("NBA", "LeBron James", "Cavaliers, Heat, Cavaliers, Lakers", "Forward", "2000s", "4× MVP", ["LeBron"]),
+  c("NBA", "Kevin Durant", "SuperSonics, Thunder, Warriors, Nets, Suns, Rockets", "Forward", "2000s", "2014 MVP", ["KD"]),
+  c("NBA", "Shaquille O'Neal", "Magic, Lakers, Heat, Suns, Cavaliers, Celtics", "Center", "1990s", "2000 MVP", ["Shaq"]),
+  c("NBA", "Chris Paul", "Hornets, Clippers, Rockets, Thunder, Suns, Warriors, Spurs, Clippers", "Guard", "2000s", "12× All-Star", ["CP3"]),
+  c("NBA", "Carmelo Anthony", "Nuggets, Knicks, Thunder, Rockets, Trail Blazers, Lakers", "Forward", "2000s", "10× All-Star", ["Melo"]),
+  c("NBA", "Kawhi Leonard", "Spurs, Raptors, Clippers", "Forward", "2010s", "2× Finals MVP", ["Kawhi"]),
+  c("NBA", "James Harden", "Thunder, Rockets, Nets, 76ers, Clippers", "Guard", "2000s", "2018 MVP"),
+  c("NBA", "Russell Westbrook", "Thunder, Wizards, Lakers, Clippers, Nuggets, Kings", "Guard", "2000s", "2017 MVP"),
+  c("NBA", "Allen Iverson", "76ers, Nuggets, Pistons, Grizzlies, 76ers", "Guard", "1990s", "2001 MVP", ["AI"]),
+  c("NBA", "Kareem Abdul-Jabbar", "Bucks, Lakers", "Center", "1960s", "6× MVP", ["Kareem", "Lew Alcindor"]),
+  c("NBA", "Wilt Chamberlain", "Warriors, 76ers, Lakers", "Center", "1950s", "4× MVP", ["Wilt"]),
+  c("NBA", "Kevin Garnett", "Timberwolves, Celtics, Nets, Timberwolves", "Forward", "1990s", "2004 MVP", ["KG"]),
+  c("NBA", "Ray Allen", "Bucks, SuperSonics, Celtics, Heat", "Guard", "1990s", "2× NBA champion"),
+  c("NBA", "Dwight Howard", "Magic, Lakers, Rockets, Hawks, Hornets, Wizards, Lakers, 76ers, Lakers", "Center", "2000s", "3× Defensive Player of the Year"),
+  c("NBA", "Vince Carter", "Raptors, Nets, Magic, Suns, Mavericks, Grizzlies, Kings, Hawks", "Guard", "1990s", "1999 Rookie of the Year"),
+  c("NBA", "Paul George", "Pacers, Thunder, Clippers, 76ers", "Forward", "2010s", "9× All-Star", ["PG13"]),
+  c("NBA", "Kyrie Irving", "Cavaliers, Celtics, Nets, Mavericks", "Guard", "2010s", "2012 Rookie of the Year", ["Kyrie"]),
+  c("NBA", "Jimmy Butler", "Bulls, Timberwolves, 76ers, Heat, Warriors", "Forward", "2010s", "6× All-Star"),
+  c("NBA", "Charles Barkley", "76ers, Suns, Rockets", "Forward", "1980s", "1993 MVP", ["Barkley"]),
+  c("NBA", "Steve Nash", "Suns, Mavericks, Suns, Lakers", "Guard", "1990s", "2× MVP"),
+  c("NBA", "Pau Gasol", "Grizzlies, Lakers, Bulls, Spurs, Bucks", "Forward/Center", "2000s", "2002 Rookie of the Year"),
+  c("NBA", "Dennis Rodman", "Pistons, Spurs, Bulls, Lakers, Mavericks", "Forward", "1980s", "2× Defensive Player of the Year", ["Rodman"]),
+  c("NBA", "Anthony Davis", "Pelicans, Lakers, Mavericks", "Forward/Center", "2010s", "2020 NBA champion", ["AD"]),
+  c("NBA", "Luka Doncic", "Mavericks, Lakers", "Guard", "2010s", "2019 Rookie of the Year", ["Luka", "Luka Dončić"]),
+  c("NBA", "Michael Jordan", "Bulls, Wizards", "Guard", "1980s", "6× Finals MVP", ["MJ", "Jordan"]),
+  c("NFL", "Peyton Manning", "Colts, Broncos", "Quarterback", "1990s", "5× MVP"),
+  c("NFL", "Tom Brady", "Patriots, Buccaneers", "Quarterback", "2000s", "7 Super Bowl titles", ["Brady"]),
+  c("NFL", "Brett Favre", "Falcons, Packers, Jets, Vikings", "Quarterback", "1990s", "3× MVP", ["Favre"]),
+  c("NFL", "Aaron Rodgers", "Packers, Jets, Steelers", "Quarterback", "2000s", "4× MVP"),
+  c("NFL", "Joe Montana", "49ers, Chiefs", "Quarterback", "1970s", "3× Super Bowl MVP"),
+  c("NFL", "Randy Moss", "Vikings, Raiders, Patriots, Vikings, Titans, 49ers", "Wide receiver", "1990s", "1998 Offensive Rookie of the Year"),
+  c("NFL", "Terrell Owens", "49ers, Eagles, Cowboys, Bills, Bengals", "Wide receiver", "1990s", "6× Pro Bowl", ["T.O."]),
+  c("NFL", "Emmitt Smith", "Cowboys, Cardinals", "Running back", "1990s", "NFL all-time rushing leader"),
+  c("NFL", "Jerry Rice", "49ers, Raiders, Seahawks", "Wide receiver", "1980s", "NFL all-time receiving leader"),
+  c("NFL", "Russell Wilson", "Seahawks, Broncos, Steelers, Giants", "Quarterback", "2010s", "Super Bowl XLVIII champion"),
+  c("NFL", "Matthew Stafford", "Lions, Rams", "Quarterback", "2000s", "Super Bowl LVI champion"),
+  c("NFL", "Drew Brees", "Chargers, Saints", "Quarterback", "2000s", "Super Bowl XLIV MVP"),
+  c("NFL", "Kirk Cousins", "Commanders, Vikings, Falcons", "Quarterback", "2010s", "4× Pro Bowl"),
+  c("NFL", "Odell Beckham Jr.", "Giants, Browns, Rams, Ravens, Dolphins", "Wide receiver", "2010s", "2014 Offensive Rookie of the Year", ["Odell Beckham", "OBJ"]),
+  c("NFL", "LaDainian Tomlinson", "Chargers, Jets", "Running back", "2000s", "2006 MVP", ["LT"]),
+  c("NFL", "Marshawn Lynch", "Bills, Seahawks, Raiders, Seahawks", "Running back", "2000s", "Super Bowl XLVIII champion"),
+  c("NFL", "Adrian Peterson", "Vikings, Saints, Cardinals, Commanders, Lions, Titans, Seahawks", "Running back", "2000s", "2012 MVP", ["AP"]),
+  c("NFL", "Saquon Barkley", "Giants, Eagles", "Running back", "2010s", "2024 Offensive Player of the Year", ["Saquon"]),
+  c("NFL", "Stefon Diggs", "Vikings, Bills, Texans, Patriots", "Wide receiver", "2010s", "4× Pro Bowl"),
+  c("NFL", "Davante Adams", "Packers, Raiders, Jets, Rams", "Wide receiver", "2010s", "6× Pro Bowl"),
+  c("NFL", "Tyreek Hill", "Chiefs, Dolphins", "Wide receiver", "2010s", "Super Bowl LIV champion"),
+  c("NFL", "Deion Sanders", "Falcons, 49ers, Cowboys, Commanders, Ravens", "Cornerback", "1980s", "1994 Defensive Player of the Year", ["Prime Time"]),
+  c("NFL", "Reggie White", "Eagles, Packers, Panthers", "Defensive end", "1980s", "2× Defensive Player of the Year"),
+  c("NFL", "Philip Rivers", "Chargers, Colts", "Quarterback", "2000s", "8× Pro Bowl"),
+  c("MLB", "Alex Rodriguez", "Mariners, Rangers, Yankees", "Shortstop/Third base", "1990s", "3× MVP", ["A-Rod", "ARod"]),
+  c("MLB", "Albert Pujols", "Cardinals, Angels, Dodgers, Cardinals", "First base", "2000s", "3× MVP"),
+  c("MLB", "Randy Johnson", "Expos, Mariners, Astros, Diamondbacks, Yankees, Diamondbacks, Giants", "Pitcher", "1980s", "5× Cy Young", ["The Big Unit"]),
+  c("MLB", "Greg Maddux", "Cubs, Braves, Cubs, Dodgers, Padres, Dodgers", "Pitcher", "1980s", "4× Cy Young"),
+  c("MLB", "Roger Clemens", "Red Sox, Blue Jays, Yankees, Astros, Yankees", "Pitcher", "1980s", "7× Cy Young"),
+  c("MLB", "Pedro Martinez", "Dodgers, Expos, Red Sox, Mets, Phillies", "Pitcher", "1990s", "3× Cy Young", ["Pedro"]),
+  c("MLB", "Manny Ramirez", "Indians, Red Sox, Dodgers, White Sox, Rays", "Outfield", "1990s", "2004 World Series MVP", ["Manny"]),
+  c("MLB", "David Ortiz", "Twins, Red Sox", "Designated hitter", "1990s", "3× World Series champion", ["Big Papi"]),
+  c("MLB", "Max Scherzer", "Diamondbacks, Tigers, Nationals, Dodgers, Mets, Rangers, Blue Jays", "Pitcher", "2000s", "3× Cy Young"),
+  c("MLB", "Justin Verlander", "Tigers, Astros, Mets, Astros, Giants", "Pitcher", "2000s", "3× Cy Young"),
+  c("MLB", "Mookie Betts", "Red Sox, Dodgers", "Outfield", "2010s", "2018 MVP", ["Mookie"]),
+  c("MLB", "Shohei Ohtani", "Angels, Dodgers", "Pitcher/Designated hitter", "2010s", "Multiple MVPs", ["Ohtani"]),
+  c("MLB", "Juan Soto", "Nationals, Padres, Yankees, Mets", "Outfield", "2010s", "2019 World Series champion"),
+  c("MLB", "Barry Bonds", "Pirates, Giants", "Outfield", "1980s", "7× MVP"),
+  c("MLB", "Ken Griffey Jr.", "Mariners, Reds, White Sox, Mariners", "Outfield", "1980s", "1997 MVP", ["Ken Griffey", "Junior"]),
+  c("MLB", "Ichiro Suzuki", "Mariners, Yankees, Marlins, Mariners", "Outfield", "2000s", "2001 MVP", ["Ichiro"]),
+  c("MLB", "Mike Piazza", "Dodgers, Marlins, Mets, Padres, Athletics", "Catcher", "1990s", "1993 Rookie of the Year"),
+  c("MLB", "Rickey Henderson", "Athletics, Yankees, Athletics, Blue Jays, Athletics, Padres, Angels, Athletics, Mets, Mariners, Padres, Red Sox, Dodgers", "Outfield", "1970s", "All-time stolen base leader"),
+  c("MLB", "Nolan Ryan", "Mets, Angels, Astros, Rangers", "Pitcher", "1960s", "7 career no-hitters"),
+  c("MLB", "Gerrit Cole", "Pirates, Astros, Yankees", "Pitcher", "2010s", "2023 Cy Young"),
+  c("MLB", "Freddie Freeman", "Braves, Dodgers", "First base", "2010s", "2020 MVP"),
+  c("MLB", "Bryce Harper", "Nationals, Phillies", "Outfield/First base", "2010s", "2× MVP"),
+  c("MLB", "CC Sabathia", "Indians, Brewers, Yankees", "Pitcher", "2000s", "2007 Cy Young", ["C.C. Sabathia"]),
+  c("MLB", "Mark McGwire", "Athletics, Cardinals", "First base", "1980s", "1987 Rookie of the Year"),
+];
+
+export const CAREER_POINTS = [100, 80, 60, 40, 20] as const;
+export const careerForDay = (day: string) => dailyItem("career", CAREERS, dayNumber(day));
+export const careerHints = (p: Career) => [`League: ${p.league}`, `Position: ${p.position}`, `Debuted in the ${p.debut}`, p.award];
+export const isCareerAnswer = (p: Career, typed: string) => namesMatch(typed, [p.name, ...(p.aliases ?? [])]);
+/** Points when solved on guess `n` (1–5). */
+export const careerScore = (n: number) => CAREER_POINTS[Math.min(5, Math.max(1, n)) - 1]!;
