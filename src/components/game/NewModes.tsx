@@ -46,7 +46,7 @@ function useTypedGuess(game: Game, isAnswer: (t: string) => boolean, onMiss: () 
     <>
       <p className="mt-4 font-display text-xs uppercase text-muted-foreground">{worth}</p>
       <form key={shake} onSubmit={(e) => { e.preventDefault(); void guess(); }} className={`mt-2 flex flex-wrap gap-2 ${shake ? "animate-shake" : ""}`}>
-        <input autoFocus value={typed} onChange={(e) => setTyped(e.target.value)} placeholder="Name the player…" aria-label="Player name" disabled={checking}
+        <input autoFocus value={typed} onChange={(e) => setTyped(e.target.value)} placeholder={opts.placeholder ?? "Name the player…"} aria-label={opts.placeholder ?? "Player name"} disabled={checking}
           className="min-w-0 flex-1 rounded-lg border-2 border-border bg-card px-4 py-3 font-sans text-foreground outline-none focus:border-primary" />
         <button disabled={checking} className="rounded-lg bg-primary px-5 py-3 font-display text-sm font-bold uppercase text-primary-foreground">{checking ? "Checking…" : "Guess"}</button>
         <button type="button" onClick={() => miss()} className="rounded-lg border-2 border-border px-4 py-3 font-display text-xs uppercase">{skip}</button>
