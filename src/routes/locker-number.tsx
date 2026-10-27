@@ -19,7 +19,7 @@ export const Route = createFileRoute("/locker-number")({
 
 function JerseyPage() {
   const game = useDailyGame("locker");
-  const frame = { note: "retire the number", title: "Locker Number", subtitle: "Name the famous player who wore this number for this team." };
+  const frame = { note: "retire the number", title: "Locker Number", subtitle: "Pick which lockers to open, then name who wore the number." };
   if (!game.day) return <GameFrame {...frame}>{null}</GameFrame>;
   const p = jerseyForDay(game.day);
   return (

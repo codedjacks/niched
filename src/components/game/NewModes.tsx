@@ -153,8 +153,8 @@ export function LockerRoom({ game, number, team, clues, isAnswer, answer }: { ga
             const open = over || opened.includes(i);
             return (
               <button key={k} type="button" disabled={open} onClick={() => setOpened((o) => [...o, i])}
-                className={`min-h-28 rounded-md border-2 border-border p-3 text-center font-display uppercase transition ${open ? "animate-pop bg-background" : "bg-secondary hover:-translate-y-0.5"}`}>
-                <span className="block text-[10px] text-muted-foreground">{k}</span>
+                className={`min-h-28 rounded-md border-2 border-border p-3 text-center font-display uppercase transition ${open ? "animate-pop bg-background" : "bg-secondary text-secondary-foreground hover:-translate-y-0.5"}`}>
+                <span className={`block text-[10px] ${open ? "text-muted-foreground" : ""}`}>{k}</span>
                 {open ? <span className="mt-2 block text-xs font-bold normal-case">{v}</span> : <span aria-hidden className="mt-3 block text-2xl">🔒</span>}
               </button>
             );
