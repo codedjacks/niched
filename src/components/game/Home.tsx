@@ -38,11 +38,14 @@ export function Home({ stats, streak, doneToday, todayScore, dailyAvailable = tr
   }, []);
 
   return (
+    <div className="stadium-glow min-h-screen">
+    <div aria-hidden className="scanlines pointer-events-none fixed inset-0 z-50 opacity-40" />
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 pb-16 pt-12 sm:pt-20 lg:max-w-6xl lg:px-10">
       <AccountNav />
       <header className="animate-rise relative text-center">
         <p className="font-display text-xs font-bold uppercase tracking-[0.15em] text-secondary sm:text-sm sm:tracking-[0.3em]">★ Sports trivia arcade ★</p>
-        <h1 className="mt-3 font-jersey text-6xl uppercase leading-none text-foreground [text-shadow:4px_4px_0_var(--primary)] sm:text-8xl lg:text-9xl">
+        <p aria-hidden className="mt-6 font-display text-[10px] uppercase tracking-[0.4em] text-primary animate-blink sm:text-xs">Insert coin · Press start</p>
+        <h1 className="mt-3 font-jersey text-6xl uppercase leading-none text-foreground text-glow sm:text-8xl lg:text-9xl">
           Niched
         </h1>
         <p className="mx-auto mt-5 max-w-xl font-sans text-base text-muted-foreground sm:text-lg">
@@ -63,15 +66,16 @@ export function Home({ stats, streak, doneToday, todayScore, dailyAvailable = tr
             New daily questions coming soon
           </Button>
         ) : (
-          <button autoFocus onClick={onDaily} className="rounded-lg bg-primary px-6 py-7 text-center text-primary-foreground shadow-pop-marker transition hover:-translate-y-1 focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-primary sm:col-span-2">
+          <button autoFocus onClick={onDaily} className="relative overflow-hidden rounded-lg border-4 border-ink bg-primary px-6 py-8 text-center text-primary-foreground shadow-pop-marker transition hover:-translate-y-1 hover:scale-[1.01] focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-primary sm:col-span-2">
+            <span aria-hidden className="shimmer pointer-events-none absolute inset-0" />
             <span className="block text-4xl" aria-hidden>🏆</span>
             <span className="mt-2 block font-jersey text-3xl uppercase leading-tight sm:text-5xl">Play Daily Challenge</span>
             <span className="mt-2 block font-sans text-sm opacity-80">7 sports questions · same for everyone today</span>
           </button>
         )}
         {GAMES.map((g) => (
-          <Link key={g.to} to={g.to} className="group flex items-center gap-4 rounded-lg border-2 border-border bg-card px-5 py-5 transition hover:-translate-y-1 hover:border-primary focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-primary">
-            <span aria-hidden className="text-4xl">{g.icon}</span>
+          <Link key={g.to} to={g.to} className="group flex items-center gap-4 arcade-card rounded-lg px-5 py-5 focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-primary">
+            <span aria-hidden className="grid size-14 shrink-0 place-items-center rounded-md border-2 border-border bg-background text-3xl transition group-hover:scale-110 group-hover:border-primary">{g.icon}</span>
             <span>
               <span className="block font-jersey text-xl uppercase group-hover:text-primary sm:text-2xl">{g.name}</span>
               <span className="block font-sans text-sm text-muted-foreground">{g.blurb}</span>
@@ -79,7 +83,7 @@ export function Home({ stats, streak, doneToday, todayScore, dailyAvailable = tr
           </Link>
         ))}
         <button onClick={onPractice} className="group flex items-center gap-4 rounded-lg border-2 border-dashed border-border bg-card/70 px-5 py-5 text-left transition hover:-translate-y-1 hover:border-secondary focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-secondary">
-          <span aria-hidden className="text-4xl">🎯</span>
+          <span aria-hidden className="grid size-14 shrink-0 place-items-center rounded-md border-2 border-dashed border-border bg-background text-3xl transition group-hover:scale-110">🎯</span>
           <span>
             <span className="block font-jersey text-xl uppercase group-hover:text-secondary sm:text-2xl">Practice</span>
             <span className="block font-sans text-sm text-muted-foreground">Unlimited rounds, no streak impact</span>
@@ -95,15 +99,15 @@ export function Home({ stats, streak, doneToday, todayScore, dailyAvailable = tr
           ["Best daily", stats.bestDaily || "—"],
           ["Best practice", stats.bestPractice || "—"],
         ].map(([k, v]) => (
-          <div key={k as string} className="ruled rounded-lg border-2 border-border bg-card p-4">
+          <div key={k as string} className="led rounded-lg border-2 border-border bg-ink p-4 text-center shadow-pop-sm">
             <div className="font-sans text-[11px] uppercase tracking-wider text-muted-foreground">{k}</div>
-            <div className="mt-1 font-display text-xl font-bold sm:text-2xl">{v}</div>
+            <div className="mt-1 font-display text-xl font-bold text-primary [text-shadow:0_0_12px_var(--primary)] sm:text-2xl">{v}</div>
           </div>
         ))}
       </section>
       </div>
 
-      <section className="relative mt-6 animate-rise rounded-lg border-2 border-border bg-card p-6 [animation-delay:240ms]">
+      <section className="relative mt-6 animate-rise rounded-lg border-2 border-border bg-card p-6 shadow-pop [animation-delay:240ms]">
         <span aria-hidden className="tape -rotate-3" />
         <p className="absolute -right-1 -top-5 hidden font-hand text-xl text-secondary [transform:rotate(3deg)] sm:block">the playbook ↓</p>
         <h2 className="font-display text-xs font-bold uppercase tracking-widest text-muted-foreground">How scoring works</h2>
@@ -124,5 +128,6 @@ export function Home({ stats, streak, doneToday, todayScore, dailyAvailable = tr
       </section>
       </div>
     </main>
+    </div>
   );
 }
