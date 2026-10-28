@@ -27,7 +27,7 @@ function MysteryPage() {
   const [result, setResult] = useState<number | null>(null);
   const [checking, setChecking] = useState(false);
   const resolve = useServerFn(resolvePlayerName);
-  if (!day) return <GameFrame note="scouting report" title="Mystery Athlete" subtitle="Loading today's athlete…">{null}</GameFrame>;
+  if (!day) return <GameFrame note="scouting report" title="Mystery Athlete" subtitle="Loading your athlete…">{null}</GameFrame>;
   const m = mysteryForDay(day);
   const over = doneToday || result !== null;
   const score = result ?? progress.score ?? 0;
@@ -69,7 +69,7 @@ function MysteryPage() {
       {over && (
         <>
           <p className="mt-6 font-display text-2xl font-bold uppercase">It was {m.name}</p>
-          <ResultCard score={score} max={100} progress={progress} share={`Niched Mystery Athlete ${day}: ${score}/100 🕵️`} />
+          <ResultCard score={score} max={100} progress={progress} share={`Niched Mystery Athlete: ${score}/100 🕵️`} />
         </>
       )}
     </GameFrame>

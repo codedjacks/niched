@@ -11,7 +11,7 @@ function Done({ game, score, answer, label, emoji, max = 100 }: { game: Game; sc
   return (
     <>
       <p className="animate-stamp mt-6 font-display text-2xl font-bold uppercase">It was {answer}</p>
-      <ResultCard score={score} max={max} progress={game.progress} share={`Niched ${label} ${game.day}: ${score}/${max} ${emoji}`} />
+      <ResultCard score={score} max={max} progress={game.progress} share={`Niched ${label}: ${score}/${max} ${emoji}`} />
     </>
   );
 }

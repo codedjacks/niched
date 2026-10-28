@@ -9,7 +9,7 @@ export const Route = createFileRoute("/nicknames")({
       { title: "Nicknames — Niched sports trivia" },
       { name: "description", content: "One famous sports nickname a day. Name the player behind it." },
       { property: "og:title", content: "Niched Nicknames" },
-      { property: "og:description", content: "Who goes by today's nickname?" },
+      { property: "og:description", content: "Who goes by this nickname?" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

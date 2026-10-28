@@ -40,11 +40,11 @@ function HigherLowerPage() {
     }).catch(() => { if (!cancelled) setError(true); });
     return () => { cancelled = true; };
   }, [day, fetchPairs, attempt]);
-  if (!day) return <GameFrame note="stat sheet" title="Higher or Lower" subtitle="Loading today's matchups…">{null}</GameFrame>;
+  if (!day) return <GameFrame note="stat sheet" title="Higher or Lower" subtitle="Loading new matchups…">{null}</GameFrame>;
   const over = doneToday || results.length === HL_ROUNDS && !reveal;
   const score = doneToday && results.length === 0 ? progress.score ?? 0 : results.filter(Boolean).length;
   const p = pairs[round];
-  if (!over && !p) return <GameFrame note="stat sheet" title="Higher or Lower" subtitle={error ? "The sourced matchups are unavailable right now." : "Loading today's sourced matchups…"}>{error && <Button onClick={() => setAttempt(a => a + 1)}>Retry</Button>}</GameFrame>;
+  if (!over && !p) return <GameFrame note="stat sheet" title="Higher or Lower" subtitle={error ? "The sourced matchups are unavailable right now." : "Loading new sourced matchups…"}>{error && <Button onClick={() => setAttempt(a => a + 1)}>Retry</Button>}</GameFrame>;
 
   const choose = (c: "a" | "b") => { if (!reveal && p) { setResults((r) => [...r, isHigher(p, c)]); setReveal(true); } };
   const next = () => {
@@ -84,7 +84,7 @@ function HigherLowerPage() {
         </>
       )}
       {over && <ResultCard score={score} max={HL_ROUNDS} progress={progress}
-        share={`Niched Higher or Lower ${day}: ${score}/${HL_ROUNDS} ${results.map((r) => (r ? "🟩" : "🟥")).join("")}`} />}
+        share={`Niched Higher or Lower: ${score}/${HL_ROUNDS} ${results.map((r) => (r ? "🟩" : "🟥")).join("")}`} />}
     </GameFrame>
   );
 }

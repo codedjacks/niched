@@ -20,7 +20,7 @@ export const Route = createFileRoute("/jersey-chain")({
 
 function JerseyChainPage() {
   const game = useDailyGame("jerseychain");
-  const frame = { note: "same number", title: "Jersey Chain", subtitle: "Name players who wore today’s number. Every name adds a link — three misses and the chain snaps." };
+  const frame = { note: "same number", title: "Jersey Chain", subtitle: "Name players who wore this number. Every name adds a link — three misses and the chain snaps." };
   if (!game.day) return <GameFrame {...frame}>{null}</GameFrame>;
   let body: ReactNode = null;
   const p = chainForDay(game.day);
