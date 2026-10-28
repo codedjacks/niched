@@ -35,7 +35,7 @@ describe("seven new daily games", () => {
     expect(scoreBallot(b, b.order)).toBe(100);
     const swapped = [b.order[1]!, b.order[0]!, ...b.order.slice(2)];
     expect(scoreBallot(b, swapped)).toBe(45);
-    expect(ballotStart("2026-10-28", b)).not.toEqual(b.order);
+    for (const d of ["2026-10-28", "2026-10-29", "2026-11-01"]) expect(ballotStart(d, b)[0]).not.toBe(b.order[0]);
   });
   it("trades and stadiums accept typed names", () => {
     expect(isTradePlayer(TRADES[0]!, "gretzky")).toBe(true);
