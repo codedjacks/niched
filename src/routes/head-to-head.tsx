@@ -5,7 +5,15 @@ import { GameFrame, useDailyGame } from "@/components/game/SportsGame";
 import { H2HBoard } from "@/components/game/MoreModes";
 import { Button } from "@/components/ui/button";
 import { getHeadToHead } from "@/game/facts.functions";
-import { H2H_POINT, type H2H } from "@/game/headtohead";
+import { H2H_POINT, headToHead, type H2H } from "@/game/headtohead";
+import { supabase } from "@/integrations/supabase/client";
+
+/** Backup path: public sourced facts straight from the database, matched in the browser. */
+async function loadDirect(day: string): Promise<H2H | null> {
+  const { data, error } = await supabase.from("sports_facts").select("*, sports_fact_sources(url)").order("id").limit(5000);
+  if (error) throw error;
+  return headToHead(day, (data ?? []).map((r) => ({ ...r, value: Number(r.value), source_url: r.sports_fact_sources?.url ?? "" })));
+}
 
 export const Route = createFileRoute("/head-to-head")({
   head: () => ({
@@ -29,7 +37,11 @@ function HeadToHeadPage() {
   useEffect(() => {
     if (!game.day) return;
     let off = false;
-    fetchH2H({ data: { day: game.day } }).then((r) => { if (!off) setM(r); }).catch(() => { if (!off) setM(null); });
+    fetchH2H({ data: { day: game.day } })
+      .then((r) => r ?? loadDirect(game.day))
+      .catch(() => loadDirect(game.day))
+      .then((r) => { if (!off) setM(r); })
+      .catch((e) => { console.error("Head to Head load failed", e); if (!off) setM(null); });
     return () => { off = true; };
   }, [game.day, fetchH2H, attempt]);
   const frame = { note: "tale of the tape", title: "Head to Head", subtitle: "Two athletes, real career numbers from ESPN. Pick who wins each category." };
