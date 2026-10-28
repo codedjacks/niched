@@ -1,5 +1,5 @@
 import { hash, mulberry32 } from "./selection";
-import { normalize } from "./scoring";
+import { normalize, editDistance, typoAllowance } from "./scoring";
 
 /** Deterministic shuffle: same seed → same order for every player. */
 export function seededShuffle<T>(seed: string, items: readonly T[]): T[] {
@@ -45,4 +45,17 @@ export function recordGame(p: GameProgress, day: string, score: number): GamePro
 
 export function saveGame(game: string, p: GameProgress) {
   try { localStorage.setItem(`niched:game:${game}`, JSON.stringify(p)); } catch { /* storage unavailable */ }
+}
+
+/** Forgiving name check for the newer games: exact/alias, a distinctive last name, or a small typo. */
+export function looseMatch(typed: string, names: string[]): boolean {
+  const t = normalize(typed);
+  if (!t) return false;
+  return names.some((n) => {
+    const k = normalize(n);
+    if (k === t) return true;
+    const last = k.split(" ").pop() ?? "";
+    if (last.length >= 4 && last === t) return true;
+    return t.length >= 4 && editDistance(k, t) <= typoAllowance(k.length);
+  });
 }
