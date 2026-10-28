@@ -190,7 +190,7 @@ export function DraftBoard({ game, header, choices, answer }: { game: Game; head
     <>
       <div className="arcade-panel rounded-lg border-4 p-5 text-center text-foreground">
         {header}
-        {!over && <p className={`mt-3 font-jersey text-5xl ${left < 10 ? "animate-pulse text-destructive" : "text-primary"}`} role="timer" aria-live="off">0:{String(left).padStart(2, "0")}</p>}
+        {!over && <p className={`mt-3 font-jersey text-5xl led-glow tabular-nums ${left < 10 ? "animate-pulse text-destructive" : "text-primary"}`} role="timer" aria-live="off">0:{String(left).padStart(2, "0")}</p>}
         {!over && <p className="font-display text-[10px] uppercase opacity-70">{left >= 10 ? "Pick now for 100" : "Late pick · 60"}</p>}
       </div>
       <div className="mt-4 grid gap-2 md:grid-cols-2">
