@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Scale, UserSearch, ArrowUpDown, Route as RouteIcon, Mic, Tag, Shirt, BarChart3, Users, BookOpen } from "lucide-react";
+import { Scale, ListOrdered, ScanFace, Link2, Repeat, Vote, Swords, Building2, UserSearch, ArrowUpDown, Route as RouteIcon, Mic, Tag, Shirt, BarChart3, Users, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const topics = [
@@ -11,6 +11,13 @@ const topics = [
   { to: "/locker-number", name: "Locker Number", Icon: Shirt, color: "text-primary" },
   { to: "/stat-line", name: "Stat Line", Icon: BarChart3, color: "text-secondary" },
   { to: "/team-trio", name: "Team Trio", Icon: Users, color: "text-marker" },
+  { to: "/top-10", name: "Top 10", Icon: ListOrdered, color: "text-primary" },
+  { to: "/silhouette", name: "Silhouette", Icon: ScanFace, color: "text-secondary" },
+  { to: "/jersey-chain", name: "Jersey Chain", Icon: Link2, color: "text-marker" },
+  { to: "/trade-machine", name: "Trade Machine", Icon: Repeat, color: "text-primary" },
+  { to: "/award-ballot", name: "Award Ballot", Icon: Vote, color: "text-secondary" },
+  { to: "/head-to-head", name: "Head to Head", Icon: Swords, color: "text-marker" },
+  { to: "/stadium-guesser", name: "Stadium Guesser", Icon: Building2, color: "text-primary" },
   { to: "/rate-rarity", name: "Rate the Rarity", Icon: Scale, color: "text-secondary" },
   { to: "/facts", name: "Facts & Sources", Icon: BookOpen, color: "text-primary" },
 ] as const;
