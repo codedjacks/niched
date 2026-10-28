@@ -9,7 +9,8 @@ import {
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { REPLAY_EVENT } from "@/components/game/SportsGame";
 import { ChallengeSidebar } from "@/components/game/ChallengeSidebar";
 
 import appCss from "../styles.css?url";
@@ -121,12 +122,19 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  // "Play again" in mini-games remounts the page so it picks a fresh puzzle.
+  const [replay, setReplay] = useState(0);
+  useEffect(() => {
+    const on = () => { setReplay((n) => n + 1); window.scrollTo({ top: 0 }); };
+    window.addEventListener(REPLAY_EVENT, on);
+    return () => window.removeEventListener(REPLAY_EVENT, on);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <ChallengeSidebar />
-      <div className="min-w-0 md:ml-52 lg:ml-60"><Outlet /></div>
+      <div className="min-w-0 md:ml-52 lg:ml-60"><Outlet key={replay} /></div>
       <AuthListener />
     </QueryClientProvider>
   );
@@ -135,6 +143,13 @@ function RootComponent() {
 function AuthListener() {
   const router = useRouter();
   const { queryClient } = Route.useRouteContext();
+  // "Play again" in mini-games remounts the page so it picks a fresh puzzle.
+  const [replay, setReplay] = useState(0);
+  useEffect(() => {
+    const on = () => { setReplay((n) => n + 1); window.scrollTo({ top: 0 }); };
+    window.addEventListener(REPLAY_EVENT, on);
+    return () => window.removeEventListener(REPLAY_EVENT, on);
+  }, []);
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event) => {
       if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
