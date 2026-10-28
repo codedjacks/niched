@@ -8,11 +8,11 @@ import { dailyQuestions, dateKey, practiceQuestions } from "@/game/selection";
 import { loadSeen, markSeen, emptyStats, liveStreak, loadStats, recordDaily, recordPractice, saveStats, type Stats } from "@/game/storage";
 import type { Mode, Question, RoundAnswer } from "@/game/types";
 import { useServerFn } from "@tanstack/react-start";
-import { getAnswerCounts } from "@/game/leaderboard.functions";
+import { getAnswerCounts, getVoteTallies } from "@/game/leaderboard.functions";
 import { challengePool } from "@/game/challenges";
 
 const SPORTS_POOL = challengePool("sports");
-import { frequencyRarity, type QuestionCounts } from "@/game/scoring";
+import { frequencyRarity, voteRarity, type QuestionCounts, type VoteTallies } from "@/game/scoring";
 import { toQuestion, usesAiDaily } from "@/game/ai-daily";
 import { getAiDaily } from "@/game/ai-daily.functions";
 
@@ -46,6 +46,8 @@ function Index() {
 
   const [counts, setCounts] = useState<Record<string, QuestionCounts>>({});
   const fetchCounts = useServerFn(getAnswerCounts);
+  const [votes, setVotes] = useState<VoteTallies>({});
+  const fetchVotes = useServerFn(getVoteTallies);
 
   const fetchAiDaily = useServerFn(getAiDaily);
   const [dailyMsg, setDailyMsg] = useState<string | null>(null);
@@ -56,6 +58,8 @@ function Index() {
     if (mode === "practice") markSeen(questions.map((q) => q.id), SPORTS_POOL.length);
     setCounts({});
     fetchCounts({ data: { questionIds: questions.map((q) => q.id) } }).then(setCounts).catch(() => {});
+    setVotes({});
+    if (mode === "practice") fetchVotes({ data: { questionIds: questions.map((q) => q.id) } }).then(setVotes).catch(() => {});
     setScreen({ s: "play", mode, questions, key: Date.now() });
   };
 
@@ -117,7 +121,7 @@ function Index() {
         </div>
       )}
       {screen.s === "play" && (
-        <Play key={screen.key} questions={screen.questions} mode={screen.mode} rarity={frequencyRarity(counts)} onDone={onDone} onQuit={() => setScreen({ s: "home" })} />
+        <Play key={screen.key} questions={screen.questions} mode={screen.mode} rarity={screen.mode === "practice" ? voteRarity(votes, frequencyRarity(counts)) : frequencyRarity(counts)} onDone={onDone} onQuit={() => setScreen({ s: "home" })} />
       )}
       {screen.s === "results" && (
         <Results answers={screen.answers} mode={screen.mode} date={today} streak={liveStreak(stats, today)}
