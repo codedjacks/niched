@@ -542,6 +542,15 @@ export type Database = {
           tier: string
         }[]
       }
+      rarity_vote_tallies: {
+        Args: { _question_ids: string[] }
+        Returns: {
+          answer_key: string
+          count: number
+          question_id: string
+          tier: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
