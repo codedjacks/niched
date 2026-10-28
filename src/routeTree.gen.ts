@@ -19,6 +19,7 @@ import { Route as HigherLowerRouteImport } from './routes/higher-lower'
 import { Route as LockerNumberRouteImport } from './routes/locker-number'
 import { Route as MysteryRouteImport } from './routes/mystery'
 import { Route as NicknamesRouteImport } from './routes/nicknames'
+import { Route as RateRarityRouteImport } from './routes/rate-rarity'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as StatLineRouteImport } from './routes/stat-line'
 import { Route as TeamTrioRouteImport } from './routes/team-trio'
@@ -76,6 +77,11 @@ const NicknamesRoute = NicknamesRouteImport.update({
   path: '/nicknames',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RateRarityRoute = RateRarityRouteImport.update({
+  id: '/rate-rarity',
+  path: '/rate-rarity',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -118,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/locker-number': typeof LockerNumberRoute
   '/mystery': typeof MysteryRoute
   '/nicknames': typeof NicknamesRoute
+  '/rate-rarity': typeof RateRarityRoute
   '/reset-password': typeof ResetPasswordRoute
   '/stat-line': typeof StatLineRoute
   '/team-trio': typeof TeamTrioRoute
@@ -136,6 +143,7 @@ export interface FileRoutesByTo {
   '/locker-number': typeof LockerNumberRoute
   '/mystery': typeof MysteryRoute
   '/nicknames': typeof NicknamesRoute
+  '/rate-rarity': typeof RateRarityRoute
   '/reset-password': typeof ResetPasswordRoute
   '/stat-line': typeof StatLineRoute
   '/team-trio': typeof TeamTrioRoute
@@ -155,6 +163,7 @@ export interface FileRoutesById {
   '/locker-number': typeof LockerNumberRoute
   '/mystery': typeof MysteryRoute
   '/nicknames': typeof NicknamesRoute
+  '/rate-rarity': typeof RateRarityRoute
   '/reset-password': typeof ResetPasswordRoute
   '/stat-line': typeof StatLineRoute
   '/team-trio': typeof TeamTrioRoute
@@ -175,6 +184,7 @@ export interface FileRouteTypes {
     | '/locker-number'
     | '/mystery'
     | '/nicknames'
+    | '/rate-rarity'
     | '/reset-password'
     | '/stat-line'
     | '/team-trio'
@@ -193,6 +203,7 @@ export interface FileRouteTypes {
     | '/locker-number'
     | '/mystery'
     | '/nicknames'
+    | '/rate-rarity'
     | '/reset-password'
     | '/stat-line'
     | '/team-trio'
@@ -211,6 +222,7 @@ export interface FileRouteTypes {
     | '/locker-number'
     | '/mystery'
     | '/nicknames'
+    | '/rate-rarity'
     | '/reset-password'
     | '/stat-line'
     | '/team-trio'
@@ -230,6 +242,7 @@ export interface RootRouteChildren {
   LockerNumberRoute: typeof LockerNumberRoute
   MysteryRoute: typeof MysteryRoute
   NicknamesRoute: typeof NicknamesRoute
+  RateRarityRoute: typeof RateRarityRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   StatLineRoute: typeof StatLineRoute
   TeamTrioRoute: typeof TeamTrioRoute
@@ -310,6 +323,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NicknamesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rate-rarity': {
+      id: '/rate-rarity'
+      path: '/rate-rarity'
+      fullPath: '/rate-rarity'
+      preLoaderRoute: typeof RateRarityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -366,6 +386,7 @@ const rootRouteChildren: RootRouteChildren = {
   LockerNumberRoute: LockerNumberRoute,
   MysteryRoute: MysteryRoute,
   NicknamesRoute: NicknamesRoute,
+  RateRarityRoute: RateRarityRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   StatLineRoute: StatLineRoute,
   TeamTrioRoute: TeamTrioRoute,

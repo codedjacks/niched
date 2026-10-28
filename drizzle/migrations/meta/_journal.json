@@ -71,6 +71,13 @@
       "when": 1793124187645,
       "tag": "0009_sourced_sports_facts",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1793202886452,
+      "tag": "0010_rarity_votes",
+      "breakpoints": true
     }
   ]
 }

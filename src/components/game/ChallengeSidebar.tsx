@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { UserSearch, ArrowUpDown, Route as RouteIcon, Mic, Tag, Shirt, BarChart3, Users, BookOpen } from "lucide-react";
+import { Scale, UserSearch, ArrowUpDown, Route as RouteIcon, Mic, Tag, Shirt, BarChart3, Users, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const topics = [
@@ -11,6 +11,7 @@ const topics = [
   { to: "/locker-number", name: "Locker Number", Icon: Shirt, color: "text-primary" },
   { to: "/stat-line", name: "Stat Line", Icon: BarChart3, color: "text-secondary" },
   { to: "/team-trio", name: "Team Trio", Icon: Users, color: "text-marker" },
+  { to: "/rate-rarity", name: "Rate the Rarity", Icon: Scale, color: "text-secondary" },
   { to: "/facts", name: "Facts & Sources", Icon: BookOpen, color: "text-primary" },
 ] as const;
 

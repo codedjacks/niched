@@ -304,6 +304,33 @@ export type Database = {
           },
         ]
       }
+      rarity_votes: {
+        Row: {
+          answer_key: string
+          created_at: string
+          id: string
+          question_id: string
+          tier: string
+          user_id: string
+        }
+        Insert: {
+          answer_key: string
+          created_at?: string
+          id?: string
+          question_id: string
+          tier: string
+          user_id?: string
+        }
+        Update: {
+          answer_key?: string
+          created_at?: string
+          id?: string
+          question_id?: string
+          tier?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       sports_fact_sources: {
         Row: {
           id: string
@@ -491,6 +518,13 @@ export type Database = {
           score: number
           tiers: string[]
           user_id: string
+        }[]
+      }
+      rarity_vote_counts: {
+        Args: { _answer_key: string; _question_id: string }
+        Returns: {
+          count: number
+          tier: string
         }[]
       }
     }
