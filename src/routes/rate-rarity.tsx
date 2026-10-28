@@ -4,7 +4,7 @@ import { GameFrame } from "@/components/game/SportsGame";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { TIERS, TIER_ORDER } from "@/game/scoring";
+import { TIERS, TIER_ORDER, MIN_VOTES, consensusTier } from "@/game/scoring";
 import { pickItem, voteItems, type VoteItem } from "@/game/rarity-vote";
 import type { TierId } from "@/game/types";
 
@@ -60,7 +60,7 @@ function RatePage() {
   const next = () => { setPick(null); setCounts({}); setError(""); setItem((p) => pickItem(items, p ?? undefined)); };
 
   const total = Object.values(counts).reduce((a, b) => a + (b ?? 0), 0);
-  const frame = { note: "scouting report", title: "Rate the Rarity", subtitle: "How rare is this answer? Your votes help tune how many points answers are worth." };
+  const frame = { note: "scouting report", title: "Rate the Rarity", subtitle: "How rare is this answer? Once enough players vote, the crowd's pick becomes the answer's rarity in Practice." };
 
   if (!item) return <GameFrame {...frame}>{null}</GameFrame>;
   return (
@@ -86,7 +86,10 @@ function RatePage() {
         </div>
         {pick && (
           <div className="mt-5 space-y-2 text-sm">
-            <p>Current game rating: <strong>{TIERS[item.tier].emoji} {TIERS[item.tier].label}</strong> ({TIERS[item.tier].points} pts)</p>
+            {(() => { const live = consensusTier(counts) ?? item.tier; return (
+              <p>Practice now scores this as: <strong>{TIERS[live].emoji} {TIERS[live].label}</strong> ({TIERS[live].points} pts)
+                {consensusTier(counts) ? " — set by player votes" : ` — player votes take over after ${MIN_VOTES} votes`}</p>
+            ); })()}
             {!user && <p className="text-muted-foreground"><Link to="/auth" className="underline">Sign in</Link> so your votes count toward the game.</p>}
             {error && <p className="text-destructive">{error}</p>}
             <Button onClick={next} autoFocus>Next answer →</Button>
