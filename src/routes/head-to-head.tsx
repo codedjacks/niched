@@ -10,6 +10,8 @@ import { supabase } from "@/integrations/supabase/client";
 
 /** Backup path: public sourced facts straight from the database, matched in the browser. */
 async function loadDirect(day: string): Promise<H2H | null> {
+  const stored = await supabase.from("daily_puzzles").select("puzzle").eq("game", "h2h").eq("day", day).maybeSingle();
+  if (stored.data?.puzzle) return stored.data.puzzle as unknown as H2H;
   const { data, error } = await supabase.from("sports_facts").select("*, sports_fact_sources(url)").order("id").limit(5000);
   if (error) throw error;
   return headToHead(day, (data ?? []).map((r) => ({ ...r, value: Number(r.value), source_url: r.sports_fact_sources?.url ?? "" })));

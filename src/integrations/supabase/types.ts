@@ -119,6 +119,33 @@ export type Database = {
         }
         Relationships: []
       }
+      daily_puzzles: {
+        Row: {
+          created_at: string
+          day: string
+          game: string
+          id: number
+          puzzle: Json
+          puzzle_key: string
+        }
+        Insert: {
+          created_at?: string
+          day: string
+          game: string
+          id?: number
+          puzzle: Json
+          puzzle_key: string
+        }
+        Update: {
+          created_at?: string
+          day?: string
+          game?: string
+          id?: number
+          puzzle?: Json
+          puzzle_key?: string
+        }
+        Relationships: []
+      }
       daily_scores: {
         Row: {
           created_at: string

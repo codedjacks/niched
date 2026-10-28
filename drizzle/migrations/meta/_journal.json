@@ -92,6 +92,13 @@
       "when": 1793203127023,
       "tag": "0012_rarity_vote_tallies",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1793220876500,
+      "tag": "0013_daily_puzzles",
+      "breakpoints": true
     }
   ]
 }

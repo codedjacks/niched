@@ -15,7 +15,14 @@ export const Route = createFileRoute("/api/public/jobs/ai-daily")({
         const out: Record<string, string> = {};
         // Sequential, at most two rounds per run; DB lease prevents overlap with player requests.
         for (const d of days) out[d] = (await getOrCreateAiDaily(d)).status;
-        return Response.json({ success: true, days: out });
+        // Also pre-generate today's and tomorrow's non-repeating mini-game puzzles.
+        const { GENERATORS, getOrCreatePuzzle } = await import("@/game/puzzles.server");
+        const puzzles: Record<string, boolean> = {};
+        for (const game of Object.keys(GENERATORS)) for (const n of [0, 1]) {
+          const d = dateKey(new Date(Date.now() + n * 86_400_000));
+          puzzles[`${game}:${d}`] = !!(await getOrCreatePuzzle(game, d).catch(() => null));
+        }
+        return Response.json({ success: true, days: out, puzzles });
       },
     },
   },
