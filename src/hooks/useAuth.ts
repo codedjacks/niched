@@ -16,7 +16,7 @@ export function useAuth() {
     queryKey: ["profile", user?.id],
     enabled: !!user,
     queryFn: async () => {
-      const { data } = await supabase.from("profiles").select("id, display_name, avatar_url").eq("id", user!.id).maybeSingle();
+      const { data } = await supabase.from("profiles").select("id, display_name, avatar_url, favorite_sport, favorite_team, jersey_number, tagline, card_color").eq("id", user!.id).maybeSingle();
       return data;
     },
   });
