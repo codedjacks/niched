@@ -9,7 +9,7 @@ export const Route = createFileRoute("/locker-number")({
       { title: "Locker Number — Niched sports trivia" },
       { name: "description", content: "A jersey number and a team. Name the legend who wore it. New one daily." },
       { property: "og:title", content: "Niched Locker Number" },
-      { property: "og:description", content: "Who wore today's number?" },
+      { property: "og:description", content: "Who wore this number?" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
