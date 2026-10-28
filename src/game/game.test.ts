@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { QUESTIONS } from "./questions";
-import { MAX_SCORE, TIERS, normalize, validateAnswer } from "./scoring";
+import { MAX_SCORE, TIERS, TIER_ORDER, normalize, validateAnswer } from "./scoring";
 import { dailyQuestions } from "./selection";
 import { emptyStats, recordDaily } from "./storage";
 
@@ -10,6 +10,9 @@ describe("scoring", () => {
   it("tier points match spec", () => {
     expect([TIERS.pencil, TIERS.paperclip, TIERS.notebook, TIERS.backpack, TIERS.goldstar, TIERS.valedictorian].map((t) => t.points)).toEqual([10, 15, 30, 60, 85, 100]);
     expect(MAX_SCORE).toBe(700);
+  });
+  it("rarity tiers use sports big-play names", () => {
+    expect(TIER_ORDER.map((t) => TIERS[t].label)).toEqual(["Airball", "Base Hit", "Touchdown", "Home Run", "Grand Slam", "Ball Knower"]);
   });
   it("normalizes case, spaces, punctuation", () => {
     expect(normalize("  São   Tomé & Príncipe! ")).toBe("sao tome and principe");

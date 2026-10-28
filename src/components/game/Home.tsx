@@ -112,7 +112,7 @@ export function Home({ stats, streak, doneToday, todayScore, dailyAvailable = tr
         <p className="absolute -right-1 -top-5 hidden font-hand text-xl text-secondary [transform:rotate(3deg)] sm:block">the playbook ↓</p>
         <h2 className="font-display text-xs font-bold uppercase tracking-widest text-muted-foreground">How scoring works</h2>
         <p className="mt-2 font-sans text-sm text-muted-foreground">
-          Every valid answer earns points by rarity tier — from Common all the way up to Insane. The more obscure your answer, the more it's worth. 25 seconds per question. Max {MAX_SCORE}.
+          Every valid answer earns points by rarity tier — from Airball all the way up to Ball Knower. The more obscure your answer, the more it's worth. 25 seconds per question. Max {MAX_SCORE}.
         </p>
         <div className="mt-4 flex flex-wrap gap-2.5">
           {TIER_ORDER.map((t) => (
@@ -123,7 +123,7 @@ export function Home({ stats, streak, doneToday, todayScore, dailyAvailable = tr
           ))}
         </div>
         <p className="mt-4 font-hand text-lg leading-tight text-muted-foreground">
-          "Insane" = the rarest picks in the league. Your single rarest answer each round is crowned The Nichest. Tiers come from how often real players give each answer, once a question has 25+ answers; until then they use our hand-graded guesses.
+          "Ball Knower" = the rarest picks in the league. Your single rarest answer each round is crowned The Nichest. Tiers come from how often real players give each answer, once a question has 25+ answers; until then they use our hand-graded guesses.
         </p>
       </section>
       </div>
