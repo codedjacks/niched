@@ -4,7 +4,7 @@ import type { Q } from "./questions.practice";
 /**
  * Sports Practice bank. Appended to ALL_QUESTIONS only (never QUESTIONS),
  * so historical daily schedules are unaffected.
- * p=Common c=Rare s=Ultra r=Legendary d=Mystic m=Insane; "|" separates answers, "=" aliases.
+ * p=Airball c=Base Hit s=Touchdown r=Home Run d=Grand Slam m=Ball Knower; "|" separates answers, "=" aliases.
  */
 export const sportsBank = (q: Q): Question[] => [
   q("sp-nhl-team", "Sports", "Name an NHL team", {
