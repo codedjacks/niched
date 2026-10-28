@@ -19,9 +19,9 @@ export function voteItems(): VoteItem[] {
 
 /** Random item, never the same as the previous one. */
 export function pickItem(items: VoteItem[], prev?: VoteItem, rand = Math.random): VoteItem {
-  let it = items[Math.floor(rand() * items.length)];
+  let it = items[Math.floor(rand() * items.length)]!;
   if (prev && items.length > 1 && it.questionId === prev.questionId && it.answerKey === prev.answerKey) {
-    it = items[(items.indexOf(it) + 1) % items.length];
+    it = items[(items.indexOf(it) + 1) % items.length]!;
   }
   return it;
 }
