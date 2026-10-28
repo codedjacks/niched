@@ -39,15 +39,13 @@ function HeadToHeadPage() {
   useEffect(() => {
     if (!game.day) return;
     let off = false;
-    fetchH2H({ data: { day: game.day } })
-      .then((r) => r ?? loadDirect(game.day))
-      .catch(() => loadDirect(game.day))
+    loadDirect(game.day)
       .then((r) => { if (!off) setM(r); })
       .catch((e) => { console.error("Head to Head load failed", e); if (!off) setM(null); });
     return () => { off = true; };
   }, [game.day, fetchH2H, attempt]);
   const frame = { note: "tale of the tape", title: "Head to Head", subtitle: "Two athletes, real career numbers from ESPN. Pick who wins each category." };
-  if (!game.day || m === undefined) return <GameFrame {...frame}><p className="text-muted-foreground">Loading today's matchup…</p></GameFrame>;
-  if (!m) return <GameFrame {...frame}><p className="text-muted-foreground">Today's sourced matchup is unavailable.</p><Button className="mt-3" onClick={() => { setM(undefined); setAttempt((a) => a + 1); }}>Retry</Button></GameFrame>;
+  if (!game.day || m === undefined) return <GameFrame {...frame}><p className="text-muted-foreground">Loading your matchup…</p></GameFrame>;
+  if (!m) return <GameFrame {...frame}><p className="text-muted-foreground">This sourced matchup is unavailable.</p><Button className="mt-3" onClick={() => { setM(undefined); setAttempt((a) => a + 1); }}>Retry</Button></GameFrame>;
   return <GameFrame {...frame}><H2HBoard game={game} a={m.a} b={m.b} stats={m.stats} point={H2H_POINT} /></GameFrame>;
 }
