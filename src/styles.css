@@ -241,3 +241,12 @@
   background-size: 200% 100%;
   animation: shimmer 3.5s linear infinite;
 }
+@utility arcade-panel {
+  position: relative;
+  background: linear-gradient(180deg, oklch(0.28 0.055 262), var(--card));
+  border: 2px solid var(--border);
+  box-shadow: 4px 4px 0 0 var(--ink), inset 0 1px 0 oklch(1 0 0 / 8%), 0 0 28px oklch(0.84 0.17 78 / 10%);
+}
+@utility led-glow {
+  text-shadow: 0 0 12px oklch(0.84 0.17 78 / 60%), 0 0 2px oklch(0.84 0.17 78 / 90%);
+}
