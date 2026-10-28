@@ -248,21 +248,36 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          card_color: string
           created_at: string
           display_name: string
+          favorite_sport: string | null
+          favorite_team: string | null
           id: string
+          jersey_number: string | null
+          tagline: string | null
         }
         Insert: {
           avatar_url?: string | null
+          card_color?: string
           created_at?: string
           display_name?: string
+          favorite_sport?: string | null
+          favorite_team?: string | null
           id: string
+          jersey_number?: string | null
+          tagline?: string | null
         }
         Update: {
           avatar_url?: string | null
+          card_color?: string
           created_at?: string
           display_name?: string
+          favorite_sport?: string | null
+          favorite_team?: string | null
           id?: string
+          jersey_number?: string | null
+          tagline?: string | null
         }
         Relationships: []
       }
