@@ -5,7 +5,7 @@ import { ResultCard, type useDailyGame } from "./SportsGame";
 import { DRAFT_CLOCK, LOCKER_GUESSES, draftPickScore, letterMask, lockerScore } from "@/game/modes";
 
 type Game = ReturnType<typeof useDailyGame>;
-const card = "rounded-lg border-2 border-border bg-card p-5 shadow-pop-sm";
+const card = "arcade-panel rounded-lg p-5";
 
 function Done({ game, score, answer, label, emoji, max = 100 }: { game: Game; score: number; answer: string; label: string; emoji: string; max?: number }) {
   return (
@@ -116,7 +116,7 @@ export function BoxScore({ game, line, columns, points, isAnswer, answer }: { ga
   const { over, score, form } = useTypedGuess(game, isAnswer, () => { if (step + 1 >= max) return true; setStep(step + 1); return false; }, () => points[step]!);
   return (
     <>
-      <div className="rounded-lg border-4 border-border bg-background p-4 text-foreground shadow-pop-sm">
+      <div className="arcade-panel rounded-lg border-4 p-4 text-foreground">
         <p className="text-center font-jersey text-2xl text-primary md:text-3xl">{line}</p>
         <div className="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4">
           {columns.map(([k, v], i) => {
@@ -188,9 +188,9 @@ export function DraftBoard({ game, header, choices, answer }: { game: Game; head
   const score = result ?? game.progress.score ?? 0;
   return (
     <>
-      <div className="rounded-lg border-4 border-border bg-background p-5 text-center text-foreground shadow-pop-sm">
+      <div className="arcade-panel rounded-lg border-4 p-5 text-center text-foreground">
         {header}
-        {!over && <p className={`mt-3 font-jersey text-5xl ${left < 10 ? "animate-pulse text-destructive" : "text-primary"}`} role="timer" aria-live="off">0:{String(left).padStart(2, "0")}</p>}
+        {!over && <p className={`mt-3 font-jersey text-5xl led-glow tabular-nums ${left < 10 ? "animate-pulse text-destructive" : "text-primary"}`} role="timer" aria-live="off">0:{String(left).padStart(2, "0")}</p>}
         {!over && <p className="font-display text-[10px] uppercase opacity-70">{left >= 10 ? "Pick now for 100" : "Late pick · 60"}</p>}
       </div>
       <div className="mt-4 grid gap-2 md:grid-cols-2">
