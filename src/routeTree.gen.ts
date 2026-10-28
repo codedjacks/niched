@@ -12,18 +12,24 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AwardBallotRouteImport } from './routes/award-ballot'
 import { Route as CareerPathRouteImport } from './routes/career-path'
 import { Route as DraftDayRouteImport } from './routes/draft-day'
 import { Route as FactsRouteImport } from './routes/facts'
 import { Route as HeadToHeadRouteImport } from './routes/head-to-head'
 import { Route as HigherLowerRouteImport } from './routes/higher-lower'
+import { Route as JerseyChainRouteImport } from './routes/jersey-chain'
 import { Route as LockerNumberRouteImport } from './routes/locker-number'
 import { Route as MysteryRouteImport } from './routes/mystery'
 import { Route as NicknamesRouteImport } from './routes/nicknames'
 import { Route as RateRarityRouteImport } from './routes/rate-rarity'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SilhouetteRouteImport } from './routes/silhouette'
+import { Route as StadiumGuesserRouteImport } from './routes/stadium-guesser'
 import { Route as StatLineRouteImport } from './routes/stat-line'
 import { Route as TeamTrioRouteImport } from './routes/team-trio'
+import { Route as Top10RouteImport } from './routes/top-10'
+import { Route as TradeMachineRouteImport } from './routes/trade-machine'
 import { Route as ApiPublicDailyRoundRouteImport } from './routes/api/public/daily-round'
 import { Route as ApiPublicRankedRouteImport } from './routes/api/public/ranked'
 import { Route as ApiPublicJobsAiDailyRouteImport } from './routes/api/public/jobs/ai-daily'
@@ -41,6 +47,11 @@ const AccountRoute = AccountRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AwardBallotRoute = AwardBallotRouteImport.update({
+  id: '/award-ballot',
+  path: '/award-ballot',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CareerPathRoute = CareerPathRouteImport.update({
@@ -68,6 +79,11 @@ const HigherLowerRoute = HigherLowerRouteImport.update({
   path: '/higher-lower',
   getParentRoute: () => rootRouteImport,
 } as any)
+const JerseyChainRoute = JerseyChainRouteImport.update({
+  id: '/jersey-chain',
+  path: '/jersey-chain',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LockerNumberRoute = LockerNumberRouteImport.update({
   id: '/locker-number',
   path: '/locker-number',
@@ -93,6 +109,16 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SilhouetteRoute = SilhouetteRouteImport.update({
+  id: '/silhouette',
+  path: '/silhouette',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StadiumGuesserRoute = StadiumGuesserRouteImport.update({
+  id: '/stadium-guesser',
+  path: '/stadium-guesser',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StatLineRoute = StatLineRouteImport.update({
   id: '/stat-line',
   path: '/stat-line',
@@ -101,6 +127,16 @@ const StatLineRoute = StatLineRouteImport.update({
 const TeamTrioRoute = TeamTrioRouteImport.update({
   id: '/team-trio',
   path: '/team-trio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Top10Route = Top10RouteImport.update({
+  id: '/top-10',
+  path: '/top-10',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TradeMachineRoute = TradeMachineRouteImport.update({
+  id: '/trade-machine',
+  path: '/trade-machine',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicDailyRoundRoute = ApiPublicDailyRoundRouteImport.update({
@@ -123,18 +159,24 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
+  '/award-ballot': typeof AwardBallotRoute
   '/career-path': typeof CareerPathRoute
   '/draft-day': typeof DraftDayRoute
   '/facts': typeof FactsRoute
   '/head-to-head': typeof HeadToHeadRoute
   '/higher-lower': typeof HigherLowerRoute
+  '/jersey-chain': typeof JerseyChainRoute
   '/locker-number': typeof LockerNumberRoute
   '/mystery': typeof MysteryRoute
   '/nicknames': typeof NicknamesRoute
   '/rate-rarity': typeof RateRarityRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/silhouette': typeof SilhouetteRoute
+  '/stadium-guesser': typeof StadiumGuesserRoute
   '/stat-line': typeof StatLineRoute
   '/team-trio': typeof TeamTrioRoute
+  '/top-10': typeof Top10Route
+  '/trade-machine': typeof TradeMachineRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
   '/api/public/ranked': typeof ApiPublicRankedRoute
   '/api/public/jobs/ai-daily': typeof ApiPublicJobsAiDailyRoute
@@ -143,18 +185,24 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
+  '/award-ballot': typeof AwardBallotRoute
   '/career-path': typeof CareerPathRoute
   '/draft-day': typeof DraftDayRoute
   '/facts': typeof FactsRoute
   '/head-to-head': typeof HeadToHeadRoute
   '/higher-lower': typeof HigherLowerRoute
+  '/jersey-chain': typeof JerseyChainRoute
   '/locker-number': typeof LockerNumberRoute
   '/mystery': typeof MysteryRoute
   '/nicknames': typeof NicknamesRoute
   '/rate-rarity': typeof RateRarityRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/silhouette': typeof SilhouetteRoute
+  '/stadium-guesser': typeof StadiumGuesserRoute
   '/stat-line': typeof StatLineRoute
   '/team-trio': typeof TeamTrioRoute
+  '/top-10': typeof Top10Route
+  '/trade-machine': typeof TradeMachineRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
   '/api/public/ranked': typeof ApiPublicRankedRoute
   '/api/public/jobs/ai-daily': typeof ApiPublicJobsAiDailyRoute
@@ -164,18 +212,24 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/auth': typeof AuthRoute
+  '/award-ballot': typeof AwardBallotRoute
   '/career-path': typeof CareerPathRoute
   '/draft-day': typeof DraftDayRoute
   '/facts': typeof FactsRoute
   '/head-to-head': typeof HeadToHeadRoute
   '/higher-lower': typeof HigherLowerRoute
+  '/jersey-chain': typeof JerseyChainRoute
   '/locker-number': typeof LockerNumberRoute
   '/mystery': typeof MysteryRoute
   '/nicknames': typeof NicknamesRoute
   '/rate-rarity': typeof RateRarityRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/silhouette': typeof SilhouetteRoute
+  '/stadium-guesser': typeof StadiumGuesserRoute
   '/stat-line': typeof StatLineRoute
   '/team-trio': typeof TeamTrioRoute
+  '/top-10': typeof Top10Route
+  '/trade-machine': typeof TradeMachineRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
   '/api/public/ranked': typeof ApiPublicRankedRoute
   '/api/public/jobs/ai-daily': typeof ApiPublicJobsAiDailyRoute
@@ -186,18 +240,24 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/auth'
+    | '/award-ballot'
     | '/career-path'
     | '/draft-day'
     | '/facts'
     | '/head-to-head'
     | '/higher-lower'
+    | '/jersey-chain'
     | '/locker-number'
     | '/mystery'
     | '/nicknames'
     | '/rate-rarity'
     | '/reset-password'
+    | '/silhouette'
+    | '/stadium-guesser'
     | '/stat-line'
     | '/team-trio'
+    | '/top-10'
+    | '/trade-machine'
     | '/api/public/daily-round'
     | '/api/public/ranked'
     | '/api/public/jobs/ai-daily'
@@ -206,18 +266,24 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/auth'
+    | '/award-ballot'
     | '/career-path'
     | '/draft-day'
     | '/facts'
     | '/head-to-head'
     | '/higher-lower'
+    | '/jersey-chain'
     | '/locker-number'
     | '/mystery'
     | '/nicknames'
     | '/rate-rarity'
     | '/reset-password'
+    | '/silhouette'
+    | '/stadium-guesser'
     | '/stat-line'
     | '/team-trio'
+    | '/top-10'
+    | '/trade-machine'
     | '/api/public/daily-round'
     | '/api/public/ranked'
     | '/api/public/jobs/ai-daily'
@@ -226,18 +292,24 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/auth'
+    | '/award-ballot'
     | '/career-path'
     | '/draft-day'
     | '/facts'
     | '/head-to-head'
     | '/higher-lower'
+    | '/jersey-chain'
     | '/locker-number'
     | '/mystery'
     | '/nicknames'
     | '/rate-rarity'
     | '/reset-password'
+    | '/silhouette'
+    | '/stadium-guesser'
     | '/stat-line'
     | '/team-trio'
+    | '/top-10'
+    | '/trade-machine'
     | '/api/public/daily-round'
     | '/api/public/ranked'
     | '/api/public/jobs/ai-daily'
@@ -247,18 +319,24 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
   AuthRoute: typeof AuthRoute
+  AwardBallotRoute: typeof AwardBallotRoute
   CareerPathRoute: typeof CareerPathRoute
   DraftDayRoute: typeof DraftDayRoute
   FactsRoute: typeof FactsRoute
   HeadToHeadRoute: typeof HeadToHeadRoute
   HigherLowerRoute: typeof HigherLowerRoute
+  JerseyChainRoute: typeof JerseyChainRoute
   LockerNumberRoute: typeof LockerNumberRoute
   MysteryRoute: typeof MysteryRoute
   NicknamesRoute: typeof NicknamesRoute
   RateRarityRoute: typeof RateRarityRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  SilhouetteRoute: typeof SilhouetteRoute
+  StadiumGuesserRoute: typeof StadiumGuesserRoute
   StatLineRoute: typeof StatLineRoute
   TeamTrioRoute: typeof TeamTrioRoute
+  Top10Route: typeof Top10Route
+  TradeMachineRoute: typeof TradeMachineRoute
   ApiPublicDailyRoundRoute: typeof ApiPublicDailyRoundRoute
   ApiPublicRankedRoute: typeof ApiPublicRankedRoute
   ApiPublicJobsAiDailyRoute: typeof ApiPublicJobsAiDailyRoute
@@ -285,6 +363,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/award-ballot': {
+      id: '/award-ballot'
+      path: '/award-ballot'
+      fullPath: '/award-ballot'
+      preLoaderRoute: typeof AwardBallotRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/career-path': {
@@ -322,6 +407,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HigherLowerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/jersey-chain': {
+      id: '/jersey-chain'
+      path: '/jersey-chain'
+      fullPath: '/jersey-chain'
+      preLoaderRoute: typeof JerseyChainRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/locker-number': {
       id: '/locker-number'
       path: '/locker-number'
@@ -357,6 +449,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/silhouette': {
+      id: '/silhouette'
+      path: '/silhouette'
+      fullPath: '/silhouette'
+      preLoaderRoute: typeof SilhouetteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stadium-guesser': {
+      id: '/stadium-guesser'
+      path: '/stadium-guesser'
+      fullPath: '/stadium-guesser'
+      preLoaderRoute: typeof StadiumGuesserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stat-line': {
       id: '/stat-line'
       path: '/stat-line'
@@ -369,6 +475,20 @@ declare module '@tanstack/react-router' {
       path: '/team-trio'
       fullPath: '/team-trio'
       preLoaderRoute: typeof TeamTrioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/top-10': {
+      id: '/top-10'
+      path: '/top-10'
+      fullPath: '/top-10'
+      preLoaderRoute: typeof Top10RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trade-machine': {
+      id: '/trade-machine'
+      path: '/trade-machine'
+      fullPath: '/trade-machine'
+      preLoaderRoute: typeof TradeMachineRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/daily-round': {
@@ -399,18 +519,24 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
   AuthRoute: AuthRoute,
+  AwardBallotRoute: AwardBallotRoute,
   CareerPathRoute: CareerPathRoute,
   DraftDayRoute: DraftDayRoute,
   FactsRoute: FactsRoute,
   HeadToHeadRoute: HeadToHeadRoute,
   HigherLowerRoute: HigherLowerRoute,
+  JerseyChainRoute: JerseyChainRoute,
   LockerNumberRoute: LockerNumberRoute,
   MysteryRoute: MysteryRoute,
   NicknamesRoute: NicknamesRoute,
   RateRarityRoute: RateRarityRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  SilhouetteRoute: SilhouetteRoute,
+  StadiumGuesserRoute: StadiumGuesserRoute,
   StatLineRoute: StatLineRoute,
   TeamTrioRoute: TeamTrioRoute,
+  Top10Route: Top10Route,
+  TradeMachineRoute: TradeMachineRoute,
   ApiPublicDailyRoundRoute: ApiPublicDailyRoundRoute,
   ApiPublicRankedRoute: ApiPublicRankedRoute,
   ApiPublicJobsAiDailyRoute: ApiPublicJobsAiDailyRoute,
