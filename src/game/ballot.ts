@@ -20,10 +20,11 @@ export const BALLOT_SPOT = 15;
 export const BALLOT_BONUS = 25;
 export const BALLOT_MAX = BALLOT_SPOT * 5 + BALLOT_BONUS; // 100
 export const ballotForDay = (day: string) => dailyItem("ballot", BALLOTS, dayNumber(day));
-/** Starting order shown to the player — never the real order. */
+/** Starting order shown to the player — never the real order and never the winner on top. */
 export function ballotStart(day: string, p: Ballot): string[] {
   const s = seededShuffle(`ballot:${day}`, p.order);
-  return s.every((n, i) => n === p.order[i]) ? [...s.slice(1), s[0]!] : s;
+  // Never open with the winner on top (or the whole real order).
+  return s[0] === p.order[0] ? [...s.slice(1), s[0]!] : s;
 }
 /** 15 per finalist in the right spot, plus 25 for a perfect ballot. */
 export function scoreBallot(p: Ballot, guess: string[]) {
