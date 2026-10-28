@@ -57,3 +57,14 @@ export const getLeaderboard = createServerFn({ method: "POST" })
       allTime: (all.data ?? []).map((r) => ({ ...r, total: Number(r.total), games: Number(r.games) })),
     };
   });
+
+/** Rate the Rarity tallies for a set of questions (public aggregate counts only). */
+export const getVoteTallies = createServerFn({ method: "POST" })
+  .inputValidator((d: { questionIds: string[] }) => ({ questionIds: d.questionIds.slice(0, 20).map(String) }))
+  .handler(async ({ data }) => {
+    const out: import("./scoring").VoteTallies = {};
+    const { data: rows, error } = await (await publicClient()).rpc("rarity_vote_tallies", { _question_ids: data.questionIds });
+    if (error) { console.error(error); return out; }
+    for (const r of rows ?? []) ((out[r.question_id] ??= {})[r.answer_key] ??= {})[r.tier as import("./types").TierId] = Number(r.count);
+    return out;
+  });

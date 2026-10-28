@@ -1,3 +1,4 @@
+import { normalize } from "./scoring";
 import { SPORTS_PRACTICE_QUESTIONS } from "./questions";
 import type { TierId } from "./types";
 
@@ -11,7 +12,7 @@ export function voteItems(): VoteItem[] {
     for (const [, a] of q.answers) {
       if (seen.has(a.display)) continue;
       seen.add(a.display);
-      out.push({ questionId: q.id, prompt: q.prompt, answerKey: a.display.toLowerCase(), display: a.display, tier: a.tier });
+      out.push({ questionId: q.id, prompt: q.prompt, answerKey: normalize(a.display), display: a.display, tier: a.tier });
     }
   }
   return out;

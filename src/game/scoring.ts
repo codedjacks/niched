@@ -134,3 +134,23 @@ export function validateAnswer(
   const tier = source.tierFor(q, normalize(entry.display), entry.tier);
   return { ok: true, display: entry.display, tier, points: TIERS[tier].points, didYouMean: !exact };
 }
+
+/** Rate the Rarity: votes needed on one answer before the community tier replaces the game's tier. */
+export const MIN_VOTES = 3;
+/** questionId -> answerKey (normalize(display)) -> tier -> vote count */
+export type VoteTallies = Record<string, Record<string, Partial<Record<TierId, number>>>>;
+
+/** Median voted tier (ties lean common), or null below MIN_VOTES. */
+export function consensusTier(t: Partial<Record<TierId, number>> | undefined, min = MIN_VOTES): TierId | null {
+  if (!t) return null;
+  const total = TIER_ORDER.reduce((s, id) => s + (t[id] ?? 0), 0);
+  if (total < min) return null;
+  let seen = 0;
+  for (const id of TIER_ORDER) { seen += t[id] ?? 0; if (seen * 2 >= total) return id; }
+  return null;
+}
+
+/** Community votes override `base` for answers with enough votes (Practice only; ranked Daily stays frozen). */
+export function voteRarity(votes: VoteTallies, base: RaritySource = curatedRarity, min = MIN_VOTES): RaritySource {
+  return { tierFor: (q, key, fallback) => consensusTier(votes[q.id]?.[key], min) ?? base.tierFor(q, key, fallback) };
+}
