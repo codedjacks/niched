@@ -19,7 +19,6 @@ export const CALLS: RadioCall[] = [
   { text: "Havlicek stole it! It's all ____!", answers: ["over"], caller: "Johnny Most", year: 1965, team: "Boston Celtics vs. Philadelphia 76ers" },
   { text: "The Kick is good! The ____ win the Super Bowl!", answers: ["patriots"], caller: "Gil Santos", year: 2002, team: "Adam Vinatieri, Super Bowl XXXVI" },
   { text: "Holy ____!", answers: ["cow"], caller: "Harry Caray", year: 1982, team: "Chicago Cubs broadcasts" },
-  { text: "It's a ____ in the Meadowlands!", answers: ["miracle"], caller: "Herb Welch", year: 1978, team: "Eagles vs. Giants, the fumble" },
   { text: "Christian ____! He shoots... scores!", answers: ["laettner"], caller: "Verne Lundquist", year: 1992, team: "Duke vs. Kentucky, Elite Eight" },
   { text: "The Cubs ____ the World Series!", answers: ["win"], caller: "Pat Hughes", year: 2016, team: "Chicago Cubs, World Series Game 7" },
 ];
