@@ -18,11 +18,10 @@ const SECTIONS = [
   {
     label: "Stats & scores",
     items: [
+      { to: "/top-10", name: "Top 10", Icon: ListOrdered, color: "text-marker" },
       { to: "/stat-line", name: "Stat Line", Icon: BarChart3, color: "text-secondary" },
-
       { to: "/head-to-head", name: "Head to Head", Icon: Swords, color: "text-primary" },
       { to: "/award-ballot", name: "Award Ballot", Icon: Vote, color: "text-secondary" },
-      { to: "/top-10", name: "Top 10", Icon: ListOrdered, color: "text-marker" },
     ],
   },
   {
