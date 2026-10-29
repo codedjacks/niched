@@ -13,6 +13,14 @@ export const CALLS: RadioCall[] = [
   { text: "The ____ is out on the field!", answers: ["band"], caller: "Joe Starkey", year: 1982, team: "Cal vs. Stanford" },
   { text: "____ is going to win the football game!", answers: ["auburn"], caller: "Rod Bramblett", year: 2013, team: "Iron Bowl, Auburn vs. Alabama" },
   { text: "Go ____, folks! Go ____!", answers: ["crazy"], caller: "Jack Buck", year: 1985, team: "St. Louis Cardinals, Ozzie Smith's homer" },
+  { text: "Touchdown ____! Touchdown ____!", answers: ["raiders"], caller: "Bill King", year: 1978, team: "Oakland Raiders' Holy Roller" },
+  { text: "I don't believe what I just ____!", answers: ["saw"], caller: "Jack Buck", year: 1988, team: "Kirk Gibson's World Series homer" },
+  { text: "In a year that has been so ____, the impossible has happened!", answers: ["improbable"], caller: "Vin Scully", year: 1988, team: "Kirk Gibson's World Series homer" },
+  { text: "Havlicek stole it! It's all ____!", answers: ["over"], caller: "Johnny Most", year: 1965, team: "Boston Celtics vs. Philadelphia 76ers" },
+  { text: "The Kick is good! The ____ win the Super Bowl!", answers: ["patriots"], caller: "Gil Santos", year: 2002, team: "Adam Vinatieri, Super Bowl XXXVI" },
+  { text: "Holy ____!", answers: ["cow"], caller: "Harry Caray", year: 1982, team: "Chicago Cubs broadcasts" },
+  { text: "Christian ____! He shoots... scores!", answers: ["laettner"], caller: "Verne Lundquist", year: 1992, team: "Duke vs. Kentucky, Elite Eight" },
+  { text: "The Cubs ____ the World Series!", answers: ["win"], caller: "Pat Hughes", year: 2016, team: "Chicago Cubs, World Series Game 7" },
 ];
 
 export const RADIO_ROUNDS = 3;
