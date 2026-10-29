@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Scale, ListOrdered, ScanFace, Link2, Repeat, Vote, Swords, Building2, UserSearch, ArrowUpDown, Route as RouteIcon, Mic, Tag, Shirt, BarChart3, Users, BookOpen } from "lucide-react";
+import { Scale, ListOrdered, ScanFace, Link2, Repeat, Vote, Swords, Building2, UserSearch, Route as RouteIcon, Mic, Tag, Shirt, BarChart3, Users, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ReactNode } from "react";
 
@@ -18,8 +18,8 @@ const SECTIONS = [
   {
     label: "Stats & scores",
     items: [
-      { to: "/higher-lower", name: "Higher / Lower", Icon: ArrowUpDown, color: "text-marker" },
       { to: "/stat-line", name: "Stat Line", Icon: BarChart3, color: "text-secondary" },
+
       { to: "/head-to-head", name: "Head to Head", Icon: Swords, color: "text-primary" },
       { to: "/award-ballot", name: "Award Ballot", Icon: Vote, color: "text-secondary" },
       { to: "/top-10", name: "Top 10", Icon: ListOrdered, color: "text-marker" },
