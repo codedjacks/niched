@@ -9,7 +9,7 @@ import { Link } from "@tanstack/react-router";
 
 const GAMES = [
   { to: "/mystery", icon: "🕵️", name: "Mystery Athlete", blurb: "Guess the star in six clues" },
-  { to: "/higher-lower", icon: "📈", name: "Higher / Lower", blurb: "Which career stat is bigger?" },
+
   { to: "/career-path", icon: "🧭", name: "Career Path", blurb: "Name the player from their teams" },
   { to: "/draft-day", icon: "🎤", name: "Draft Day", blurb: "Who went #1 overall?" },
   { to: "/nicknames", icon: "🏷️", name: "Nicknames", blurb: "Who goes by this name?" },
