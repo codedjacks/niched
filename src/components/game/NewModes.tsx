@@ -137,7 +137,7 @@ export function BoxScore({ game, line, columns, points, isAnswer, answer }: { ga
 }
 
 /** Locker Number: you choose which lockers to open (each costs points), then name the player. */
-export function LockerRoom({ game, number, team, scouting, clues, isAnswer, answer }: { game: Game; number: number; team: string; scouting?: string; clues: [string, string][]; isAnswer: (t: string) => boolean; answer: string }) {
+export function LockerRoom({ game, number, team, scouting, clues, isAnswer, answer }: { game: Game; number: number; team: string; scouting?: string | undefined; clues: [string, string][]; isAnswer: (t: string) => boolean; answer: string }) {
   const [opened, setOpened] = useState<number[]>([]);
   const [misses, setMisses] = useState(0);
   const { over, score, form } = useTypedGuess(game, isAnswer, () => { const m = misses + 1; setMisses(m); return m >= LOCKER_GUESSES; }, () => lockerScore(opened.length, misses));
