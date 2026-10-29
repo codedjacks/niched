@@ -513,6 +513,62 @@ export type Database = {
         }
         Relationships: []
       }
+      sports_team_facts: {
+        Row: {
+          city: string | null
+          id: string
+          league: string
+          metric: string
+          scope: string
+          source_id: string
+          team_id: string
+          team_name: string
+          unit: string
+          value: number
+          venue_aliases: string[]
+          venue_name: string | null
+          verified_at: string
+        }
+        Insert: {
+          city?: string | null
+          id: string
+          league: string
+          metric: string
+          scope: string
+          source_id: string
+          team_id: string
+          team_name: string
+          unit: string
+          value: number
+          venue_aliases?: string[]
+          venue_name?: string | null
+          verified_at: string
+        }
+        Update: {
+          city?: string | null
+          id?: string
+          league?: string
+          metric?: string
+          scope?: string
+          source_id?: string
+          team_id?: string
+          team_name?: string
+          unit?: string
+          value?: number
+          venue_aliases?: string[]
+          venue_name?: string | null
+          verified_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sports_team_facts_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "sports_fact_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

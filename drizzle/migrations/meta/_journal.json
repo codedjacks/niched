@@ -99,6 +99,13 @@
       "when": 1793220876500,
       "tag": "0013_daily_puzzles",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1793302602530,
+      "tag": "0014_sports_team_facts",
+      "breakpoints": true
     }
   ]
 }
