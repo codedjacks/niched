@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Scale, ListOrdered, ScanFace, Link2, Repeat, Vote, Swords, Building2, UserSearch, Route as RouteIcon, Mic, Tag, Shirt, BarChart3, Users, BookOpen } from "lucide-react";
+import { Scale, ListOrdered, ScanFace, Link2, Repeat, Vote, Swords, Building2, UserSearch, Route as RouteIcon, Mic, Tag, Shirt, BarChart3, Users, BookOpen, Grid2x2, Type, ArrowUpDown, Armchair, Radio, Smile } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ReactNode } from "react";
 
@@ -13,6 +13,8 @@ const SECTIONS = [
       { to: "/draft-day", name: "Draft Day", Icon: Mic, color: "text-secondary" },
       { to: "/career-path", name: "Career Path", Icon: RouteIcon, color: "text-primary" },
       { to: "/trade-machine", name: "Trade Machine", Icon: Repeat, color: "text-marker" },
+      { to: "/huddle", name: "Huddle", Icon: Grid2x2, color: "text-primary" },
+      { to: "/scoreboard", name: "Scoreboard", Icon: Type, color: "text-secondary" },
     ],
   },
   {
@@ -31,6 +33,15 @@ const SECTIONS = [
       { to: "/team-trio", name: "Team Trio", Icon: Users, color: "text-marker" },
       { to: "/jersey-chain", name: "Jersey Chain", Icon: Link2, color: "text-secondary" },
       { to: "/stadium-guesser", name: "Stadium Guesser", Icon: Building2, color: "text-primary" },
+      { to: "/standings-shuffle", name: "Standings Shuffle", Icon: ArrowUpDown, color: "text-marker" },
+      { to: "/sellout", name: "Sellout", Icon: Armchair, color: "text-secondary" },
+    ],
+  },
+  {
+    label: "Fun & games",
+    items: [
+      { to: "/radio-call", name: "Radio Call", Icon: Radio, color: "text-marker" },
+      { to: "/emoji-playbook", name: "Emoji Playbook", Icon: Smile, color: "text-primary" },
     ],
   },
   {
