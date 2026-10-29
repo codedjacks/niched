@@ -25,8 +25,8 @@ try {
       for (const fact of record.facts) {
         const spec = FACT_METRICS[`${record.league}:${fact.metric}`];
         if (!spec) continue;
-        const id = `${record.league}:${record.player_id}:${fact.metric}`;
-        const { error } = await db.from('sports_facts').upsert({ id, league: record.league, player_id: record.player_id, player_name: record.player_name, metric: fact.metric, value: fact.value, unit: spec.unit, source_id: sourceId, verified_at: record.retrieved_at }, { onConflict: 'id', ignoreDuplicates: true });
+        const id = `${record.league}:${record.player_id}:${fact.metric}${record.payload.season ? `:${record.payload.season}` : ""}`;
+        const { error } = await db.from('sports_facts').upsert({ id, league: record.league, player_id: record.player_id, player_name: record.player_name, metric: fact.metric, value: fact.value, unit: spec.unit, scope: record.scope, source_id: sourceId, verified_at: record.retrieved_at }, { onConflict: 'id', ignoreDuplicates: true });
         if (error) throw new Error(`Fact import failed: ${error.message}`);
         count++;
       }
