@@ -8,7 +8,7 @@ const pill = "rounded-lg border-2 border-border bg-card px-4 py-2 font-display t
 export function AccountNav() {
   const { user, profile } = useAuth();
   return (
-    <nav className="mb-6 flex flex-wrap justify-end gap-2">
+    <nav className="mb-2 flex flex-wrap justify-end gap-2">
       {user ? (
         <Link to="/account" className={pill}>{avatarOf(profile?.avatar_url)} {profile?.display_name ?? "Account"}</Link>
       ) : (

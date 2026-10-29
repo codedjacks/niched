@@ -51,7 +51,7 @@ export function Home({ stats, streak, doneToday, todayScore, dailyAvailable = tr
   return (
     <div className="stadium-glow min-h-screen">
     <div aria-hidden className="scanlines pointer-events-none fixed inset-0 z-50 opacity-40" />
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 pb-16 pt-12 sm:pt-20 lg:max-w-6xl lg:px-10">
+    <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 pb-16 pt-6 sm:pt-9 lg:max-w-6xl lg:px-10">
       <AccountNav />
       <header className="animate-rise relative text-center">
         <p className="font-display text-xs font-bold uppercase tracking-[0.15em] text-secondary sm:text-sm sm:tracking-[0.3em]">★ Sports trivia arcade ★</p>
