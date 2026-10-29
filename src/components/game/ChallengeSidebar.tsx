@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Scale, ListOrdered, ScanFace, Link2, Repeat, Vote, Swords, Building2, UserSearch, Route as RouteIcon, Mic, Tag, Shirt, BarChart3, Users, BookOpen, Grid2x2, Type, ArrowUpDown, Armchair, Radio, Smile } from "lucide-react";
+import { Scale, ListOrdered, ScanFace, Link2, Repeat, Vote, Swords, Building2, UserSearch, Route as RouteIcon, Mic, Tag, Shirt, BarChart3, Users, BookOpen, Grid2x2, ArrowUpDown, Armchair, Radio, Smile } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ReactNode } from "react";
 
@@ -14,7 +14,6 @@ const SECTIONS = [
       { to: "/career-path", name: "Career Path", Icon: RouteIcon, color: "text-primary" },
       { to: "/trade-machine", name: "Trade Machine", Icon: Repeat, color: "text-marker" },
       { to: "/huddle", name: "Huddle", Icon: Grid2x2, color: "text-primary" },
-      { to: "/scoreboard", name: "Scoreboard", Icon: Type, color: "text-secondary" },
     ],
   },
   {
