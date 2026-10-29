@@ -29,6 +29,66 @@ export const HUDDLES: HuddlePuzzle[] = [
     { level: 2, label: "Golf", members: ["Tiger Woods", "Jack Nicklaus", "Rory McIlroy", "Phil Mickelson"] },
     { level: 3, label: "Soccer", members: ["Lionel Messi", "Cristiano Ronaldo", "Pele", "Zinedine Zidane"] },
   ] },
+  { id: "nba-2", groups: [
+    { level: 0, label: "Lakers legends", members: ["Magic Johnson", "Kareem Abdul-Jabbar", "Kobe Bryant", "Shaquille O'Neal"] },
+    { level: 1, label: "Celtics legends", members: ["Larry Bird", "Bill Russell", "Paul Pierce", "Kevin McHale"] },
+    { level: 2, label: "Bulls of the '90s", members: ["Scottie Pippen", "Dennis Rodman", "Toni Kukoc", "Steve Kerr"] },
+    { level: 3, label: "Warriors dynasty", members: ["Stephen Curry", "Klay Thompson", "Andre Iguodala", "Kevin Durant"] },
+  ] },
+  { id: "nba-3", groups: [
+    { level: 0, label: "Centers", members: ["Hakeem Olajuwon", "David Robinson", "Patrick Ewing", "Dikembe Mutombo"] },
+    { level: 1, label: "Point guards", members: ["John Stockton", "Steve Nash", "Chris Paul", "Jason Kidd"] },
+    { level: 2, label: "Played at North Carolina", members: ["Vince Carter", "James Worthy", "Rasheed Wallace", "Antawn Jamison"] },
+    { level: 3, label: "Played at Kentucky", members: ["Anthony Davis", "Devin Booker", "Karl-Anthony Towns", "John Wall"] },
+  ] },
+  { id: "nfl-2", groups: [
+    { level: 0, label: "Patriots", members: ["Rob Gronkowski", "Julian Edelman", "Tedy Bruschi", "Vince Wilfork"] },
+    { level: 1, label: "Steelers", members: ["Terry Bradshaw", "Franco Harris", "Troy Polamalu", "Ben Roethlisberger"] },
+    { level: 2, label: "49ers", members: ["Joe Montana", "Steve Young", "Ronnie Lott", "Frank Gore"] },
+    { level: 3, label: "Cowboys", members: ["Troy Aikman", "Michael Irvin", "Deion Sanders", "Tony Romo"] },
+  ] },
+  { id: "nfl-3", groups: [
+    { level: 0, label: "Kickers", members: ["Adam Vinatieri", "Justin Tucker", "Morten Andersen", "Jason Elam"] },
+    { level: 1, label: "Tight ends", members: ["Tony Gonzalez", "Travis Kelce", "Antonio Gates", "Shannon Sharpe"] },
+    { level: 2, label: "Played at Alabama", members: ["Derrick Henry", "Julio Jones", "Tua Tagovailoa", "Joe Namath"] },
+    { level: 3, label: "Played at USC", members: ["Marcus Allen", "Carson Palmer", "Troy Polamalu", "Junior Seau"] },
+  ] },
+  { id: "mlb-2", groups: [
+    { level: 0, label: "Red Sox", members: ["David Ortiz", "Ted Williams", "Carl Yastrzemski", "Dustin Pedroia"] },
+    { level: 1, label: "Cardinals", members: ["Stan Musial", "Bob Gibson", "Yadier Molina", "Ozzie Smith"] },
+    { level: 2, label: "Catchers", members: ["Johnny Bench", "Mike Piazza", "Ivan Rodriguez", "Buster Posey"] },
+    { level: 3, label: "Closers", members: ["Mariano Rivera", "Trevor Hoffman", "Dennis Eckersley", "Craig Kimbrel"] },
+  ] },
+  { id: "mlb-3", groups: [
+    { level: 0, label: "Born in the Dominican Republic", members: ["Pedro Martinez", "Vladimir Guerrero", "Juan Soto", "Robinson Cano"] },
+    { level: 1, label: "Born in Venezuela", members: ["Miguel Cabrera", "Felix Hernandez", "Ronald Acuna Jr.", "Jose Altuve"] },
+    { level: 2, label: "Born in Puerto Rico", members: ["Roberto Clemente", "Carlos Beltran", "Francisco Lindor", "Yadier Molina"] },
+    { level: 3, label: "Born in Cuba", members: ["Jose Abreu", "Yoenis Cespedes", "Aroldis Chapman", "Tony Perez"] },
+  ] },
+  { id: "nhl-1", groups: [
+    { level: 0, label: "Oilers", members: ["Mark Messier", "Jari Kurri", "Leon Draisaitl", "Grant Fuhr"] },
+    { level: 1, label: "Goalies", members: ["Patrick Roy", "Martin Brodeur", "Dominik Hasek", "Henrik Lundqvist"] },
+    { level: 2, label: "Red Wings", members: ["Steve Yzerman", "Gordie Howe", "Nicklas Lidstrom", "Pavel Datsyuk"] },
+    { level: 3, label: "Penguins", members: ["Mario Lemieux", "Evgeni Malkin", "Jaromir Jagr", "Kris Letang"] },
+  ] },
+  { id: "mix-2", groups: [
+    { level: 0, label: "Boxers", members: ["Muhammad Ali", "Mike Tyson", "Floyd Mayweather", "Manny Pacquiao"] },
+    { level: 1, label: "Sprinters", members: ["Usain Bolt", "Carl Lewis", "Florence Griffith Joyner", "Michael Johnson"] },
+    { level: 2, label: "Swimmers", members: ["Michael Phelps", "Katie Ledecky", "Mark Spitz", "Ryan Lochte"] },
+    { level: 3, label: "Gymnasts", members: ["Simone Biles", "Nadia Comaneci", "Mary Lou Retton", "Kohei Uchimura"] },
+  ] },
+  { id: "mix-3", groups: [
+    { level: 0, label: "NASCAR", members: ["Dale Earnhardt", "Jeff Gordon", "Jimmie Johnson", "Richard Petty"] },
+    { level: 1, label: "Formula 1", members: ["Lewis Hamilton", "Michael Schumacher", "Ayrton Senna", "Max Verstappen"] },
+    { level: 2, label: "Tennis women", members: ["Steffi Graf", "Martina Navratilova", "Venus Williams", "Coco Gauff"] },
+    { level: 3, label: "Golf majors winners", members: ["Ben Hogan", "Arnold Palmer", "Scottie Scheffler", "Gary Player"] },
+  ] },
+  { id: "mix-4", groups: [
+    { level: 0, label: "Played MLB and NFL", members: ["Bo Jackson", "Brian Jordan", "Jim Thorpe", "Drew Henson"] },
+    { level: 1, label: "WNBA stars", members: ["Diana Taurasi", "Sue Bird", "Candace Parker", "Caitlin Clark"] },
+    { level: 2, label: "USWNT soccer", members: ["Mia Hamm", "Abby Wambach", "Megan Rapinoe", "Alex Morgan"] },
+    { level: 3, label: "UFC champions", members: ["Georges St-Pierre", "Anderson Silva", "Jon Jones", "Ronda Rousey"] },
+  ] },
 ];
 
 export const HUDDLE_MISTAKES = 4;
