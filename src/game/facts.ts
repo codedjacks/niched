@@ -23,3 +23,20 @@ export interface SportsFact {
   metric: string; value: number; unit: string; scope: string;
   source_id: string; verified_at: string; source_url: string;
 }
+
+/** Last completed regular season per league; ESPN keys seasons by their ending year. */
+export const SEASON_SCOPES: Record<string, { year: number; scope: string }> = {
+  nba: { year: 2026, scope: "2025-26 regular season" },
+  nfl: { year: 2025, scope: "2025 regular season" },
+  mlb: { year: 2026, scope: "2026 regular season" },
+  nhl: { year: 2026, scope: "2025-26 regular season" },
+};
+export const CAREER_SCOPE = "career regular season";
+
+/** "NBA career points" for career facts, "NBA 2025-26 points" for season facts. */
+export function factLabel(league: string, metric: string, scope: string = CAREER_SCOPE): string {
+  const group = FACT_METRICS[`${league}:${metric}`]?.group ?? metric;
+  if (scope === CAREER_SCOPE) return group;
+  const season = scope.replace(/ regular season$/, "");
+  return group.replace(/ career /, ` ${season} `).replace(/^(MLB) pitcher /, `$1 ${season} pitcher `);
+}
