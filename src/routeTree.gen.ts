@@ -15,16 +15,22 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AwardBallotRouteImport } from './routes/award-ballot'
 import { Route as CareerPathRouteImport } from './routes/career-path'
 import { Route as DraftDayRouteImport } from './routes/draft-day'
+import { Route as EmojiPlaybookRouteImport } from './routes/emoji-playbook'
 import { Route as FactsRouteImport } from './routes/facts'
 import { Route as HeadToHeadRouteImport } from './routes/head-to-head'
+import { Route as HuddleRouteImport } from './routes/huddle'
 import { Route as JerseyChainRouteImport } from './routes/jersey-chain'
 import { Route as LockerNumberRouteImport } from './routes/locker-number'
 import { Route as MysteryRouteImport } from './routes/mystery'
 import { Route as NicknamesRouteImport } from './routes/nicknames'
+import { Route as RadioCallRouteImport } from './routes/radio-call'
 import { Route as RateRarityRouteImport } from './routes/rate-rarity'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as ScoreboardRouteImport } from './routes/scoreboard'
+import { Route as SelloutRouteImport } from './routes/sellout'
 import { Route as SilhouetteRouteImport } from './routes/silhouette'
 import { Route as StadiumGuesserRouteImport } from './routes/stadium-guesser'
+import { Route as StandingsShuffleRouteImport } from './routes/standings-shuffle'
 import { Route as StatLineRouteImport } from './routes/stat-line'
 import { Route as TeamTrioRouteImport } from './routes/team-trio'
 import { Route as Top10RouteImport } from './routes/top-10'
@@ -63,6 +69,11 @@ const DraftDayRoute = DraftDayRouteImport.update({
   path: '/draft-day',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmojiPlaybookRoute = EmojiPlaybookRouteImport.update({
+  id: '/emoji-playbook',
+  path: '/emoji-playbook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FactsRoute = FactsRouteImport.update({
   id: '/facts',
   path: '/facts',
@@ -71,6 +82,11 @@ const FactsRoute = FactsRouteImport.update({
 const HeadToHeadRoute = HeadToHeadRouteImport.update({
   id: '/head-to-head',
   path: '/head-to-head',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HuddleRoute = HuddleRouteImport.update({
+  id: '/huddle',
+  path: '/huddle',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JerseyChainRoute = JerseyChainRouteImport.update({
@@ -93,6 +109,11 @@ const NicknamesRoute = NicknamesRouteImport.update({
   path: '/nicknames',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RadioCallRoute = RadioCallRouteImport.update({
+  id: '/radio-call',
+  path: '/radio-call',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RateRarityRoute = RateRarityRouteImport.update({
   id: '/rate-rarity',
   path: '/rate-rarity',
@@ -103,6 +124,16 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ScoreboardRoute = ScoreboardRouteImport.update({
+  id: '/scoreboard',
+  path: '/scoreboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SelloutRoute = SelloutRouteImport.update({
+  id: '/sellout',
+  path: '/sellout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SilhouetteRoute = SilhouetteRouteImport.update({
   id: '/silhouette',
   path: '/silhouette',
@@ -111,6 +142,11 @@ const SilhouetteRoute = SilhouetteRouteImport.update({
 const StadiumGuesserRoute = StadiumGuesserRouteImport.update({
   id: '/stadium-guesser',
   path: '/stadium-guesser',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StandingsShuffleRoute = StandingsShuffleRouteImport.update({
+  id: '/standings-shuffle',
+  path: '/standings-shuffle',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StatLineRoute = StatLineRouteImport.update({
@@ -156,16 +192,22 @@ export interface FileRoutesByFullPath {
   '/award-ballot': typeof AwardBallotRoute
   '/career-path': typeof CareerPathRoute
   '/draft-day': typeof DraftDayRoute
+  '/emoji-playbook': typeof EmojiPlaybookRoute
   '/facts': typeof FactsRoute
   '/head-to-head': typeof HeadToHeadRoute
+  '/huddle': typeof HuddleRoute
   '/jersey-chain': typeof JerseyChainRoute
   '/locker-number': typeof LockerNumberRoute
   '/mystery': typeof MysteryRoute
   '/nicknames': typeof NicknamesRoute
+  '/radio-call': typeof RadioCallRoute
   '/rate-rarity': typeof RateRarityRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/scoreboard': typeof ScoreboardRoute
+  '/sellout': typeof SelloutRoute
   '/silhouette': typeof SilhouetteRoute
   '/stadium-guesser': typeof StadiumGuesserRoute
+  '/standings-shuffle': typeof StandingsShuffleRoute
   '/stat-line': typeof StatLineRoute
   '/team-trio': typeof TeamTrioRoute
   '/top-10': typeof Top10Route
@@ -181,16 +223,22 @@ export interface FileRoutesByTo {
   '/award-ballot': typeof AwardBallotRoute
   '/career-path': typeof CareerPathRoute
   '/draft-day': typeof DraftDayRoute
+  '/emoji-playbook': typeof EmojiPlaybookRoute
   '/facts': typeof FactsRoute
   '/head-to-head': typeof HeadToHeadRoute
+  '/huddle': typeof HuddleRoute
   '/jersey-chain': typeof JerseyChainRoute
   '/locker-number': typeof LockerNumberRoute
   '/mystery': typeof MysteryRoute
   '/nicknames': typeof NicknamesRoute
+  '/radio-call': typeof RadioCallRoute
   '/rate-rarity': typeof RateRarityRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/scoreboard': typeof ScoreboardRoute
+  '/sellout': typeof SelloutRoute
   '/silhouette': typeof SilhouetteRoute
   '/stadium-guesser': typeof StadiumGuesserRoute
+  '/standings-shuffle': typeof StandingsShuffleRoute
   '/stat-line': typeof StatLineRoute
   '/team-trio': typeof TeamTrioRoute
   '/top-10': typeof Top10Route
@@ -207,16 +255,22 @@ export interface FileRoutesById {
   '/award-ballot': typeof AwardBallotRoute
   '/career-path': typeof CareerPathRoute
   '/draft-day': typeof DraftDayRoute
+  '/emoji-playbook': typeof EmojiPlaybookRoute
   '/facts': typeof FactsRoute
   '/head-to-head': typeof HeadToHeadRoute
+  '/huddle': typeof HuddleRoute
   '/jersey-chain': typeof JerseyChainRoute
   '/locker-number': typeof LockerNumberRoute
   '/mystery': typeof MysteryRoute
   '/nicknames': typeof NicknamesRoute
+  '/radio-call': typeof RadioCallRoute
   '/rate-rarity': typeof RateRarityRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/scoreboard': typeof ScoreboardRoute
+  '/sellout': typeof SelloutRoute
   '/silhouette': typeof SilhouetteRoute
   '/stadium-guesser': typeof StadiumGuesserRoute
+  '/standings-shuffle': typeof StandingsShuffleRoute
   '/stat-line': typeof StatLineRoute
   '/team-trio': typeof TeamTrioRoute
   '/top-10': typeof Top10Route
@@ -234,16 +288,22 @@ export interface FileRouteTypes {
     | '/award-ballot'
     | '/career-path'
     | '/draft-day'
+    | '/emoji-playbook'
     | '/facts'
     | '/head-to-head'
+    | '/huddle'
     | '/jersey-chain'
     | '/locker-number'
     | '/mystery'
     | '/nicknames'
+    | '/radio-call'
     | '/rate-rarity'
     | '/reset-password'
+    | '/scoreboard'
+    | '/sellout'
     | '/silhouette'
     | '/stadium-guesser'
+    | '/standings-shuffle'
     | '/stat-line'
     | '/team-trio'
     | '/top-10'
@@ -259,16 +319,22 @@ export interface FileRouteTypes {
     | '/award-ballot'
     | '/career-path'
     | '/draft-day'
+    | '/emoji-playbook'
     | '/facts'
     | '/head-to-head'
+    | '/huddle'
     | '/jersey-chain'
     | '/locker-number'
     | '/mystery'
     | '/nicknames'
+    | '/radio-call'
     | '/rate-rarity'
     | '/reset-password'
+    | '/scoreboard'
+    | '/sellout'
     | '/silhouette'
     | '/stadium-guesser'
+    | '/standings-shuffle'
     | '/stat-line'
     | '/team-trio'
     | '/top-10'
@@ -284,16 +350,22 @@ export interface FileRouteTypes {
     | '/award-ballot'
     | '/career-path'
     | '/draft-day'
+    | '/emoji-playbook'
     | '/facts'
     | '/head-to-head'
+    | '/huddle'
     | '/jersey-chain'
     | '/locker-number'
     | '/mystery'
     | '/nicknames'
+    | '/radio-call'
     | '/rate-rarity'
     | '/reset-password'
+    | '/scoreboard'
+    | '/sellout'
     | '/silhouette'
     | '/stadium-guesser'
+    | '/standings-shuffle'
     | '/stat-line'
     | '/team-trio'
     | '/top-10'
@@ -310,16 +382,22 @@ export interface RootRouteChildren {
   AwardBallotRoute: typeof AwardBallotRoute
   CareerPathRoute: typeof CareerPathRoute
   DraftDayRoute: typeof DraftDayRoute
+  EmojiPlaybookRoute: typeof EmojiPlaybookRoute
   FactsRoute: typeof FactsRoute
   HeadToHeadRoute: typeof HeadToHeadRoute
+  HuddleRoute: typeof HuddleRoute
   JerseyChainRoute: typeof JerseyChainRoute
   LockerNumberRoute: typeof LockerNumberRoute
   MysteryRoute: typeof MysteryRoute
   NicknamesRoute: typeof NicknamesRoute
+  RadioCallRoute: typeof RadioCallRoute
   RateRarityRoute: typeof RateRarityRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  ScoreboardRoute: typeof ScoreboardRoute
+  SelloutRoute: typeof SelloutRoute
   SilhouetteRoute: typeof SilhouetteRoute
   StadiumGuesserRoute: typeof StadiumGuesserRoute
+  StandingsShuffleRoute: typeof StandingsShuffleRoute
   StatLineRoute: typeof StatLineRoute
   TeamTrioRoute: typeof TeamTrioRoute
   Top10Route: typeof Top10Route
@@ -373,6 +451,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DraftDayRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/emoji-playbook': {
+      id: '/emoji-playbook'
+      path: '/emoji-playbook'
+      fullPath: '/emoji-playbook'
+      preLoaderRoute: typeof EmojiPlaybookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/facts': {
       id: '/facts'
       path: '/facts'
@@ -385,6 +470,13 @@ declare module '@tanstack/react-router' {
       path: '/head-to-head'
       fullPath: '/head-to-head'
       preLoaderRoute: typeof HeadToHeadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/huddle': {
+      id: '/huddle'
+      path: '/huddle'
+      fullPath: '/huddle'
+      preLoaderRoute: typeof HuddleRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/jersey-chain': {
@@ -415,6 +507,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NicknamesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/radio-call': {
+      id: '/radio-call'
+      path: '/radio-call'
+      fullPath: '/radio-call'
+      preLoaderRoute: typeof RadioCallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rate-rarity': {
       id: '/rate-rarity'
       path: '/rate-rarity'
@@ -429,6 +528,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/scoreboard': {
+      id: '/scoreboard'
+      path: '/scoreboard'
+      fullPath: '/scoreboard'
+      preLoaderRoute: typeof ScoreboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sellout': {
+      id: '/sellout'
+      path: '/sellout'
+      fullPath: '/sellout'
+      preLoaderRoute: typeof SelloutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/silhouette': {
       id: '/silhouette'
       path: '/silhouette'
@@ -441,6 +554,13 @@ declare module '@tanstack/react-router' {
       path: '/stadium-guesser'
       fullPath: '/stadium-guesser'
       preLoaderRoute: typeof StadiumGuesserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/standings-shuffle': {
+      id: '/standings-shuffle'
+      path: '/standings-shuffle'
+      fullPath: '/standings-shuffle'
+      preLoaderRoute: typeof StandingsShuffleRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stat-line': {
@@ -502,16 +622,22 @@ const rootRouteChildren: RootRouteChildren = {
   AwardBallotRoute: AwardBallotRoute,
   CareerPathRoute: CareerPathRoute,
   DraftDayRoute: DraftDayRoute,
+  EmojiPlaybookRoute: EmojiPlaybookRoute,
   FactsRoute: FactsRoute,
   HeadToHeadRoute: HeadToHeadRoute,
+  HuddleRoute: HuddleRoute,
   JerseyChainRoute: JerseyChainRoute,
   LockerNumberRoute: LockerNumberRoute,
   MysteryRoute: MysteryRoute,
   NicknamesRoute: NicknamesRoute,
+  RadioCallRoute: RadioCallRoute,
   RateRarityRoute: RateRarityRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  ScoreboardRoute: ScoreboardRoute,
+  SelloutRoute: SelloutRoute,
   SilhouetteRoute: SilhouetteRoute,
   StadiumGuesserRoute: StadiumGuesserRoute,
+  StandingsShuffleRoute: StandingsShuffleRoute,
   StatLineRoute: StatLineRoute,
   TeamTrioRoute: TeamTrioRoute,
   Top10Route: Top10Route,
