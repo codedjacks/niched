@@ -137,7 +137,7 @@ export function BoxScore({ game, line, columns, points, isAnswer, answer }: { ga
 }
 
 /** Locker Number: you choose which lockers to open (each costs points), then name the player. */
-export function LockerRoom({ game, number, team, clues, isAnswer, answer }: { game: Game; number: number; team: string; clues: [string, string][]; isAnswer: (t: string) => boolean; answer: string }) {
+export function LockerRoom({ game, number, team, scouting, clues, isAnswer, answer }: { game: Game; number: number; team: string; scouting?: string; clues: [string, string][]; isAnswer: (t: string) => boolean; answer: string }) {
   const [opened, setOpened] = useState<number[]>([]);
   const [misses, setMisses] = useState(0);
   const { over, score, form } = useTypedGuess(game, isAnswer, () => { const m = misses + 1; setMisses(m); return m >= LOCKER_GUESSES; }, () => lockerScore(opened.length, misses));
@@ -147,6 +147,7 @@ export function LockerRoom({ game, number, team, clues, isAnswer, answer }: { ga
         <div className="flex flex-col items-center gap-1">
           <span className="font-jersey text-7xl text-primary">#{number}</span>
           <span className="font-display text-lg font-bold uppercase">{team}</span>
+          {scouting && <span className="text-center font-display text-[10px] uppercase text-muted-foreground" title="Team's last full regular season, from ESPN">Last season: {scouting}</span>}
         </div>
         <p className="mt-4 text-center font-display text-xs uppercase text-muted-foreground">Open a locker for a clue · −20 pts each</p>
         <div className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-4">

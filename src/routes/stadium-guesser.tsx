@@ -3,7 +3,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { GameFrame, useDailyGame } from "@/components/game/SportsGame";
 import { ClueGuess, Skyline } from "@/components/game/MoreModes";
 import { CLUE_POINTS } from "@/game/silhouette";
-import { isStadium, skyline, stadiumClues, stadiumForDay } from "@/game/stadiums";
+import { STADIUMS, isStadium, skyline, stadiumClues, stadiumForDay } from "@/game/stadiums";
+import { stadiumDeck, useTeamFacts } from "@/game/team-facts";
 
 export const Route = createFileRoute("/stadium-guesser")({
   head: () => ({
@@ -21,10 +22,12 @@ export const Route = createFileRoute("/stadium-guesser")({
 
 function StadiumGuesserPage() {
   const game = useDailyGame("stadium");
+  const teams = useTeamFacts();
   const frame = { note: "road game", title: "Stadium Guesser", subtitle: "A pixel skyline and a scouting report. Name the venue in as few clues as you can." };
-  if (!game.day) return <GameFrame {...frame}>{null}</GameFrame>;
+  // Wait for sourced venues so the puzzle doesn't change mid-game; fall back to the curated list on error.
+  if (!game.day || teams.isPending) return <GameFrame {...frame}>{null}</GameFrame>;
   let body: ReactNode = null;
-  const p = stadiumForDay(game.day);
-  body = <ClueGuess game={game} name="Stadium Guesser" clues={stadiumClues(p)} points={CLUE_POINTS} answer={p.name[0]!} isAnswer={(t) => isStadium(p, t)} visual={(n) => <Skyline heights={skyline(p)} shown={n} />} />;
+  const p = stadiumForDay(game.day, teams.data ? stadiumDeck(STADIUMS, teams.data) : STADIUMS);
+  body = <ClueGuess key={p.name[0]} game={game} name="Stadium Guesser" clues={stadiumClues(p)} points={CLUE_POINTS} answer={p.name[0]!} isAnswer={(t) => isStadium(p, t)} visual={(n) => <Skyline heights={skyline(p)} shown={n} />} />;
   return <GameFrame {...frame}>{body}</GameFrame>;
 }
