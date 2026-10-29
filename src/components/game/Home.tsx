@@ -9,14 +9,13 @@ import { Link } from "@tanstack/react-router";
 
 const GAMES = [
   { to: "/mystery", icon: "🕵️", name: "Mystery Athlete", blurb: "Guess the star in six clues" },
-
+  { to: "/top-10", icon: "🔟", name: "Top 10", blurb: "Fill an all-time list in 90 seconds" },
   { to: "/career-path", icon: "🧭", name: "Career Path", blurb: "Name the player from their teams" },
   { to: "/draft-day", icon: "🎤", name: "Draft Day", blurb: "Who went #1 overall?" },
   { to: "/nicknames", icon: "🏷️", name: "Nicknames", blurb: "Who goes by this name?" },
   { to: "/locker-number", icon: "👕", name: "Locker Number", blurb: "Who wore this number?" },
   { to: "/stat-line", icon: "📊", name: "Stat Line", blurb: "Whose season was this?" },
   { to: "/team-trio", icon: "🤝", name: "Team Trio", blurb: "Name the team of three teammates" },
-  { to: "/top-10", icon: "🔟", name: "Top 10", blurb: "Fill an all-time list in 90 seconds" },
   { to: "/silhouette", icon: "👤", name: "Silhouette", blurb: "Who's the pixel athlete?" },
   { to: "/jersey-chain", icon: "⛓️", name: "Jersey Chain", blurb: "Everyone who wore the number" },
   { to: "/trade-machine", icon: "🔁", name: "Trade Machine", blurb: "Who was traded?" },
