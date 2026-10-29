@@ -11,6 +11,13 @@ export const TOP10: Top10[] = [
   l("NHL career goals", "NHL", "goals", "Alex Ovechkin=Ovi | Wayne Gretzky | Gordie Howe | Jaromir Jagr | Brett Hull | Marcel Dionne | Phil Esposito | Mike Gartner | Mark Messier | Steve Yzerman"),
   l("NBA career rebounds", "NBA", "rebounds", "Wilt Chamberlain | Bill Russell | Kareem Abdul-Jabbar=Kareem | Elvin Hayes | Moses Malone | Tim Duncan | Karl Malone | Robert Parish | Kevin Garnett=KG | Dwight Howard"),
   l("Men's World Cup career goals", "Soccer", "goals", "Miroslav Klose | Ronaldo=Ronaldo Nazario | Gerd Muller | Just Fontaine | Lionel Messi=Messi | Kylian Mbappe=Mbappe | Pele | Sandor Kocsis | Jurgen Klinsmann | Helmut Rahn"),
+  // Last completed regular season (ESPN leaderboards).
+  l("NBA 2025-26 points per game", "NBA", "PPG", "Luka Doncic=Luka | Shai Gilgeous-Alexander=SGA | Anthony Edwards=Ant | Jaylen Brown | Tyrese Maxey | Kawhi Leonard | Donovan Mitchell | Nikola Jokic=Jokic | Devin Booker | Jalen Brunson"),
+  l("NFL 2025 passing yards", "NFL", "yards", "Matthew Stafford | Jared Goff | Dak Prescott | Drake Maye | Sam Darnold | Trevor Lawrence | Caleb Williams | Bo Nix | Justin Herbert | Baker Mayfield"),
+  l("NFL 2025 rushing yards", "NFL", "yards", "James Cook III=James Cook | Derrick Henry | Jonathan Taylor | Bijan Robinson | De'Von Achane=Devon Achane | Kyren Williams | Jahmyr Gibbs | Christian McCaffrey=CMC | Javonte Williams | Saquon Barkley"),
+  l("NFL 2025 receiving yards", "NFL", "yards", "Jaxon Smith-Njigba=JSN | Puka Nacua | George Pickens | Ja'Marr Chase | Amon-Ra St. Brown | Trey McBride | Zay Flowers | Chris Olave | Nico Collins | Jameson Williams"),
+  l("MLB 2026 pitcher strikeouts", "MLB", "K", "Jacob Misiorowski | Gavin Williams | Dylan Cease | Cam Schlittler | Cristopher Sanchez | Jesus Luzardo | Reid Detmers | Logan Gilbert | Taj Bradley | Jacob deGrom"),
+  l("NHL 2025-26 points", "NHL", "points", "Connor McDavid=McDavid | Nikita Kucherov | Nathan MacKinnon | Macklin Celebrini | Mark Scheifele | Nick Suzuki | David Pastrnak | Martin Necas | Leon Draisaitl | Jason Robertson"),
 ];
 
 export const TOP10_SECONDS = 90;
