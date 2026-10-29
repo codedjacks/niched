@@ -19,7 +19,7 @@ export const Route = createFileRoute("/head-to-head")({
   head: () => ({
     meta: [
       { title: "Head to Head — Niched sports trivia" },
-      { name: "description", content: "Two athletes, sourced career stats. Pick who wins each category." },
+      { name: "description", content: "Two athletes, sourced career and last-season stats. Pick who wins each category." },
       { property: "og:title", content: "Niched Head to Head" },
       { property: "og:description", content: "Who wins each stat?" },
       { property: "og:type", content: "website" },
@@ -41,7 +41,7 @@ function HeadToHeadPage() {
       .catch((e) => { console.error("Head to Head load failed", e); if (!off) setM(null); });
     return () => { off = true; };
   }, [game.day, attempt]);
-  const frame = { note: "tale of the tape", title: "Head to Head", subtitle: "Two athletes, real career numbers from ESPN. Pick who wins each category." };
+  const frame = { note: "tale of the tape", title: "Head to Head", subtitle: "Two athletes, real career or last-season numbers from ESPN. Pick who wins each category." };
   if (!game.day || m === undefined) return <GameFrame {...frame}><p className="text-muted-foreground">Loading your matchup…</p></GameFrame>;
   if (!m) return <GameFrame {...frame}><p className="text-muted-foreground">This sourced matchup is unavailable.</p><Button className="mt-3" onClick={() => { setM(undefined); setAttempt((a) => a + 1); }}>Retry</Button></GameFrame>;
   return <GameFrame {...frame}><H2HBoard game={game} a={m.a} b={m.b} stats={m.stats} point={H2H_POINT} /></GameFrame>;
