@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { GameFrame, useDailyGame } from "@/components/game/SportsGame";
 import { LockerRoom } from "@/components/game/NewModes";
 import { isJerseyAnswer, jerseyForDay } from "@/game/jersey";
+import { findTeam, recordText, seasonLabel, useTeamFacts } from "@/game/team-facts";
 
 export const Route = createFileRoute("/locker-number")({
   head: () => ({
@@ -19,12 +20,15 @@ export const Route = createFileRoute("/locker-number")({
 
 function JerseyPage() {
   const game = useDailyGame("locker");
+  const teams = useTeamFacts();
   const frame = { note: "retire the number", title: "Locker Number", subtitle: "Pick which lockers to open, then name who wore the number." };
   if (!game.day) return <GameFrame {...frame}>{null}</GameFrame>;
   const p = jerseyForDay(game.day);
+  const t = teams.data && findTeam(teams.data, p.league, p.team);
+  const scouting = t ? `${t.name} · ${recordText(t)} in ${seasonLabel(t.league)}${t.venue ? ` · ${t.venue}` : ""}` : undefined;
   return (
     <GameFrame {...frame}>
-      <LockerRoom game={game} number={p.number} team={p.team} clues={[["League", p.league], ["Position", p.position], ["Debut", `${p.era}`], ["Trophy case", p.award]]} isAnswer={(t) => isJerseyAnswer(p, t)} answer={p.name} />
+      <LockerRoom game={game} number={p.number} team={p.team} scouting={scouting} clues={[["League", p.league], ["Position", p.position], ["Debut", `${p.era}`], ["Trophy case", p.award]]} isAnswer={(t) => isJerseyAnswer(p, t)} answer={p.name} />
     </GameFrame>
   );
 }

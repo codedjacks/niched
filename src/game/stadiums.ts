@@ -1,6 +1,6 @@
 import { dailyItem, dayNumber, looseMatch, seededShuffle } from "./daily-games";
 
-export interface Stadium { name: string[]; league: string; opened: number; capacity: string; tenant: string; city: string }
+export interface Stadium { name: string[]; league: string; opened: number; capacity: string; tenant: string; city: string; verified?: boolean }
 const s = (name: string, league: string, opened: number, capacity: string, tenant: string, city: string): Stadium =>
   ({ name: name.split("="), league, opened, capacity, tenant, city });
 
@@ -23,8 +23,14 @@ export const STADIUMS: Stadium[] = [
   s("Rose Bowl", "College football", 1922, "about 89,700", "UCLA Bruins", "Pasadena"),
 ];
 
-export const stadiumForDay = (day: string) => dailyItem("stadium", STADIUMS, dayNumber(day));
-export const stadiumClues = (p: Stadium) => [`${p.league} venue · opened ${p.opened}`, `Capacity: ${p.capacity}`, `City: ${p.city}`, `Home of the ${p.tenant}`, `Starts with "${p.name[0]![0]}"`];
+export const stadiumForDay = (day: string, deck: Stadium[] = STADIUMS) => dailyItem("stadium", deck, dayNumber(day));
+export const stadiumClues = (p: Stadium) => [
+  p.opened ? `${p.league} venue · opened ${p.opened}` : `${p.league} venue`,
+  `Capacity: ${p.capacity}${p.verified ? " (sourced)" : ""}`,
+  p.city ? `City: ${p.city}` : `${p.name[0]!.split(" ").length}-word name`,
+  `Home of the ${p.tenant}`,
+  `Starts with "${p.name[0]![0]}"`,
+];
 export const isStadium = (p: Stadium, typed: string) => looseMatch(typed, p.name);
 /** Deterministic pixel skyline heights (1..8) for the scoreboard art. */
 export const skyline = (p: Stadium) => seededShuffle(`sky:${p.name[0]}`, [2, 3, 5, 8, 6, 4, 7, 3, 2, 5, 6, 4, 3, 7, 5, 2]);
