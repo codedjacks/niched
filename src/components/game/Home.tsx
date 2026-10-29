@@ -23,7 +23,6 @@ const GAMES = [
   { to: "/head-to-head", icon: "🥊", name: "Head to Head", blurb: "Who wins each sourced stat?" },
   { to: "/stadium-guesser", icon: "🏟️", name: "Stadium Guesser", blurb: "Name the venue" },
   { to: "/huddle", icon: "🧩", name: "Huddle", blurb: "Sort 16 athletes into 4 groups" },
-  { to: "/scoreboard", icon: "🔤", name: "Scoreboard", blurb: "Guess the last name in 6 tries" },
   { to: "/standings-shuffle", icon: "📈", name: "Standings Shuffle", blurb: "Order teams by last season" },
   { to: "/sellout", icon: "🎟️", name: "Sellout", blurb: "Guess the crowd size" },
   { to: "/radio-call", icon: "📻", name: "Radio Call", blurb: "Finish the famous call" },

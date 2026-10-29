@@ -4,7 +4,6 @@ import { STANDINGS_FALLBACK, correctOrder, standingsForDay, standingsScore } fro
 import { selloutPoints } from "./sellout";
 import { radioPoints, callsForDay, isCallAnswer } from "./radiocall";
 import { rebusesForDay } from "./emoji";
-import { markGuess, scoreboardPoints } from "./scoreboard";
 
 describe("fresh games", () => {
   it("huddle: 25 per group minus 5 per mistake", () => {
@@ -35,10 +34,4 @@ describe("fresh games", () => {
     expect(isCallAnswer(c[0]!, c[0]!.answers[0]!.toUpperCase())).toBe(true);
   });
   it("emoji: five per game", () => expect(rebusesForDay("x")).toHaveLength(5));
-  it("scoreboard: wordle marks and points", () => {
-    expect(markGuess("BETTS", "BONDS")).toEqual(["hit", "miss", "miss", "miss", "hit"]);
-    expect(markGuess("SBRAT", "BRADY")).toEqual(["miss", "near", "near", "near", "miss"]);
-    expect(scoreboardPoints(1, true)).toBe(100);
-    expect(scoreboardPoints(6, false)).toBe(0);
-  });
 });

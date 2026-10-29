@@ -6,7 +6,6 @@ import { recordText, seasonLabel, type TeamInfo } from "@/game/team-facts";
 import { SELLOUT_MAX, SELLOUT_MIN, selloutPoints, type Venue } from "@/game/sellout";
 import { RADIO_ROUNDS, isCallAnswer, radioPoints, type RadioCall } from "@/game/radiocall";
 import { EMOJI_POINTS, isRebus, type Rebus } from "@/game/emoji";
-import { SCOREBOARD_TRIES, markGuess, scoreboardPoints, type Mark, type Target } from "@/game/scoreboard";
 
 type Game = ReturnType<typeof useDailyGame>;
 const btn = "rounded-lg bg-primary px-5 py-3 font-display text-sm font-bold uppercase text-primary-foreground shadow-pop-sm disabled:opacity-40";
@@ -259,49 +258,3 @@ export function EmojiGame({ game, rebuses }: { game: Game; rebuses: Rebus[] }) {
   );
 }
 
-/* ---------- Scoreboard ---------- */
-const MARK: Record<Mark, string> = { hit: "bg-primary text-primary-foreground", near: "bg-marker text-background", miss: "bg-destructive/70 text-destructive-foreground" };
-export function ScoreboardGame({ game, target }: { game: Game; target: Target }) {
-  const [rows, setRows] = useState<string[]>([]);
-  const [text, setText] = useState("");
-  const len = target.name.length;
-  const solved = rows.includes(target.name);
-  const done = solved || rows.length >= SCOREBOARD_TRIES;
-  const score = scoreboardPoints(rows.length, solved);
-  const submit = (e: FormEvent) => {
-    e.preventDefault();
-    const g = text.toUpperCase().replace(/[^A-Z]/g, "");
-    if (g.length !== len || done) return;
-    const r = [...rows, g]; setRows(r); setText("");
-    if (g === target.name || r.length >= SCOREBOARD_TRIES) game.finish(scoreboardPoints(r.length, g === target.name));
-  };
-  return (
-    <div>
-      <Scorebar label={`${len}-letter last name · try ${Math.min(rows.length + 1, SCOREBOARD_TRIES)}/${SCOREBOARD_TRIES}`} score={done ? score : 0} />
-      <div className="arcade-panel inline-block rounded-lg p-4">
-        {rows.length >= 3 && <p className="mb-3 font-display text-xs font-bold uppercase tracking-widest text-secondary">League: {target.league}</p>}
-        <div className="space-y-1">
-          {Array.from({ length: SCOREBOARD_TRIES }, (_, r) => {
-            const g = rows[r]; const marks = g ? markGuess(g, target.name) : [];
-            return (
-              <div key={r} className="flex gap-1">
-                {Array.from({ length: len }, (_, k) => (
-                  <span key={k} className={`grid h-10 w-10 place-items-center rounded-sm font-display text-xl font-black sm:h-12 sm:w-12 ${g ? `${MARK[marks[k]!]} animate-rise` : "border-2 border-border bg-card"}`}>{g?.[k] ?? ""}</span>
-                ))}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      {!done && (
-        <form onSubmit={submit} className="mt-4 flex gap-2">
-          <label htmlFor="sb" className="sr-only">Guess a last name</label>
-          <input id="sb" autoFocus autoComplete="off" maxLength={len} value={text} onChange={(e) => setText(e.target.value.toUpperCase().replace(/[^A-Z]/gi, ""))} placeholder={`${len} letters`} className={`${input} max-w-xs uppercase tracking-[0.3em]`} />
-          <button className={btn} type="submit" disabled={text.length !== len}>Enter</button>
-        </form>
-      )}
-      {done && <p role="status" className="mt-4 font-display text-lg">{solved ? "Scoreboard lit!" : "Final buzzer —"} It was <span className="text-primary">{target.full}</span>.</p>}
-      {done && <ResultCard score={score} max={100} progress={game.progress} share={`Niched Scoreboard ${solved ? rows.length : "X"}/${SCOREBOARD_TRIES}\n${rows.map((g) => markGuess(g, target.name).map((m) => (m === "hit" ? "🟩" : m === "near" ? "🟨" : "🟥")).join("")).join("\n")}`} />}
-    </div>
-  );
-}

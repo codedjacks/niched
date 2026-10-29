@@ -26,7 +26,6 @@ import { Route as NicknamesRouteImport } from './routes/nicknames'
 import { Route as RadioCallRouteImport } from './routes/radio-call'
 import { Route as RateRarityRouteImport } from './routes/rate-rarity'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as ScoreboardRouteImport } from './routes/scoreboard'
 import { Route as SelloutRouteImport } from './routes/sellout'
 import { Route as SilhouetteRouteImport } from './routes/silhouette'
 import { Route as StadiumGuesserRouteImport } from './routes/stadium-guesser'
@@ -124,11 +123,6 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ScoreboardRoute = ScoreboardRouteImport.update({
-  id: '/scoreboard',
-  path: '/scoreboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SelloutRoute = SelloutRouteImport.update({
   id: '/sellout',
   path: '/sellout',
@@ -203,7 +197,6 @@ export interface FileRoutesByFullPath {
   '/radio-call': typeof RadioCallRoute
   '/rate-rarity': typeof RateRarityRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/scoreboard': typeof ScoreboardRoute
   '/sellout': typeof SelloutRoute
   '/silhouette': typeof SilhouetteRoute
   '/stadium-guesser': typeof StadiumGuesserRoute
@@ -234,7 +227,6 @@ export interface FileRoutesByTo {
   '/radio-call': typeof RadioCallRoute
   '/rate-rarity': typeof RateRarityRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/scoreboard': typeof ScoreboardRoute
   '/sellout': typeof SelloutRoute
   '/silhouette': typeof SilhouetteRoute
   '/stadium-guesser': typeof StadiumGuesserRoute
@@ -266,7 +258,6 @@ export interface FileRoutesById {
   '/radio-call': typeof RadioCallRoute
   '/rate-rarity': typeof RateRarityRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/scoreboard': typeof ScoreboardRoute
   '/sellout': typeof SelloutRoute
   '/silhouette': typeof SilhouetteRoute
   '/stadium-guesser': typeof StadiumGuesserRoute
@@ -299,7 +290,6 @@ export interface FileRouteTypes {
     | '/radio-call'
     | '/rate-rarity'
     | '/reset-password'
-    | '/scoreboard'
     | '/sellout'
     | '/silhouette'
     | '/stadium-guesser'
@@ -330,7 +320,6 @@ export interface FileRouteTypes {
     | '/radio-call'
     | '/rate-rarity'
     | '/reset-password'
-    | '/scoreboard'
     | '/sellout'
     | '/silhouette'
     | '/stadium-guesser'
@@ -361,7 +350,6 @@ export interface FileRouteTypes {
     | '/radio-call'
     | '/rate-rarity'
     | '/reset-password'
-    | '/scoreboard'
     | '/sellout'
     | '/silhouette'
     | '/stadium-guesser'
@@ -393,7 +381,6 @@ export interface RootRouteChildren {
   RadioCallRoute: typeof RadioCallRoute
   RateRarityRoute: typeof RateRarityRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
-  ScoreboardRoute: typeof ScoreboardRoute
   SelloutRoute: typeof SelloutRoute
   SilhouetteRoute: typeof SilhouetteRoute
   StadiumGuesserRoute: typeof StadiumGuesserRoute
@@ -528,13 +515,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/scoreboard': {
-      id: '/scoreboard'
-      path: '/scoreboard'
-      fullPath: '/scoreboard'
-      preLoaderRoute: typeof ScoreboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/sellout': {
       id: '/sellout'
       path: '/sellout'
@@ -633,7 +613,6 @@ const rootRouteChildren: RootRouteChildren = {
   RadioCallRoute: RadioCallRoute,
   RateRarityRoute: RateRarityRoute,
   ResetPasswordRoute: ResetPasswordRoute,
-  ScoreboardRoute: ScoreboardRoute,
   SelloutRoute: SelloutRoute,
   SilhouetteRoute: SilhouetteRoute,
   StadiumGuesserRoute: StadiumGuesserRoute,
