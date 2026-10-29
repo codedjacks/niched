@@ -20,3 +20,4 @@
 - [x] Verify every curated answer is accepted and protect submissions while the answer checker is working
 - [x] Verify retrying a checker failure and accepting unlisted answers in live challenges
 - [x] AI writes the Daily Challenge automatically (no manual bank edits)
+- [ ] Create three gameplay-led TikToks with casual voiceover and NICHED.SITE endings
