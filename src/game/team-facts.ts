@@ -8,7 +8,7 @@ export interface TeamFact {
   venue_name: string | null; venue_aliases: string[];
 }
 
-export interface TeamInfo { league: string; name: string; wins: number; losses: number; extra: number; venue?: string; capacity?: number }
+export interface TeamInfo { league: string; name: string; wins: number; losses: number; extra: number; venue?: string; capacity?: number; aliases?: string[] }
 
 /** ESPN files NBA/NHL seasons under the year they end in. */
 export const seasonLabel = (league: string) => (league === "nba" || league === "nhl" ? "2024–25" : "2025");
@@ -21,7 +21,7 @@ export function teamIndex(rows: TeamFact[]): TeamInfo[] {
     if (r.metric === "wins") t.wins = r.value;
     else if (r.metric === "losses") t.losses = r.value;
     else if (r.metric === "ties" || r.metric === "otLosses") t.extra = r.value;
-    else if (r.metric === "capacity" && r.venue_name) { t.venue = r.venue_name; t.capacity = r.value; }
+    else if (r.metric === "capacity" && r.venue_name) { t.venue = r.venue_name; t.capacity = r.value; t.aliases = r.venue_aliases ?? []; }
     m.set(k, t);
   }
   return [...m.values()];
@@ -49,6 +49,7 @@ export function stadiumDeck(curated: Stadium[], teams: TeamInfo[]): Stadium[] {
     const v = venues.get(k) ?? { name: t.venue, league: t.league.toUpperCase(), capacity: t.capacity, tenants: [], aliases: [] };
     if (!v.league.split(" / ").includes(t.league.toUpperCase())) v.league += ` / ${t.league.toUpperCase()}`;
     v.tenants.push(t.name);
+    for (const a of t.aliases ?? []) if (!v.aliases.includes(a)) v.aliases.push(a);
     venues.set(k, v);
   }
   const seen = new Set<string>();
@@ -60,7 +61,7 @@ export function stadiumDeck(curated: Stadium[], teams: TeamInfo[]): Stadium[] {
   });
   for (const [k, v] of [...venues.entries()].sort(([a], [b]) => a.localeCompare(b))) {
     if (seen.has(k)) continue;
-    out.push({ name: [v.name], league: v.league, opened: 0, capacity: `${v.capacity.toLocaleString("en-US")} seats`, tenant: v.tenants.join(" and "), city: "", verified: true });
+    out.push({ name: [v.name, ...v.aliases], league: v.league, opened: 0, capacity: `${v.capacity.toLocaleString("en-US")} seats`, tenant: v.tenants.join(" and "), city: "", verified: true });
   }
   return out;
 }
