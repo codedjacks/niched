@@ -9,7 +9,7 @@ export function GameFrame({ note, title, subtitle, children }: { note: string; t
     <div className="stadium-glow min-h-screen">
       <GeoBackground />
       <div aria-hidden className="scanlines pointer-events-none fixed inset-0 z-50 opacity-40" />
-      <main className="relative mx-auto max-w-3xl px-5 pb-16 pt-10 sm:pt-16">
+      <main className="relative mx-auto max-w-3xl px-5 pb-16 pt-8 sm:pt-12">
         <div className="arcade-panel inline-flex items-center gap-2 rounded-md px-3 py-1">
           <span aria-hidden className="h-2 w-2 rounded-full bg-primary animate-blink" />
           <p className="font-display text-xs font-bold uppercase tracking-[0.25em] text-secondary">{note}</p>
