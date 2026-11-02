@@ -30,7 +30,7 @@ export const STAT_LINES: StatLine[] = [
   s("MLB", "130 stolen bases", "1982", "Athletics", "Outfield", "Rickey Henderson", ["Rickey"]),
   s("MLB", "62 home runs (AL record)", "2022", "Yankees", "Outfield", "Aaron Judge", ["Judge"]),
   s("MLB", "54 home runs · 59 stolen bases", "2024", "Dodgers", "Designated hitter", "Shohei Ohtani", ["Ohtani"]),
-  s("MLB", "24–4 record · 1.74 ERA (Triple Crown)", "1985", "Mets", "Pitcher", "Dwight Gooden", ["Doc Gooden"]),
+  s("MLB", "24–4 record · 1.53 ERA (Triple Crown)", "1985", "Mets", "Pitcher", "Dwight Gooden", ["Doc Gooden"]),
   s("NHL", "92 goals · 215 points", "1981–82", "Oilers", "Center", "Wayne Gretzky", ["Wayne"]),
   s("NHL", "85 goals · 199 points", "1988–89", "Penguins", "Center", "Mario Lemieux", ["Mario"]),
   s("NHL", "86 goals", "1990–91", "Blues", "Right wing", "Brett Hull"),
