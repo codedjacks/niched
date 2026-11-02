@@ -197,15 +197,19 @@ function Reveal({ o, last, onNext }: { o: Outcome; last: boolean; onNext: () => 
   const btnRef = useRef<HTMLButtonElement>(null);
 
   // Climb the tier ladder one rung at a time, slowing down near the top.
+  // Ball flight: duration grows with tier; markers light as the ball passes.
+  const flightMs = 800 + Math.max(target, 0) * 160;
   useEffect(() => {
     if (done) return;
-    if (step >= target) {
-      const t = setTimeout(() => setDone(true), 450);
-      return () => clearTimeout(t);
-    }
-    const t = setTimeout(() => setStep((s) => s + 1), 380 + step * 140);
-    return () => clearTimeout(t);
-  }, [step, target, done]);
+    const reduce = typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) { setStep(target); setDone(true); return; }
+    const timers = TIER_ORDER.slice(0, target + 1).map((_, i) =>
+      setTimeout(() => setStep(i), ((i + 0.5) / (target + 1)) * flightMs),
+    );
+    timers.push(setTimeout(() => setDone(true), flightMs + 350));
+    return () => timers.forEach(clearTimeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => { if (done) btnRef.current?.focus(); }, [done]);
 
