@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 
 const GAMES = [
+  { to: "/trivia", icon: "⚡", name: "Quick Trivia", blurb: "10 fast multiple-choice questions" },
+  { to: "/survival", icon: "💀", name: "Survival", blurb: "One miss and you're out" },
   { to: "/mystery", icon: "🕵️", name: "Mystery Athlete", blurb: "Guess the star in six clues" },
   { to: "/top-10", icon: "🔟", name: "Top 10", blurb: "Fill an all-time list in 90 seconds" },
   { to: "/career-path", icon: "🧭", name: "Career Path", blurb: "Name the player from their teams" },

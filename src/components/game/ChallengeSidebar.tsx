@@ -1,9 +1,16 @@
 import { Link } from "@tanstack/react-router";
-import { Scale, ListOrdered, ScanFace, Link2, Repeat, Vote, Swords, Building2, UserSearch, Route as RouteIcon, Mic, Tag, Shirt, BarChart3, Users, BookOpen, Grid2x2, ArrowUpDown, Armchair, Radio, Smile } from "lucide-react";
+import { Scale, ListOrdered, ScanFace, Link2, Repeat, Vote, Swords, Building2, UserSearch, Route as RouteIcon, Mic, Tag, Shirt, BarChart3, Users, BookOpen, Grid2x2, ArrowUpDown, Armchair, Radio, Smile, Zap, Skull } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ReactNode } from "react";
 
 const SECTIONS = [
+  {
+    label: "Quick play",
+    items: [
+      { to: "/trivia", name: "Quick Trivia", Icon: Zap, color: "text-primary" },
+      { to: "/survival", name: "Survival", Icon: Skull, color: "text-secondary" },
+    ],
+  },
   {
     label: "Read the player",
     items: [
