@@ -5,6 +5,7 @@ import { STANDINGS_FALLBACK, standingsForDay } from "@/game/standings";
 import { useTeamFacts } from "@/game/team-facts";
 
 export const Route = createFileRoute("/standings-shuffle")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Standings Shuffle — Niched sports trivia" },

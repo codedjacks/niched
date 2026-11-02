@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { GeoBackground } from "@/components/game/ui";
 
 export const Route = createFileRoute("/reset-password")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Set a new password — Niched" },

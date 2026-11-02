@@ -6,6 +6,7 @@ import { CLUE_POINTS } from "@/game/silhouette";
 import { isTradePlayer, tradeClues, tradeForDay } from "@/game/trades";
 
 export const Route = createFileRoute("/trade-machine")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Trade Machine — Niched sports trivia" },

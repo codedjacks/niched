@@ -5,6 +5,7 @@ import { choicesFor } from "@/game/modes";
 import { DRAFTS, draftForDay } from "@/game/draft";
 
 export const Route = createFileRoute("/draft-day")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Draft Day — Niched sports trivia" },

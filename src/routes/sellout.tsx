@@ -6,6 +6,7 @@ import { STADIUMS } from "@/game/stadiums";
 import { stadiumDeck, useTeamFacts } from "@/game/team-facts";
 
 export const Route = createFileRoute("/sellout")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Sellout — Niched sports trivia" },

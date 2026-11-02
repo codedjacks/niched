@@ -5,6 +5,7 @@ import { Top10Board } from "@/components/game/MoreModes";
 import { TOP10_MAX, TOP10_SECONDS, top10ForDay, top10Points, top10Slot } from "@/game/top10";
 
 export const Route = createFileRoute("/top-10")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Top 10 Countdown — Niched sports trivia" },

@@ -4,6 +4,7 @@ import { RoadTrip } from "@/components/game/NewModes";
 import { CAREER_POINTS, careerForDay, isCareerAnswer } from "@/game/career";
 
 export const Route = createFileRoute("/career-path")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Career Path — Niched sports trivia" },

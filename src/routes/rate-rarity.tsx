@@ -9,6 +9,7 @@ import { pickItem, voteItems, type VoteItem } from "@/game/rarity-vote";
 import type { TierId } from "@/game/types";
 
 export const Route = createFileRoute("/rate-rarity")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Rate the Rarity — Niched" },

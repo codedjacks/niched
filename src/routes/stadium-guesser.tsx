@@ -7,6 +7,7 @@ import { STADIUMS, isStadium, skyline, stadiumClues, stadiumForDay } from "@/gam
 import { stadiumDeck, useTeamFacts } from "@/game/team-facts";
 
 export const Route = createFileRoute("/stadium-guesser")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Stadium Guesser — Niched sports trivia" },

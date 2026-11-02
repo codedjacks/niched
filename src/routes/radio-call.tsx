@@ -4,6 +4,7 @@ import { RadioGame } from "@/components/game/FreshModes";
 import { callsForDay } from "@/game/radiocall";
 
 export const Route = createFileRoute("/radio-call")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Radio Call — Niched sports trivia" },

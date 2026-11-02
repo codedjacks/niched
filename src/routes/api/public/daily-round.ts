@@ -6,6 +6,7 @@ const TRACKS = ["main", "sports", "entertainment", "history"] as const;
 
 /** Public read of a current day's AI round (same data the game already sends players), used by self-hosted copies of Niched. */
 export const Route = createFileRoute("/api/public/daily-round")({
+  staticData: { sitemap: false },
   server: {
     handlers: {
       GET: async ({ request }) => {

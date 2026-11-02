@@ -4,6 +4,7 @@ import { HuddleGame } from "@/components/game/FreshModes";
 import { huddleForDay } from "@/game/huddle";
 
 export const Route = createFileRoute("/huddle")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Huddle — Niched sports trivia" },

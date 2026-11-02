@@ -6,6 +6,7 @@ import { GameFrame, ResultCard, useDailyGame } from "@/components/game/SportsGam
 import { MYSTERY_POINTS, isMysteryAnswer, mysteryForDay, mysteryScore } from "@/game/mystery";
 
 export const Route = createFileRoute("/mystery")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Mystery Athlete — Niched sports trivia" },

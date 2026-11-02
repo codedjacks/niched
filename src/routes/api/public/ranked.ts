@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 /** Ranked submissions from self-hosted copies of Niched. The caller's sign-in token is verified here; scores are re-graded server-side. */
 export const Route = createFileRoute("/api/public/ranked")({
+  staticData: { sitemap: false },
   server: {
     handlers: {
       POST: async ({ request }) => {

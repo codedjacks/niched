@@ -16,6 +16,7 @@ async function loadDirect(day: string): Promise<H2H | null> {
 }
 
 export const Route = createFileRoute("/head-to-head")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Head to Head — Niched sports trivia" },
