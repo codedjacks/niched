@@ -98,7 +98,7 @@ export const TRIVIA_BANK: RawTrivia[] = [
   ["Mario Lemieux played his whole career for which team?", "Pittsburgh Penguins", "Philadelphia Flyers", "Montreal Canadiens", "Quebec Nordiques", 1, "He later became the team's owner."],
   ["Which defenseman scored the famous flying Cup-winning goal in 1970?", "Bobby Orr", "Denis Potvin", "Brad Park", "Larry Robinson", 2, "Boston over St. Louis."],
   ["How many players per team are on the ice at even strength (including goalie)?", "6", "5", "7", "11", 1, "Five skaters plus a goalie."],
-  ["Which team won the Stanley Cup in its first season (2017–18 debut, reaching the Final)?", "Vegas Golden Knights", "Seattle Kraken", "Nashville Predators", "Columbus Blue Jackets", 3, "Vegas reached the Final in year one, then won it in 2023."],
+  ["Which expansion team reached the Stanley Cup Final in its very first season, 2017–18?", "Vegas Golden Knights", "Seattle Kraken", "Nashville Predators", "Columbus Blue Jackets", 3, "Vegas reached the Final in year one, then won it in 2023."],
   // Soccer
   ["Which country has won the most men's World Cups?", "Brazil", "Germany", "Italy", "Argentina", 1, "Five titles."],
   ["Who won the 2022 men's World Cup?", "Argentina", "France", "Croatia", "Brazil", 1, "On penalties over France."],
@@ -130,7 +130,7 @@ export const TRIVIA_BANK: RawTrivia[] = [
   ["Which NCAA men's basketball coach has the most titles?", "John Wooden", "Mike Krzyzewski", "Adolph Rupp", "Bob Knight", 1, "Ten at UCLA."],
   ["Which school has won the most NCAA men's basketball titles?", "UCLA", "Kentucky", "North Carolina", "Duke", 1, "Eleven championships."],
   ["Which golfer won the 1997 Masters by 12 strokes?", "Tiger Woods", "Phil Mickelson", "Ernie Els", "Vijay Singh", 1, "His first major."],
-  ["What sport uses the term 'love' for zero?", "Tennis", "Golf", "Badminton only", "Squash only", 1, "Possibly from the French 'l'oeuf'."],
+  ["What sport uses the term 'love' for zero?", "Tennis", "Golf", "Bowling", "Cricket", 1, "Possibly from the French 'l'oeuf'."],
   ["How long is a marathon?", "26.2 miles", "25 miles", "24.8 miles", "27.1 miles", 1, "42.195 kilometers."],
   ["Which country has won the most Rugby World Cups?", "South Africa", "New Zealand", "Australia", "England", 3, "Four titles."],
 ];
