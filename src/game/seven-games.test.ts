@@ -58,3 +58,11 @@ describe("seven new daily games", () => {
     expect(headToHead("2026-10-28", facts.slice(0, 4))).toBeNull();
   });
 });
+
+describe("content supply", () => {
+  it("Top 10 has hundreds of unique lists with the curated ones first", () => {
+    expect(TOP10.length).toBeGreaterThan(300);
+    expect(new Set(TOP10.map((l) => l.title)).size).toBe(TOP10.length);
+    expect(TOP10[0]!.title).toBe("MLB career home runs");
+  });
+});

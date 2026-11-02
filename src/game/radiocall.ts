@@ -21,6 +21,15 @@ export const CALLS: RadioCall[] = [
   { text: "Holy ____!", answers: ["cow"], caller: "Harry Caray", year: 1982, team: "Chicago Cubs broadcasts" },
   { text: "Christian ____! He shoots... scores!", answers: ["laettner"], caller: "Verne Lundquist", year: 1992, team: "Duke vs. Kentucky, Elite Eight" },
   { text: "The Cubs ____ the World Series!", answers: ["win"], caller: "Pat Hughes", year: 2016, team: "Chicago Cubs, World Series Game 7" },
+  // Expansion batch (appended; earlier order preserved).
+  { text: "There are no flags on the field! It's a ____!", answers: ["miracle"], caller: "Mike Keith", year: 2000, team: "Tennessee Titans vs. Buffalo Bills (Music City Miracle)" },
+  { text: "____! It's over!", answers: ["henrique", "adam henrique"], caller: "Mike Emrick", year: 2012, team: "New Jersey Devils vs. New York Rangers" },
+  { text: "Sidney Crosby! The ____ goal!", answers: ["golden"], caller: "Chris Cuthbert", year: 2010, team: "Canada vs. USA, Olympic hockey final" },
+  { text: "Can you believe this? ____ has scored!", answers: ["donovan", "landon donovan"], caller: "Ian Darke", year: 2010, team: "USA vs. Algeria, World Cup" },
+  { text: "____! I swear you'll never see anything like this ever again!", answers: ["aguero", "agüero", "sergio aguero"], caller: "Martin Tyler", year: 2012, team: "Manchester City vs. QPR" },
+  { text: "Little roller up along first... it gets through ____!", answers: ["buckner", "bill buckner"], caller: "Vin Scully", year: 1986, team: "Mets vs. Red Sox, World Series Game 6" },
+  { text: "In your ____ have you seen anything like that?", answers: ["life"], caller: "Verne Lundquist", year: 2005, team: "Tiger Woods' chip-in at the Masters" },
+  { text: "Maybe... yes, ____!", answers: ["sir"], caller: "Verne Lundquist", year: 1986, team: "Jack Nicklaus at the Masters" },
 ];
 
 export const RADIO_ROUNDS = 3;

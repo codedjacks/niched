@@ -11,6 +11,17 @@ export const CHAINS: Chain[] = [
   c("NFL", "80", "Jerry Rice | Steve Largent | Cris Carter | Kellen Winslow | Jimmy Graham | Andre Johnson"),
   c("MLB", "24", "Willie Mays | Ken Griffey Jr.=Griffey | Rickey Henderson | Miguel Cabrera | Manny Ramirez | Tony Perez | Barry Bonds"),
   c("NHL", "9", "Gordie Howe | Maurice Richard=Rocket Richard | Bobby Hull | Mike Modano | Paul Kariya | Jack Eichel | Lanny McDonald | Johnny Bucyk"),
+  // Expansion batch (appended; earlier order preserved).
+  c("NBA", "32", "Magic Johnson | Karl Malone | Kevin McHale | Shaquille O'Neal=Shaq | Julius Erving=Dr. J | Bill Walton | Blake Griffin"),
+  c("NBA", "34", "Hakeem Olajuwon | Charles Barkley | Giannis Antetokounmpo=Giannis | Paul Pierce | Ray Allen | Shaquille O'Neal=Shaq"),
+  c("NBA", "30", "Stephen Curry=Steph Curry | Dell Curry | Rasheed Wallace | Bernard King | Julius Randle | Terry Porter"),
+  c("NFL", "7", "John Elway | Michael Vick | Ben Roethlisberger=Big Ben | Joe Theismann | Boomer Esiason | Colin Kaepernick"),
+  c("NFL", "13", "Dan Marino | Kurt Warner | Odell Beckham Jr.=OBJ | Mike Evans | Keenan Allen | Don Maynard"),
+  c("NFL", "87", "Rob Gronkowski=Gronk | Travis Kelce | Reggie Wayne | Dwight Clark | Jordy Nelson | Ben Coates"),
+  c("MLB", "3", "Babe Ruth | Harmon Killebrew | Dale Murphy | Alex Rodriguez=A-Rod | Bryce Harper | Jimmie Foxx"),
+  c("MLB", "5", "Joe DiMaggio | Johnny Bench | George Brett | Albert Pujols | Jeff Bagwell | Brooks Robinson | Freddie Freeman"),
+  c("NHL", "4", "Bobby Orr | Jean Beliveau | Scott Stevens | Rob Blake | Taylor Hall"),
+  c("NHL", "19", "Steve Yzerman | Joe Sakic | Jonathan Toews | Bryan Trottier | Joe Thornton | Nicklas Backstrom"),
 ];
 
 export const CHAIN_MISSES = 3;
