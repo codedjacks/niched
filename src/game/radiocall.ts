@@ -22,8 +22,8 @@ export const CALLS: RadioCall[] = [
   { text: "Christian ____! He shoots... scores!", answers: ["laettner"], caller: "Verne Lundquist", year: 1992, team: "Duke vs. Kentucky, Elite Eight" },
   { text: "The Cubs ____ the World Series!", answers: ["win"], caller: "Pat Hughes", year: 2016, team: "Chicago Cubs, World Series Game 7" },
   // Expansion batch (appended; earlier order preserved).
-  { text: "There are no flags on the field! It"s a ____!", answers: ["miracle"], caller: "Mike Keith", year: 2000, team: "Tennessee Titans vs. Buffalo Bills (Music City Miracle)" },
-  { text: "____! It"s over!", answers: ["henrique", "adam henrique"], caller: "Mike Emrick", year: 2012, team: "New Jersey Devils vs. New York Rangers" },
+  { text: "There are no flags on the field! It's a ____!", answers: ["miracle"], caller: "Mike Keith", year: 2000, team: "Tennessee Titans vs. Buffalo Bills (Music City Miracle)" },
+  { text: "____! It's over!", answers: ["henrique", "adam henrique"], caller: "Mike Emrick", year: 2012, team: "New Jersey Devils vs. New York Rangers" },
   { text: "Sidney Crosby! The ____ goal!", answers: ["golden"], caller: "Chris Cuthbert", year: 2010, team: "Canada vs. USA, Olympic hockey final" },
   { text: "Can you believe this? ____ has scored!", answers: ["donovan", "landon donovan"], caller: "Ian Darke", year: 2010, team: "USA vs. Algeria, World Cup" },
   { text: "____! I swear you"ll never see anything like this ever again!", answers: ["aguero", "agüero", "sergio aguero"], caller: "Martin Tyler", year: 2012, team: "Manchester City vs. QPR" },
