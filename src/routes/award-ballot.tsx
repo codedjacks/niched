@@ -5,6 +5,7 @@ import { BallotBoard } from "@/components/game/MoreModes";
 import { BALLOT_MAX, ballotForDay, ballotStart, scoreBallot } from "@/game/ballot";
 
 export const Route = createFileRoute("/award-ballot")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Award Ballot — Niched sports trivia" },

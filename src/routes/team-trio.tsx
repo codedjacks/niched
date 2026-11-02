@@ -4,6 +4,7 @@ import { PennantPick } from "@/components/game/NewModes";
 import { TRIOS, TRIO_POINTS, trioForDay, isTrioAnswer } from "@/game/trio";
 
 export const Route = createFileRoute("/team-trio")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Team Trio — Niched sports trivia" },

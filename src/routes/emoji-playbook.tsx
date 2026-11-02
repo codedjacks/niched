@@ -4,6 +4,7 @@ import { EmojiGame } from "@/components/game/FreshModes";
 import { rebusesForDay } from "@/game/emoji";
 
 export const Route = createFileRoute("/emoji-playbook")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Emoji Playbook — Niched sports trivia" },

@@ -4,6 +4,7 @@ import { LetterTiles } from "@/components/game/NewModes";
 import { NICKNAME_POINTS, isNicknameAnswer, nicknameForDay } from "@/game/nickname";
 
 export const Route = createFileRoute("/nicknames")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Nicknames — Niched sports trivia" },

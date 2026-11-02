@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 
 const factsQuery = queryOptions({ queryKey: ["sports-facts"], queryFn: () => getSportsFacts(), staleTime: 300_000 });
 export const Route = createFileRoute("/facts")({
+  staticData: { sitemap: true },
   loader: ({ context }) => context.queryClient.ensureQueryData(factsQuery),
   head: () => ({ meta: [
     { title: "Sports Facts & Sources — Niched" },

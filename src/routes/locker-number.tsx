@@ -5,6 +5,7 @@ import { isJerseyAnswer, jerseyForDay } from "@/game/jersey";
 import { findTeam, recordText, seasonLabel, useTeamFacts } from "@/game/team-facts";
 
 export const Route = createFileRoute("/locker-number")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Locker Number — Niched sports trivia" },

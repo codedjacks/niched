@@ -17,6 +17,7 @@ import { toQuestion, usesAiDaily } from "@/game/ai-daily";
 import { getAiDaily } from "@/game/ai-daily.functions";
 
 export const Route = createFileRoute("/")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Niched — the sports rarity trivia game" },

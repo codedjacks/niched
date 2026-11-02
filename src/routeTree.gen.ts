@@ -28,6 +28,7 @@ import { Route as RateRarityRouteImport } from './routes/rate-rarity'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SelloutRouteImport } from './routes/sellout'
 import { Route as SilhouetteRouteImport } from './routes/silhouette'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StadiumGuesserRouteImport } from './routes/stadium-guesser'
 import { Route as StandingsShuffleRouteImport } from './routes/standings-shuffle'
 import { Route as StatLineRouteImport } from './routes/stat-line'
@@ -133,6 +134,11 @@ const SilhouetteRoute = SilhouetteRouteImport.update({
   path: '/silhouette',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StadiumGuesserRoute = StadiumGuesserRouteImport.update({
   id: '/stadium-guesser',
   path: '/stadium-guesser',
@@ -199,6 +205,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/sellout': typeof SelloutRoute
   '/silhouette': typeof SilhouetteRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stadium-guesser': typeof StadiumGuesserRoute
   '/standings-shuffle': typeof StandingsShuffleRoute
   '/stat-line': typeof StatLineRoute
@@ -229,6 +236,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/sellout': typeof SelloutRoute
   '/silhouette': typeof SilhouetteRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stadium-guesser': typeof StadiumGuesserRoute
   '/standings-shuffle': typeof StandingsShuffleRoute
   '/stat-line': typeof StatLineRoute
@@ -260,6 +268,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/sellout': typeof SelloutRoute
   '/silhouette': typeof SilhouetteRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stadium-guesser': typeof StadiumGuesserRoute
   '/standings-shuffle': typeof StandingsShuffleRoute
   '/stat-line': typeof StatLineRoute
@@ -292,6 +301,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sellout'
     | '/silhouette'
+    | '/sitemap.xml'
     | '/stadium-guesser'
     | '/standings-shuffle'
     | '/stat-line'
@@ -322,6 +332,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sellout'
     | '/silhouette'
+    | '/sitemap.xml'
     | '/stadium-guesser'
     | '/standings-shuffle'
     | '/stat-line'
@@ -352,6 +363,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sellout'
     | '/silhouette'
+    | '/sitemap.xml'
     | '/stadium-guesser'
     | '/standings-shuffle'
     | '/stat-line'
@@ -383,6 +395,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SelloutRoute: typeof SelloutRoute
   SilhouetteRoute: typeof SilhouetteRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StadiumGuesserRoute: typeof StadiumGuesserRoute
   StandingsShuffleRoute: typeof StandingsShuffleRoute
   StatLineRoute: typeof StatLineRoute
@@ -529,6 +542,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SilhouetteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stadium-guesser': {
       id: '/stadium-guesser'
       path: '/stadium-guesser'
@@ -615,6 +635,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SelloutRoute: SelloutRoute,
   SilhouetteRoute: SilhouetteRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   StadiumGuesserRoute: StadiumGuesserRoute,
   StandingsShuffleRoute: StandingsShuffleRoute,
   StatLineRoute: StatLineRoute,

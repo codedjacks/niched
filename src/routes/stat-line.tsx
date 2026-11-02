@@ -4,6 +4,7 @@ import { BoxScore } from "@/components/game/NewModes";
 import { STAT_POINTS, isStatAnswer, statForDay } from "@/game/statline";
 
 export const Route = createFileRoute("/stat-line")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Stat Line — Niched sports trivia" },

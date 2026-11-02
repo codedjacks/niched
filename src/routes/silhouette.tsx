@@ -5,6 +5,7 @@ import { ClueGuess, PixelAthlete } from "@/components/game/MoreModes";
 import { CLUE_POINTS, isSilhouette, silhouetteClues, silhouetteForDay } from "@/game/silhouette";
 
 export const Route = createFileRoute("/silhouette")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Who Am I? Silhouette — Niched sports trivia" },

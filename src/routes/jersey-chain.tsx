@@ -5,6 +5,7 @@ import { ChainBoard } from "@/components/game/MoreModes";
 import { CHAIN_LINK_POINTS, CHAIN_MISSES, chainForDay, chainIndex } from "@/game/jerseychain";
 
 export const Route = createFileRoute("/jersey-chain")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Jersey Chain — Niched sports trivia" },

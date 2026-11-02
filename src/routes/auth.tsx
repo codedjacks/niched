@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { GeoBackground } from "@/components/game/ui";
 
 export const Route = createFileRoute("/auth")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Sign in — Niched" },

@@ -5,6 +5,7 @@ import { dateKey } from "@/game/selection";
 
 /** Scheduled: pre-writes today's and tomorrow's AI Daily Challenge so players never wait. */
 export const Route = createFileRoute("/api/public/jobs/ai-daily")({
+  staticData: { sitemap: false },
   server: {
     handlers: {
       POST: async ({ request }) => {
