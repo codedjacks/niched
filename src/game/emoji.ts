@@ -21,6 +21,21 @@ export const REBUSES: Rebus[] = [
   { emoji: "⚡ 🏃", answers: ["usain bolt", "bolt"], kind: "Sprinter" },
   { emoji: "🐦 3️⃣3️⃣", answers: ["larry bird", "bird"], kind: "NBA legend" },
   { emoji: "🏴‍☠️ ⚾", answers: ["pittsburgh pirates", "pirates"], kind: "MLB team" },
+  // Expansion batch (appended; earlier order preserved).
+  { emoji: "🦅 🟢", answers: ["philadelphia eagles", "eagles"], kind: "NFL team" },
+  { emoji: "☀️ 🌵", answers: ["phoenix suns", "suns"], kind: "NBA team" },
+  { emoji: "🪄 ✨", answers: ["orlando magic", "magic"], kind: "NBA team" },
+  { emoji: "🍁 🍃", answers: ["toronto maple leafs", "maple leafs", "leafs"], kind: "NHL team" },
+  { emoji: "🐯 ⚾", answers: ["detroit tigers", "tigers"], kind: "MLB team" },
+  { emoji: "🧡 🐦", answers: ["baltimore orioles", "orioles"], kind: "MLB team" },
+  { emoji: "👼 ⚾", answers: ["los angeles angels", "angels"], kind: "MLB team" },
+  { emoji: "🐴 🔵", answers: ["indianapolis colts", "colts"], kind: "NFL team" },
+  { emoji: "⚡ 🔋", answers: ["los angeles chargers", "chargers"], kind: "NFL team" },
+  { emoji: "🐂 🏀", answers: ["chicago bulls", "bulls"], kind: "NBA team" },
+  { emoji: "⛈️ 🏀", answers: ["oklahoma city thunder", "thunder"], kind: "NBA team" },
+  { emoji: "🚀 🏀", answers: ["houston rockets", "rockets"], kind: "NBA team" },
+  { emoji: "⚫ 🐍", answers: ["kobe bryant", "kobe"], kind: "Athlete nickname" },
+  { emoji: "📬 🏀", answers: ["karl malone", "malone"], kind: "Athlete nickname" },
 ];
 
 export const EMOJI_ROUNDS = 5;

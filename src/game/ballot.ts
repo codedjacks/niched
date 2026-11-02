@@ -14,6 +14,19 @@ export const BALLOTS: Ballot[] = [
   b("NBA MVP", "2017–18", "James Harden, LeBron James, Anthony Davis, Damian Lillard, Russell Westbrook"),
   b("NBA MVP", "2018–19", "Giannis Antetokounmpo, James Harden, Paul George, Nikola Jokic, Stephen Curry"),
   b("NBA MVP", "2019–20", "Giannis Antetokounmpo, LeBron James, James Harden, Luka Doncic, Kawhi Leonard"),
+  // Expansion batch (appended; earlier order preserved).
+  b("NBA MVP", "2016–17", "Russell Westbrook, James Harden, Kawhi Leonard, LeBron James, Isaiah Thomas"),
+  b("NBA MVP", "2014–15", "Stephen Curry, James Harden, LeBron James, Russell Westbrook, Anthony Davis"),
+  b("NBA MVP", "2013–14", "Kevin Durant, LeBron James, Blake Griffin, Joakim Noah, James Harden"),
+  b("NBA MVP", "2012–13", "LeBron James, Kevin Durant, Carmelo Anthony, Chris Paul, Kobe Bryant"),
+  b("NBA MVP", "2011–12", "LeBron James, Kevin Durant, Chris Paul, Kobe Bryant, Tony Parker"),
+  b("NBA MVP", "2010–11", "Derrick Rose, Dwight Howard, LeBron James, Kobe Bryant, Kevin Durant"),
+  b("NBA MVP", "2009–10", "LeBron James, Kevin Durant, Kobe Bryant, Dwight Howard, Dwyane Wade"),
+  b("NBA MVP", "2008–09", "LeBron James, Kobe Bryant, Dwyane Wade, Dwight Howard, Chris Paul"),
+  b("NBA MVP", "2007–08", "Kobe Bryant, Chris Paul, Kevin Garnett, LeBron James, Dwight Howard"),
+  b("NBA MVP", "2006–07", "Dirk Nowitzki, Steve Nash, Kobe Bryant, Tim Duncan, LeBron James"),
+  b("NBA MVP", "2005–06", "Steve Nash, LeBron James, Kobe Bryant, Chauncey Billups, Dirk Nowitzki"),
+  b("NBA MVP", "2004–05", "Steve Nash, Shaquille O'Neal, Dirk Nowitzki, Tim Duncan, Allen Iverson"),
 ];
 
 export const BALLOT_SPOT = 15;

@@ -89,6 +89,67 @@ export const HUDDLES: HuddlePuzzle[] = [
     { level: 2, label: "USWNT soccer", members: ["Mia Hamm", "Abby Wambach", "Megan Rapinoe", "Alex Morgan"] },
     { level: 3, label: "UFC champions", members: ["Georges St-Pierre", "Anderson Silva", "Jon Jones", "Ronda Rousey"] },
   ] },
+  // Expansion batch (appended; earlier order preserved).
+  { id: "nba-4", groups: [
+    { level: 0, label: "Raptors", members: ["Vince Carter", "DeMar DeRozan", "Pascal Siakam", "Fred VanVleet"] },
+    { level: 1, label: "Heat", members: ["Dwyane Wade", "Alonzo Mourning", "Udonis Haslem", "Bam Adebayo"] },
+    { level: 2, label: "Knicks", members: ["Walt Frazier", "Willis Reed", "Carmelo Anthony", "Jalen Brunson"] },
+    { level: 3, label: "Bad Boy Pistons", members: ["Isiah Thomas", "Joe Dumars", "Bill Laimbeer", "Rick Mahorn"] },
+  ] },
+  { id: "nba-5", groups: [
+    { level: 0, label: "No. 1 overall picks", members: ["Yao Ming", "Victor Wembanyama", "Allen Iverson", "Anthony Bennett"] },
+    { level: 1, label: "Played at UCLA", members: ["Bill Walton", "Reggie Miller", "Russell Westbrook", "Kevin Love"] },
+    { level: 2, label: "Played at Kansas", members: ["Wilt Chamberlain", "Paul Pierce", "Joel Embiid", "Kirk Hinrich"] },
+    { level: 3, label: "Skipped college", members: ["Kobe Bryant", "Kevin Garnett", "Tracy McGrady", "Amar'e Stoudemire"] },
+  ] },
+  { id: "nfl-4", groups: [
+    { level: 0, label: "Packers", members: ["Brett Favre", "Bart Starr", "Reggie White", "Donald Driver"] },
+    { level: 1, label: "Bears", members: ["Dick Butkus", "Mike Singletary", "Brian Urlacher", "Devin Hester"] },
+    { level: 2, label: "Giants", members: ["Michael Strahan", "Eli Manning", "Tiki Barber", "Odell Beckham Jr."] },
+    { level: 3, label: "Raiders", members: ["Howie Long", "Tim Brown", "Ken Stabler", "Jim Plunkett"] },
+  ] },
+  { id: "nfl-5", groups: [
+    { level: 0, label: "Head coaches", members: ["Bill Belichick", "Vince Lombardi", "Don Shula", "Andy Reid"] },
+    { level: 1, label: "Heisman winners", members: ["Tim Tebow", "Lamar Jackson", "Joe Burrow", "Charlie Ward"] },
+    { level: 2, label: "Hall of Fame pass rushers", members: ["Bruce Smith", "Deacon Jones", "Derrick Thomas", "Julius Peppers"] },
+    { level: 3, label: "Played at Ohio State", members: ["Ezekiel Elliott", "Joey Bosa", "C.J. Stroud", "Cris Carter"] },
+  ] },
+  { id: "mlb-4", groups: [
+    { level: 0, label: "Dodgers", members: ["Sandy Koufax", "Jackie Robinson", "Fernando Valenzuela", "Orel Hershiser"] },
+    { level: 1, label: "Mariners", members: ["Edgar Martinez", "Jay Buhner", "Julio Rodriguez", "Kyle Seager"] },
+    { level: 2, label: "Cubs", members: ["Ernie Banks", "Ryne Sandberg", "Kris Bryant", "Anthony Rizzo"] },
+    { level: 3, label: "Braves", members: ["Chipper Jones", "John Smoltz", "Dale Murphy", "Andruw Jones"] },
+  ] },
+  { id: "mlb-5", groups: [
+    { level: 0, label: "300-win pitchers", members: ["Roger Clemens", "Nolan Ryan", "Tom Seaver", "Warren Spahn"] },
+    { level: 1, label: "3,000-hit club", members: ["Pete Rose", "Tony Gwynn", "Wade Boggs", "Cal Ripken Jr."] },
+    { level: 2, label: "Stolen-base specialists", members: ["Maury Wills", "Vince Coleman", "Tim Raines", "Juan Pierre"] },
+    { level: 3, label: "Triple Crown hitters", members: ["Jimmie Foxx", "Frank Robinson", "Mickey Mantle", "Ted Williams"] },
+  ] },
+  { id: "nhl-2", groups: [
+    { level: 0, label: "Blackhawks", members: ["Patrick Kane", "Jonathan Toews", "Stan Mikita", "Bobby Hull"] },
+    { level: 1, label: "Bruins", members: ["Bobby Orr", "Ray Bourque", "Patrice Bergeron", "Zdeno Chara"] },
+    { level: 2, label: "Canadiens", members: ["Maurice Richard", "Jean Beliveau", "Guy Lafleur", "Carey Price"] },
+    { level: 3, label: "Rangers", members: ["Brian Leetch", "Mike Richter", "Adam Graves", "Rod Gilbert"] },
+  ] },
+  { id: "nhl-3", groups: [
+    { level: 0, label: "Born in Russia", members: ["Pavel Bure", "Ilya Kovalchuk", "Sergei Fedorov", "Nikita Kucherov"] },
+    { level: 1, label: "Born in Sweden", members: ["Peter Forsberg", "Mats Sundin", "Nicklas Lidstrom", "Erik Karlsson"] },
+    { level: 2, label: "Born in Finland", members: ["Teemu Selanne", "Saku Koivu", "Mikko Rantanen", "Tuukka Rask"] },
+    { level: 3, label: "Born in Czechia", members: ["Jaromir Jagr", "Dominik Hasek", "David Pastrnak", "Patrik Elias"] },
+  ] },
+  { id: "mix-5", groups: [
+    { level: 0, label: "Real Madrid", members: ["Raul", "Iker Casillas", "Sergio Ramos", "Karim Benzema"] },
+    { level: 1, label: "Barcelona", members: ["Xavi", "Andres Iniesta", "Carles Puyol", "Ronaldinho"] },
+    { level: 2, label: "Manchester United", members: ["Wayne Rooney", "Ryan Giggs", "Paul Scholes", "Eric Cantona"] },
+    { level: 3, label: "Liverpool", members: ["Steven Gerrard", "Mohamed Salah", "Kenny Dalglish", "Virgil van Dijk"] },
+  ] },
+  { id: "mix-6", groups: [
+    { level: 0, label: "Tennis men", members: ["Pete Sampras", "Andre Agassi", "Bjorn Borg", "John McEnroe"] },
+    { level: 1, label: "Figure skaters", members: ["Michelle Kwan", "Scott Hamilton", "Yuzuru Hanyu", "Kristi Yamaguchi"] },
+    { level: 2, label: "Alpine skiers", members: ["Lindsey Vonn", "Mikaela Shiffrin", "Bode Miller", "Picabo Street"] },
+    { level: 3, label: "Snowboarders", members: ["Shaun White", "Chloe Kim", "Jamie Anderson", "Mark McMorris"] },
+  ] },
 ];
 
 export const HUDDLE_MISTAKES = 4;

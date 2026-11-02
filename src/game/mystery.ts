@@ -24,6 +24,22 @@ export const MYSTERIES: Mystery[] = [
   { name: "Lewis Hamilton", aliases: ["Hamilton"], clues: ["Motorsport", "Born in Stevenage", "Debuted in 2007 with McLaren", "7 world championships", "Won six titles with Mercedes", "Joined Ferrari in 2025"] },
   { name: "Derek Jeter", aliases: ["Jeter"], clues: ["Team sport", "Grew up in Kalamazoo", "Rookie of the Year in 1996", "3,465 career hits", "Won 5 World Series", "Yankees shortstop nicknamed 'The Captain'"] },
   { name: "Mia Hamm", aliases: ["Hamm"], clues: ["Team sport", "Born in Selma, Alabama", "Played college at North Carolina", "Won the 1991 and 1999 World Cups", "Two Olympic gold medals", "US women's soccer icon"] },
+  // Expansion batch (appended; earlier order preserved).
+  { name: "Michael Jordan", aliases: ["Jordan", "MJ"], clues: ["Team sport", "Born in Brooklyn", "Played college at North Carolina", "Also played minor-league baseball", "Won six NBA titles", "Chicago Bulls #23"] },
+  { name: "LeBron James", aliases: ["LeBron", "King James"], clues: ["Team sport", "Born in Akron", "Went straight from high school to the pros in 2003", "Won titles with three franchises", "NBA's all-time leading scorer", "Nicknamed 'King James'"] },
+  { name: "Kobe Bryant", aliases: ["Kobe"], clues: ["Team sport", "Born in Philadelphia", "Spent part of his childhood in Italy", "Scored 81 points in a game", "Five NBA titles", "Lakers legend called the 'Black Mamba'"] },
+  { name: "Stephen Curry", aliases: ["Steph Curry", "Curry", "Steph"], clues: ["Team sport", "Born in Akron, Ohio", "Played college at Davidson", "First unanimous MVP (2016)", "NBA's all-time three-point leader", "Golden State Warriors point guard"] },
+  { name: "Peyton Manning", aliases: ["Peyton"], clues: ["Team sport", "Son of an NFL quarterback", "Played college at Tennessee", "No. 1 pick in 1998", "Won Super Bowls with two teams", "Longtime Indianapolis Colts QB"] },
+  { name: "Jerry Rice", aliases: ["Rice"], clues: ["Team sport", "Played college at Mississippi Valley State", "Drafted in 1985", "Won three Super Bowls", "NFL career receiving yards leader", "San Francisco 49ers wide receiver"] },
+  { name: "Sidney Crosby", aliases: ["Crosby", "Sid the Kid"], clues: ["Played on ice", "Born in Cole Harbour, Nova Scotia", "No. 1 pick in 2005", "Scored the 2010 Olympic 'Golden Goal'", "Three Stanley Cups", "Pittsburgh Penguins captain 'Sid the Kid'"] },
+  { name: "Novak Djokovic", aliases: ["Djokovic", "Novak"], clues: ["Individual sport", "Born in Belgrade", "Won Olympic gold in 2024", "Won the Australian Open 10 times", "Record 24 Grand Slam singles titles", "Serbian tennis star"] },
+  { name: "Mike Tyson", aliases: ["Tyson", "Iron Mike"], clues: ["Combat sport", "Born in Brooklyn", "Trained by Cus D'Amato", "Youngest heavyweight champion at 20", "Bit Evander Holyfield's ear", "Nicknamed 'Iron Mike'"] },
+  { name: "Aaron Judge", aliases: ["Judge"], clues: ["Team sport", "Born in Linden, California", "Played college at Fresno State", "Hit 62 home runs in 2022", "Stands 6-foot-7", "New York Yankees captain"] },
+  { name: "Shaquille O'Neal", aliases: ["Shaq", "Shaquille ONeal"], clues: ["Team sport", "Born in Newark", "Played college at LSU", "No. 1 pick in 1992", "Won three straight titles with the Lakers", "Center known simply as 'Shaq'"] },
+  { name: "Jackie Robinson", aliases: ["Robinson"], clues: ["Team sport", "Born in Cairo, Georgia", "Lettered in four sports at UCLA", "1947 Rookie of the Year", "His No. 42 is retired across baseball", "Broke MLB's color barrier with the Dodgers"] },
+  { name: "Walter Payton", aliases: ["Payton", "Sweetness"], clues: ["Team sport", "Born in Columbia, Mississippi", "Played college at Jackson State", "Won Super Bowl XX", "The NFL's Man of the Year award is named for him", "Chicago Bears running back 'Sweetness'"] },
+  { name: "Mike Trout", aliases: ["Trout"], clues: ["Team sport", "Born in Vineland, New Jersey", "Drafted 25th overall in 2009", "Three AL MVP awards", "Has spent his whole career with one team", "Los Angeles Angels center fielder"] },
+  { name: "Kevin Durant", aliases: ["Durant", "KD"], clues: ["Team sport", "Born in Washington, D.C.", "Played one season at Texas", "Drafted 2nd overall in 2007 by Seattle", "Won two titles with Golden State", "Four-time Olympic gold medalist 'KD'"] },
 ];
 
 export const MYSTERY_POINTS = [100, 85, 60, 30, 15, 10] as const;
