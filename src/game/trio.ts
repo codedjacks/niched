@@ -31,6 +31,27 @@ export const TRIOS: Trio[] = [
   t("NHL", "Wayne Gretzky, Mark Messier, Jari Kurri", "Edmonton Oilers", "Oilers, Edmonton", "1980s", "Four Stanley Cups in five years"),
   t("NHL", "Sidney Crosby, Evgeni Malkin, Kris Letang", "Pittsburgh Penguins", "Penguins, Pittsburgh, Pens", "2010s", "Back-to-back Cups in 2016 and 2017"),
   t("NHL", "Jonathan Toews, Patrick Kane, Duncan Keith", "Chicago Blackhawks", "Blackhawks, Chicago", "2010s", "Three Cups in six years"),
+  // Expansion batch (appended; earlier order preserved).
+  t("NBA", "Kevin Durant, Russell Westbrook, James Harden", "Oklahoma City Thunder", "Thunder, OKC", "2010s", "Reached the 2012 Finals"),
+  t("NBA", "Shaquille O'Neal, Kobe Bryant, Derek Fisher", "Los Angeles Lakers", "Lakers, LA Lakers", "2000s", "Three-peat from 2000 to 2002"),
+  t("NBA", "Hakeem Olajuwon, Clyde Drexler, Sam Cassell", "Houston Rockets", "Rockets, Houston", "1990s", "1995 champions as a sixth seed"),
+  t("NBA", "Giannis Antetokounmpo, Khris Middleton, Jrue Holiday", "Milwaukee Bucks", "Bucks, Milwaukee", "2020s", "2021 champions"),
+  t("NBA", "Nikola Jokic, Jamal Murray, Aaron Gordon", "Denver Nuggets", "Nuggets, Denver", "2020s", "2023 champions"),
+  t("NBA", "Jayson Tatum, Jaylen Brown, Jrue Holiday", "Boston Celtics", "Celtics, Boston", "2020s", "2024 champions"),
+  t("NBA", "Shai Gilgeous-Alexander, Jalen Williams, Chet Holmgren", "Oklahoma City Thunder", "Thunder, OKC", "2020s", "2025 champions"),
+  t("NFL", "Tom Brady, Mike Evans, Rob Gronkowski", "Tampa Bay Buccaneers", "Buccaneers, Bucs, Tampa Bay", "2020s", "Won Super Bowl LV in their home stadium"),
+  t("NFL", "Jalen Hurts, A.J. Brown, Saquon Barkley", "Philadelphia Eagles", "Eagles, Philadelphia", "2020s", "Won Super Bowl LIX"),
+  t("NFL", "Matthew Stafford, Cooper Kupp, Aaron Donald", "Los Angeles Rams", "Rams, LA Rams", "2020s", "Won Super Bowl LVI"),
+  t("NFL", "Ray Lewis, Ed Reed, Terrell Suggs", "Baltimore Ravens", "Ravens, Baltimore", "2000s", "Won Super Bowl XLVII in 2013"),
+  t("NFL", "Joe Burrow, Ja'Marr Chase, Tee Higgins", "Cincinnati Bengals", "Bengals, Cincinnati", "2020s", "Reached Super Bowl LVI"),
+  t("MLB", "Buster Posey, Madison Bumgarner, Pablo Sandoval", "San Francisco Giants", "Giants, San Francisco", "2010s", "Three titles in five years"),
+  t("MLB", "Kris Bryant, Anthony Rizzo, Javier Baez", "Chicago Cubs", "Cubs, Chicago", "2010s", "Ended a 108-year title drought in 2016"),
+  t("MLB", "Mike Trout, Shohei Ohtani, Anthony Rendon", "Los Angeles Angels", "Angels, LA Angels", "2020s", "Never reached the playoffs together"),
+  t("MLB", "Albert Pujols, Yadier Molina, Adam Wainwright", "St. Louis Cardinals", "Cardinals, St. Louis", "2000s", "Won the 2006 and 2011 World Series"),
+  t("NHL", "Patrick Roy, Joe Sakic, Peter Forsberg", "Colorado Avalanche", "Avalanche, Avs, Colorado", "1990s", "Won the 1996 Stanley Cup"),
+  t("NHL", "Steve Yzerman, Sergei Fedorov, Nicklas Lidstrom", "Detroit Red Wings", "Red Wings, Detroit", "1990s", "Back-to-back Cups in 1997 and 1998"),
+  t("NHL", "Nikita Kucherov, Steven Stamkos, Andrei Vasilevskiy", "Tampa Bay Lightning", "Lightning, Tampa Bay", "2020s", "Back-to-back Cups in 2020 and 2021"),
+  t("NHL", "Connor McDavid, Leon Draisaitl, Evan Bouchard", "Edmonton Oilers", "Oilers, Edmonton", "2020s", "Back-to-back Final trips in 2024 and 2025"),
 ];
 
 export const TRIO_POINTS = [100, 80, 60, 40, 20] as const;
