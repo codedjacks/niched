@@ -5,6 +5,13 @@ import type { ReactNode } from "react";
 
 const SECTIONS = [
   {
+    label: "Quick play",
+    items: [
+      { to: "/trivia", name: "Quick Trivia", Icon: Zap, color: "text-primary" },
+      { to: "/survival", name: "Survival", Icon: Skull, color: "text-secondary" },
+    ],
+  },
+  {
     label: "Read the player",
     items: [
       { to: "/mystery", name: "Mystery Athlete", Icon: UserSearch, color: "text-secondary" },
