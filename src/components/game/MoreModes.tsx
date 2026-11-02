@@ -97,7 +97,8 @@ export function Top10Board({ game, title, names, seconds, pointsFor, max, slotFo
   const [miss, setMiss] = useState("");
   const done = useRef(false);
   const score = found.reduce((s, i) => s + pointsFor(i + 1), 0);
-  const over = started && (left <= 0 || found.length === names.length);
+  const [quit, setQuit] = useState(false);
+  const over = started && (quit || left <= 0 || found.length === names.length);
   useEffect(() => {
     if (!started || over) return;
     const id = setInterval(() => setLeft((l) => l - 1), 1000);
@@ -116,7 +117,10 @@ export function Top10Board({ game, title, names, seconds, pointsFor, max, slotFo
         <span className="text-primary led-glow tabular-nums">{left}s · {score} pts</span>
       </div>
       {!started ? <Button className="mt-4 shimmer font-display uppercase" onClick={() => setStarted(true)}>Start the clock</Button>
-        : !over && <GuessForm onGuess={guess} label="Name someone on the list" flash={miss} />}
+        : !over && <div className="mt-4">
+          <GuessForm onGuess={guess} label="Name someone on the list" flash={miss} />
+          <button type="button" className={ghost} onClick={() => setQuit(true)}>Give up</button>
+        </div>}
       <ol className="mt-4 grid gap-1.5">
         {names.map((n, i) => {
           const hit = found.includes(i);
