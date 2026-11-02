@@ -6,6 +6,7 @@ import { recordText, seasonLabel, type TeamInfo } from "@/game/team-facts";
 import { SELLOUT_MAX, SELLOUT_MIN, selloutPoints, type Venue } from "@/game/sellout";
 import { RADIO_ROUNDS, isCallAnswer, radioPoints, type RadioCall } from "@/game/radiocall";
 import { EMOJI_POINTS, isRebus, type Rebus } from "@/game/emoji";
+import { ThrowField, throwTarget } from "./ThrowField";
 
 type Game = ReturnType<typeof useDailyGame>;
 const btn = "rounded-lg bg-primary px-5 py-3 font-display text-sm font-bold uppercase text-primary-foreground shadow-pop-sm disabled:opacity-40";
@@ -67,6 +68,7 @@ export function HuddleGame({ game, puzzle, tiles }: { game: Game; puzzle: Huddle
           </div>
         </>
       )}
+      {done && <div className="mt-4"><ThrowField target={throwTarget(score, 100)} caption={score > 0 ? `+${score}` : "Dropped"} /></div>}
       {done && <ResultCard score={score} max={100} progress={game.progress} share={`Niched Huddle: ${found.length}/4 groups, ${mistakes} mistakes — ${score}/100`} />}
     </div>
   );
@@ -200,7 +202,8 @@ export function RadioGame({ game, calls }: { game: Game; calls: RadioCall[] }) {
         </form>
       ) : (
         <div className="mt-4">
-          <p role="status" className="animate-rise font-display text-lg">{result.ok ? `Nailed it +${result.pts}` : `It was "${c.answers[0]}"`} <span className="text-muted-foreground">· {c.caller}, {c.year}</span></p>
+          <ThrowField key={i} target={throwTarget(result.pts, 100)} caption={result.ok ? `+${result.pts}` : "Dropped"} />
+          <p role="status" className="mt-3 animate-rise font-display text-lg">{result.ok ? `Nailed it +${result.pts}` : `It was "${c.answers[0]}"`} <span className="text-muted-foreground">· {c.caller}, {c.year}</span></p>
           {!done && <button autoFocus className={`${btn} mt-3`} onClick={next}>Next call ▸</button>}
         </div>
       )}
