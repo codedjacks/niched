@@ -35,6 +35,25 @@ export const STAT_LINES: StatLine[] = [
   s("NHL", "85 goals · 199 points", "1988–89", "Penguins", "Center", "Mario Lemieux", ["Mario"]),
   s("NHL", "86 goals", "1990–91", "Blues", "Right wing", "Brett Hull"),
   s("NHL", "153 points", "2022–23", "Oilers", "Center", "Connor McDavid", ["McDavid"]),
+  // Expansion batch (appended; earlier order preserved).
+  s("NBA", "14.5 assists per game", "1989–90", "Utah Jazz", "Guard", "John Stockton", ["Stockton"]),
+  s("NBA", "18.7 rebounds per game", "1991–92", "Detroit Pistons", "Forward", "Dennis Rodman", ["Rodman", "The Worm"]),
+  s("NBA", "38.3 points per game", "1961–62", "Los Angeles Lakers", "Forward", "Elgin Baylor", ["Baylor"]),
+  s("NFL", "50 touchdown passes · 5,097 yards", "2018", "Kansas City Chiefs", "Quarterback", "Patrick Mahomes", ["Mahomes"]),
+  s("NFL", "48 touchdown passes · 5,084 yards", "1984", "Miami Dolphins", "Quarterback", "Dan Marino", ["Marino"]),
+  s("NFL", "2,097 rushing yards", "2012", "Minnesota Vikings", "Running back", "Adrian Peterson", ["AP"]),
+  s("NFL", "1,848 receiving yards", "1995", "San Francisco 49ers", "Wide receiver", "Jerry Rice", ["Rice"]),
+  s("NFL", "28 total touchdowns", "2005", "Seattle Seahawks", "Running back", "Shaun Alexander", ["Alexander"]),
+  s("NFL", "36 touchdown passes · 1,206 rushing yards", "2019", "Baltimore Ravens", "Quarterback", "Lamar Jackson", ["Lamar"]),
+  s("MLB", "191 RBIs", "1930", "Chicago Cubs", "Outfielder", "Hack Wilson", ["Wilson"]),
+  s("MLB", "61 home runs", "1961", "New York Yankees", "Outfielder", "Roger Maris", ["Maris"]),
+  s("MLB", ".609 on-base percentage", "2004", "San Francisco Giants", "Outfielder", "Barry Bonds", ["Bonds"]),
+  s("MLB", "383 strikeouts", "1973", "California Angels", "Pitcher", "Nolan Ryan", ["Ryan"]),
+  s("MLB", "60 home runs", "1927", "New York Yankees", "Outfielder", "Babe Ruth", ["The Babe", "Ruth"]),
+  s("MLB", "56-game hitting streak", "1941", "New York Yankees", "Outfielder", "Joe DiMaggio", ["DiMaggio", "Joltin' Joe"]),
+  s("NHL", "102 assists · 139 points from a defenseman", "1970–71", "Boston Bruins", "Defenseman", "Bobby Orr", ["Orr"]),
+  s("NHL", "76 goals as a rookie", "1992–93", "Winnipeg Jets", "Right wing", "Teemu Selanne", ["Selanne"]),
+  s("NHL", "65 goals", "2007–08", "Washington Capitals", "Left wing", "Alex Ovechkin", ["Ovi", "Ovechkin"]),
 ];
 
 export const STAT_POINTS = [100, 80, 60, 40, 20] as const;
