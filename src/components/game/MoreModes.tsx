@@ -17,6 +17,7 @@ export function GuessForm({ onGuess, label, disabled, flash }: { onGuess: (t: st
   );
 }
 
+const ghost = "mt-3 rounded-lg border-2 border-border px-4 py-2 font-display text-xs font-bold uppercase hover:border-primary";
 const share = (name: string, score: number, max: number) => `Niched ${name} — ${score}/${max}\nniched.lovable.app`;
 
 function Done({ game, name, max, score }: { game: Game; name: string; max: number; score?: number }) {
@@ -117,7 +118,7 @@ export function Top10Board({ game, title, names, seconds, pointsFor, max, slotFo
         <span className="text-primary led-glow tabular-nums">{left}s · {score} pts</span>
       </div>
       {!started ? <Button className="mt-4 shimmer font-display uppercase" onClick={() => setStarted(true)}>Start the clock</Button>
-        : !over && <div className="mt-4">
+        : !over && <div>
           <GuessForm onGuess={guess} label="Name someone on the list" flash={miss} />
           <button type="button" className={ghost} onClick={() => setQuit(true)}>Give up</button>
         </div>}
