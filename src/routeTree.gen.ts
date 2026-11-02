@@ -32,9 +32,11 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StadiumGuesserRouteImport } from './routes/stadium-guesser'
 import { Route as StandingsShuffleRouteImport } from './routes/standings-shuffle'
 import { Route as StatLineRouteImport } from './routes/stat-line'
+import { Route as SurvivalRouteImport } from './routes/survival'
 import { Route as TeamTrioRouteImport } from './routes/team-trio'
 import { Route as Top10RouteImport } from './routes/top-10'
 import { Route as TradeMachineRouteImport } from './routes/trade-machine'
+import { Route as TriviaRouteImport } from './routes/trivia'
 import { Route as ApiPublicDailyRoundRouteImport } from './routes/api/public/daily-round'
 import { Route as ApiPublicRankedRouteImport } from './routes/api/public/ranked'
 import { Route as ApiPublicJobsAiDailyRouteImport } from './routes/api/public/jobs/ai-daily'
@@ -154,6 +156,11 @@ const StatLineRoute = StatLineRouteImport.update({
   path: '/stat-line',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SurvivalRoute = SurvivalRouteImport.update({
+  id: '/survival',
+  path: '/survival',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TeamTrioRoute = TeamTrioRouteImport.update({
   id: '/team-trio',
   path: '/team-trio',
@@ -167,6 +174,11 @@ const Top10Route = Top10RouteImport.update({
 const TradeMachineRoute = TradeMachineRouteImport.update({
   id: '/trade-machine',
   path: '/trade-machine',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TriviaRoute = TriviaRouteImport.update({
+  id: '/trivia',
+  path: '/trivia',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicDailyRoundRoute = ApiPublicDailyRoundRouteImport.update({
@@ -209,9 +221,11 @@ export interface FileRoutesByFullPath {
   '/stadium-guesser': typeof StadiumGuesserRoute
   '/standings-shuffle': typeof StandingsShuffleRoute
   '/stat-line': typeof StatLineRoute
+  '/survival': typeof SurvivalRoute
   '/team-trio': typeof TeamTrioRoute
   '/top-10': typeof Top10Route
   '/trade-machine': typeof TradeMachineRoute
+  '/trivia': typeof TriviaRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
   '/api/public/ranked': typeof ApiPublicRankedRoute
   '/api/public/jobs/ai-daily': typeof ApiPublicJobsAiDailyRoute
@@ -240,9 +254,11 @@ export interface FileRoutesByTo {
   '/stadium-guesser': typeof StadiumGuesserRoute
   '/standings-shuffle': typeof StandingsShuffleRoute
   '/stat-line': typeof StatLineRoute
+  '/survival': typeof SurvivalRoute
   '/team-trio': typeof TeamTrioRoute
   '/top-10': typeof Top10Route
   '/trade-machine': typeof TradeMachineRoute
+  '/trivia': typeof TriviaRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
   '/api/public/ranked': typeof ApiPublicRankedRoute
   '/api/public/jobs/ai-daily': typeof ApiPublicJobsAiDailyRoute
@@ -272,9 +288,11 @@ export interface FileRoutesById {
   '/stadium-guesser': typeof StadiumGuesserRoute
   '/standings-shuffle': typeof StandingsShuffleRoute
   '/stat-line': typeof StatLineRoute
+  '/survival': typeof SurvivalRoute
   '/team-trio': typeof TeamTrioRoute
   '/top-10': typeof Top10Route
   '/trade-machine': typeof TradeMachineRoute
+  '/trivia': typeof TriviaRoute
   '/api/public/daily-round': typeof ApiPublicDailyRoundRoute
   '/api/public/ranked': typeof ApiPublicRankedRoute
   '/api/public/jobs/ai-daily': typeof ApiPublicJobsAiDailyRoute
@@ -305,9 +323,11 @@ export interface FileRouteTypes {
     | '/stadium-guesser'
     | '/standings-shuffle'
     | '/stat-line'
+    | '/survival'
     | '/team-trio'
     | '/top-10'
     | '/trade-machine'
+    | '/trivia'
     | '/api/public/daily-round'
     | '/api/public/ranked'
     | '/api/public/jobs/ai-daily'
@@ -336,9 +356,11 @@ export interface FileRouteTypes {
     | '/stadium-guesser'
     | '/standings-shuffle'
     | '/stat-line'
+    | '/survival'
     | '/team-trio'
     | '/top-10'
     | '/trade-machine'
+    | '/trivia'
     | '/api/public/daily-round'
     | '/api/public/ranked'
     | '/api/public/jobs/ai-daily'
@@ -367,9 +389,11 @@ export interface FileRouteTypes {
     | '/stadium-guesser'
     | '/standings-shuffle'
     | '/stat-line'
+    | '/survival'
     | '/team-trio'
     | '/top-10'
     | '/trade-machine'
+    | '/trivia'
     | '/api/public/daily-round'
     | '/api/public/ranked'
     | '/api/public/jobs/ai-daily'
@@ -399,9 +423,11 @@ export interface RootRouteChildren {
   StadiumGuesserRoute: typeof StadiumGuesserRoute
   StandingsShuffleRoute: typeof StandingsShuffleRoute
   StatLineRoute: typeof StatLineRoute
+  SurvivalRoute: typeof SurvivalRoute
   TeamTrioRoute: typeof TeamTrioRoute
   Top10Route: typeof Top10Route
   TradeMachineRoute: typeof TradeMachineRoute
+  TriviaRoute: typeof TriviaRoute
   ApiPublicDailyRoundRoute: typeof ApiPublicDailyRoundRoute
   ApiPublicRankedRoute: typeof ApiPublicRankedRoute
   ApiPublicJobsAiDailyRoute: typeof ApiPublicJobsAiDailyRoute
@@ -570,6 +596,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StatLineRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/survival': {
+      id: '/survival'
+      path: '/survival'
+      fullPath: '/survival'
+      preLoaderRoute: typeof SurvivalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/team-trio': {
       id: '/team-trio'
       path: '/team-trio'
@@ -589,6 +622,13 @@ declare module '@tanstack/react-router' {
       path: '/trade-machine'
       fullPath: '/trade-machine'
       preLoaderRoute: typeof TradeMachineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trivia': {
+      id: '/trivia'
+      path: '/trivia'
+      fullPath: '/trivia'
+      preLoaderRoute: typeof TriviaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/daily-round': {
@@ -639,9 +679,11 @@ const rootRouteChildren: RootRouteChildren = {
   StadiumGuesserRoute: StadiumGuesserRoute,
   StandingsShuffleRoute: StandingsShuffleRoute,
   StatLineRoute: StatLineRoute,
+  SurvivalRoute: SurvivalRoute,
   TeamTrioRoute: TeamTrioRoute,
   Top10Route: Top10Route,
   TradeMachineRoute: TradeMachineRoute,
+  TriviaRoute: TriviaRoute,
   ApiPublicDailyRoundRoute: ApiPublicDailyRoundRoute,
   ApiPublicRankedRoute: ApiPublicRankedRoute,
   ApiPublicJobsAiDailyRoute: ApiPublicJobsAiDailyRoute,
