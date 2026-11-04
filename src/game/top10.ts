@@ -18,6 +18,9 @@ const CURATED: Top10[] = [
   l("NFL 2025 receiving yards", "NFL", "yards", "Jaxon Smith-Njigba=JSN | Puka Nacua | George Pickens | Ja'Marr Chase | Amon-Ra St. Brown | Trey McBride | Zay Flowers | Chris Olave | Nico Collins | Jameson Williams"),
   l("MLB 2026 pitcher strikeouts", "MLB", "K", "Jacob Misiorowski | Gavin Williams | Dylan Cease | Cam Schlittler | Cristopher Sanchez | Jesus Luzardo | Reid Detmers | Logan Gilbert | Taj Bradley | Jacob deGrom"),
   l("NHL 2025-26 points", "NHL", "points", "Connor McDavid=McDavid | Nikita Kucherov | Nathan MacKinnon | Macklin Celebrini | Mark Scheifele | Nick Suzuki | David Pastrnak | Martin Necas | Leon Draisaitl | Jason Robertson"),
+  // AP NFL MVP 2006-2025 (appended; earlier order preserved).
+  l("NFL teams by most recent AP MVP", "NFL", "teams", "Los Angeles Rams=Rams | Buffalo Bills=Bills | Baltimore Ravens=Ravens | Kansas City Chiefs=Chiefs | Green Bay Packers=Packers | New England Patriots=Patriots | Atlanta Falcons=Falcons | Carolina Panthers=Panthers | Denver Broncos=Broncos | Minnesota Vikings=Vikings"),
+  l("AP NFL MVP winners by most recent win", "NFL", "awards", "Matthew Stafford=Stafford | Josh Allen=Allen | Lamar Jackson=Jackson | Patrick Mahomes=Mahomes | Aaron Rodgers=Rodgers | Tom Brady=Brady | Matt Ryan=Ryan | Cam Newton=Newton | Peyton Manning=Manning | Adrian Peterson=Peterson"),
 ];
 
 /** Curated lists first (order preserved), then ESPN season leaderboards not already covered. */

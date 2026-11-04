@@ -27,6 +27,11 @@ export const BALLOTS: Ballot[] = [
   b("NBA MVP", "2006–07", "Dirk Nowitzki, Steve Nash, Kobe Bryant, Tim Duncan, LeBron James"),
   b("NBA MVP", "2005–06", "Steve Nash, LeBron James, Kobe Bryant, Chauncey Billups, Dirk Nowitzki"),
   b("NBA MVP", "2004–05", "Steve Nash, Shaquille O'Neal, Dirk Nowitzki, Tim Duncan, Allen Iverson"),
+  // AP NFL MVP — real top-five finishes by vote points (appended; earlier order preserved).
+  b("NFL MVP", "2025", "Matthew Stafford, Drake Maye, Josh Allen, Christian McCaffrey, Trevor Lawrence"),
+  b("NFL MVP", "2024", "Josh Allen, Lamar Jackson, Saquon Barkley, Joe Burrow, Jared Goff"),
+  b("NFL MVP", "2023", "Lamar Jackson, Dak Prescott, Christian McCaffrey, Brock Purdy, Josh Allen"),
+  b("NFL MVP", "2022", "Patrick Mahomes, Jalen Hurts, Josh Allen, Joe Burrow, Justin Jefferson"),
 ];
 
 export const BALLOT_SPOT = 15;

@@ -133,4 +133,22 @@ export const TRIVIA_BANK: RawTrivia[] = [
   ["What sport uses the term 'love' for zero?", "Tennis", "Golf", "Bowling", "Cricket", 1, "Possibly from the French 'l'oeuf'."],
   ["How long is a marathon?", "26.2 miles", "25 miles", "24.8 miles", "27.1 miles", 1, "42.195 kilometers."],
   ["Which country has won the most Rugby World Cups?", "South Africa", "New Zealand", "Australia", "England", 3, "Four titles."],
+  // Ball-knowledge batch (appended; earlier order preserved).
+  ["Who is the only player to win the European Cup / Champions League with three different clubs?", "Clarence Seedorf", "Zinedine Zidane", "Xabi Alonso", "Lionel Messi", 3, "Ajax 1995, Real Madrid 1998, AC Milan 2003 and 2007."],
+  ["Which country lost the World Cup final in 1974, 1978 and 2010?", "Netherlands", "Brazil", "Germany", "Argentina", 2, "Three final trips, no title."],
+  ["Which pitcher gave up two grand slams in one inning to Fernando Tatis Jr.?", "Chan Ho Park", "Randy Johnson", "Pedro Martinez", "Kevin Brown", 3, "April 23, 1999 — still the only time it's happened."],
+  ["Who was the first Premier League player to post 20 goals and 20 assists in one season?", "Thierry Henry", "Alan Shearer", "Eric Cantona", "Frank Lampard", 2, "24 goals and 20 assists for Arsenal in 2002-03."],
+  ["Who is the only player named NBA Finals MVP while his team lost the series?", "Jerry West", "Elgin Baylor", "Rick Barry", "Charles Barkley", 2, "1969, with the Lakers against the Celtics."],
+  ["Who holds the NBA single-game assists record with 30?", "Scott Skiles", "Magic Johnson", "John Stockton", "Kevin Johnson", 3, "December 30, 1990, Orlando against Denver."],
+  ["Who was the first NFL player to rush for 2,000 yards in a season?", "O.J. Simpson", "Jim Brown", "Walter Payton", "Eric Dickerson", 2, "2,003 yards in 14 games in 1973."],
+  ["How many quarterbacks were taken in the first round of the 1983 NFL Draft?", "Six", "Three", "Four", "Eight", 3, "Elway, Blackledge, Kelly, Eason, O'Brien and Marino."],
+  ["Who was the first defensive player voted AP NFL MVP?", "Alan Page", "Lawrence Taylor", "Reggie White", "Bruce Smith", 3, "Page for 1971; Taylor was the second, in 1986."],
+  ["Who holds the MLB record for career walks, 688 of them intentional?", "Barry Bonds", "Hank Aaron", "Rickey Henderson", "Willie Mays", 2, "2,558 walks in all."],
+  ["Who was the first player to win league MVP in both the AL and the NL?", "Frank Robinson", "Rusty Staub", "Ken Griffey Jr.", "Miguel Cabrera", 3, "Reds 1961, Orioles 1966; Ohtani joined him in 2024."],
+  // AP NFL MVP 2006-2025 batch.
+  ["How many of the last 20 AP NFL MVP winners have been quarterbacks?", "18", "15", "20", "16", 2, "Only LaDainian Tomlinson and Adrian Peterson broke the streak."],
+  ["Who won the 2025 AP NFL MVP award?", "Matthew Stafford", "Drake Maye", "Josh Allen", "Lamar Jackson", 1, "Stafford edged Maye 366 points to 361."],
+  ["Which quarterback has won the most AP NFL MVP awards since 2006?", "Aaron Rodgers", "Tom Brady", "Peyton Manning", "Patrick Mahomes", 2, "Four: 2011, 2014, 2020 and 2021."],
+  ["Which running back won AP NFL MVP in 2012 with 2,097 rushing yards?", "Adrian Peterson", "LaDainian Tomlinson", "Marshawn Lynch", "Arian Foster", 2, "Second all-time behind Eric Dickerson's 2,105."],
+  ["Who won AP NFL MVP in 2016 after Atlanta set a single-season scoring record?", "Matt Ryan", "Dak Prescott", "Derek Carr", "Aaron Rodgers", 2, "The Falcons scored 540 points."],
 ];

@@ -310,4 +310,20 @@ export const sportsBank = (q: Q): Question[] => [
     r: "Tom Landry|Mike Ditka|Jon Gruden|Mike Holmgren|Mike McCarthy|Doug Pederson|Gary Kubiak|Brian Billick|Dick Vermeil",
     d: "Hank Stram|John Madden|Tom Flores|George Seifert|Barry Switzer|Mike Shanahan|Weeb Ewbank|Don McCafferty",
   }),
+  // AP NFL MVP 2006-2025 (appended; practice pool only).
+  q("sp-mvp-2006", "Sports", "Name an AP NFL MVP winner from 2006 to 2025", {
+    p: "Tom Brady|Peyton Manning|Patrick Mahomes|Aaron Rodgers",
+    c: "Lamar Jackson|Josh Allen|Matthew Stafford",
+    s: "Cam Newton|Matt Ryan",
+    r: "LaDainian Tomlinson=LT|Adrian Peterson=AP",
+  }),
+  q("sp-mvp-multi", "Sports", "Name a quarterback who has won AP NFL MVP more than once since 2006", {
+    p: "Tom Brady|Peyton Manning|Aaron Rodgers",
+    c: "Patrick Mahomes|Lamar Jackson",
+  }),
+  q("sp-mvp-rb", "Sports", "Name a running back who has won AP NFL MVP this century", {
+    c: "LaDainian Tomlinson=LT|Adrian Peterson=AP",
+    r: "Marshall Faulk",
+    d: "Shaun Alexander",
+  }),
 ];
