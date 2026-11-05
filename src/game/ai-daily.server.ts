@@ -150,7 +150,6 @@ async function generate(day: string, track: Track): Promise<WireQuestion[]> {
   const db = await admin();
   const { data: past } = await db.from("ai_questions").select("prompt_key").limit(5000);
   const used = new Set([...ALL_QUESTIONS.map((q) => normalize(q.prompt)), ...(past ?? []).map((r) => r.prompt_key)]);
-  const recent = [...used].slice(-400).join("\n");
 
   // Lovable gateway when hosted on Lovable; the user's own OpenAI key when self-hosted (e.g. Cloudflare).
   const provider = apiKey
