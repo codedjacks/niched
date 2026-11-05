@@ -156,38 +156,41 @@ async function generate(day: string, track: Track): Promise<WireQuestion[]> {
   const provider = apiKey
     ? createOpenAI({ baseURL: "https://ai.gateway.lovable.dev/v1", apiKey, headers: { "Lovable-API-Key": apiKey, "X-Lovable-AIG-SDK": "vercel-ai-sdk" } })
     : createOpenAI({ apiKey: openaiKey ?? "" });
-  const result = streamText({
-    model: provider.responses(apiKey ? "openai/gpt-6-astra" : "gpt-5-mini"),
-    maxRetries: 0,
-    output: Output.object({ schema }),
-    system:
-      "You write questions for Niched, a trivia game where players name ONE thing in a category and score more for valid answers that are less common. " +
-      "Write exactly 12 open-ended 'Name a…' prompts. Make them INTERESTING, not basic: skip bland categories like 'Name an NBA team', 'Name an NFL quarterback' or 'Name a sport'. Instead give each prompt a fun, specific angle a fan would enjoy thinking about — e.g. 'Name a player who won MVP and a title in the same season', 'Name an MLB player known by a nickname', 'Name an NFL team that has moved cities', 'Name a famous sports trade', 'Name an athlete who played two pro sports', 'Name a No. 1 overall draft pick'. Use the EXAMPLES only for format. " +
-      (topic ? `EVERY prompt must be about ${topic.name} (categories: ${topic.categories.join(", ")}); vary sub-topics and angles (awards, nicknames, records, eras, draft, trades, venues, rivalries, college, numbers, coaches) so no two prompts feel alike. ` : "Mix categories across food, science, geography, history, music, movies/TV, sports, gaming, brands, nature, literature. ") +
-      (topicId === "sports" ? "PRIORITISE the NBA, NFL and MLB: about 5 of the 7 kept prompts (write ~8 of the 12) should be about those three leagues, spread across all three. The rest cover other sports (soccer, NHL, tennis, golf, Olympics, etc.). ORDER the list so that the FIRST 2 prompts are about other sports (not NBA/NFL/MLB), then the NBA/NFL/MLB prompts. " : "") +
-      "QUALITY RULES: Each prompt must still have at least 30 clearly correct answers so everyone can score something, and be quick to understand in one read. Avoid trick wording, 'that starts with…', narrow date ranges, or anything needing research. " +
-      "Every answer must be a REAL, verifiable thing — no invented items, no borderline or debatable members. If unsure an answer is correct, leave it out. " +
-      "Each prompt must be unambiguous, factual and clearly different from every prompt in the 'already used' list (not a rewording). " +
-      "For each prompt give 30-45 answers using the most common name, with aliases (alternate spellings, abbreviations, short names). Tier by how often typical players would say it: " +
-      "pencil = the obvious top few, paperclip = very common, notebook = common, backpack = less common, goldstar = rare but still recognisable, valedictorian = obscure yet clearly correct and famous within its field. Include several of each tier.",
-    prompt: `Date: ${day}\nKnown categories: ${(topic ? topic.categories : CATEGORIES).join(", ")}\n\nEXAMPLES of the quality and style to match:\n${examples(8, topicId ? challengePool(topicId) : ALL_QUESTIONS)}\n\nAlready used prompts (normalized):\n${recent}`,
-    providerOptions: { openai: { store: false, forceReasoning: true, reasoningEffort: "low" } },
-  });
-  const out = await result.output;
   const usedKeys = [...used];
   const picked: WireQuestion[] = [];
-  for (const q of out.questions) {
-    const key = normalize(q.prompt);
-    // Reject exact repeats AND reworded repeats of any past or bundled prompt, so a question never comes back.
-    if (!key || q.answers.length < 15 || isRepeatPrompt(q.prompt, usedKeys)) continue;
-    usedKeys.push(key);
-    picked.push({
-      id: track === "main" ? `ai-${day}-${picked.length}` : `ai-${track}-${day}-${picked.length}`,
-      category: q.category.trim().slice(0, 40),
-      prompt: q.prompt.trim().slice(0, 160),
-      answers: q.answers.slice(0, 60).map((a) => ({ name: a.name.trim(), tier: a.tier, aliases: a.aliases.slice(0, 6) })),
+  // Many candidates legitimately overlap the bundled bank and get rejected, so generate in batches until 7 fresh ones survive.
+  for (let attempt = 0; attempt < 3 && picked.length < 7; attempt++) {
+    const result = streamText({
+      model: provider.responses(apiKey ? "openai/gpt-6-astra" : "gpt-5-mini"),
+      maxRetries: 0,
+      output: Output.object({ schema }),
+      system:
+        "You write questions for Niched, a trivia game where players name ONE thing in a category and score more for valid answers that are less common. " +
+        "Write exactly 12 open-ended 'Name a…' prompts. Make them INTERESTING, not basic: skip bland categories like 'Name an NBA team', 'Name an NFL quarterback' or 'Name a sport'. Instead give each prompt a fun, specific angle a fan would enjoy thinking about — e.g. 'Name a player who won MVP and a title in the same season', 'Name an MLB player known by a nickname', 'Name an NFL team that has moved cities', 'Name a famous sports trade', 'Name an athlete who played two pro sports', 'Name a No. 1 overall draft pick'. Use the EXAMPLES only for format. " +
+        (topic ? `EVERY prompt must be about ${topic.name} (categories: ${topic.categories.join(", ")}); vary sub-topics and angles (awards, nicknames, records, eras, draft, trades, venues, rivalries, college, numbers, coaches) so no two prompts feel alike. ` : "Mix categories across food, science, geography, history, music, movies/TV, sports, gaming, brands, nature, literature. ") +
+        (topicId === "sports" ? "PRIORITISE the NBA, NFL and MLB: about 5 of the 7 kept prompts (write ~8 of the 12) should be about those three leagues, spread across all three. The rest cover other sports (soccer, NHL, tennis, golf, Olympics, etc.). ORDER the list so that the FIRST 2 prompts are about other sports (not NBA/NFL/MLB), then the NBA/NFL/MLB prompts. " : "") +
+        "QUALITY RULES: Each prompt must still have at least 30 clearly correct answers so everyone can score something, and be quick to understand in one read. Avoid trick wording, 'that starts with…', narrow date ranges, or anything needing research. " +
+        "Every answer must be a REAL, verifiable thing — no invented items, no borderline or debatable members. If unsure an answer is correct, leave it out. " +
+        "Each prompt must be unambiguous, factual and clearly different from every prompt in the 'already used' list (not a rewording). " +
+        "For each prompt give 30-45 answers using the most common name, with aliases (alternate spellings, abbreviations, short names). Tier by how often typical players would say it: " +
+        "pencil = the obvious top few, paperclip = very common, notebook = common, backpack = less common, goldstar = rare but still recognisable, valedictorian = obscure yet clearly correct and famous within its field. Include several of each tier.",
+      prompt: `Date: ${day}\nKnown categories: ${(topic ? topic.categories : CATEGORIES).join(", ")}\n\nEXAMPLES of the quality and style to match:\n${examples(8, topicId ? challengePool(topicId) : ALL_QUESTIONS)}\n\nAlready used prompts (normalized):\n${[...usedKeys].slice(-400).join("\n")}`,
+      providerOptions: { openai: { store: false, forceReasoning: true, reasoningEffort: "low" } },
     });
-    if (picked.length === 7) break;
+    const out = await result.output;
+    for (const q of out.questions) {
+      const key = normalize(q.prompt);
+      // Reject exact repeats AND reworded repeats of any past or bundled prompt, so a question never comes back.
+      if (!key || q.answers.length < 15 || isRepeatPrompt(q.prompt, usedKeys)) continue;
+      usedKeys.push(key);
+      picked.push({
+        id: track === "main" ? `ai-${day}-${picked.length}` : `ai-${track}-${day}-${picked.length}`,
+        category: q.category.trim().slice(0, 40),
+        prompt: q.prompt.trim().slice(0, 160),
+        answers: q.answers.slice(0, 60).map((a) => ({ name: a.name.trim(), tier: a.tier, aliases: a.aliases.slice(0, 6) })),
+      });
+      if (picked.length === 7) break;
+    }
   }
   if (picked.length !== 7) throw new Error(`Only ${picked.length} usable questions`);
   return picked;
