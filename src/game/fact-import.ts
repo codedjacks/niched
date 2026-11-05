@@ -21,7 +21,7 @@ export function validateFactImport(input: unknown) {
   // Pro Football Reference is NFL-only: player pages at /players/<initial>/<id>.htm with ids like MahoPa00.
   if (record.provider === "pfr") {
     if (record.league !== "nfl") throw new Error("Pro Football Reference only covers the NFL");
-    if (!/^[A-Za-z]{4}\.?\d{2}$/.test(record.player_id)) throw new Error("Not a Pro Football Reference player id");
+    if (!/^[A-Za-z]{3,6}\.?\d{2}$/.test(record.player_id)) throw new Error("Not a Pro Football Reference player id");
     const expected = `https://www.pro-football-reference.com/players/${record.player_id[0]}/${record.player_id}.htm`;
     if (record.url !== expected) throw new Error("Source identity mismatch");
   } else {
