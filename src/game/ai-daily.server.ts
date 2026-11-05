@@ -149,13 +149,17 @@ async function generate(day: string, track: Track): Promise<WireQuestion[]> {
   if (!apiKey && !openaiKey) throw new Error("No AI key (LOVABLE_API_KEY or OPENAI_API_KEY)");
   const db = await admin();
   const { data: past } = await db.from("ai_questions").select("prompt_key").limit(5000);
-  const used = new Set([...ALL_QUESTIONS.map((q) => normalize(q.prompt)), ...(past ?? []).map((r) => r.prompt_key)]);
+  // Bundled bank: exact-match dedup (practice and daily may share topics). Past AI prompts: strict similarity
+  // dedup so a daily question never comes back, even reworded.
+  const bundledKeys = new Set(ALL_QUESTIONS.map((q) => normalize(q.prompt)));
+  const used = new Set([...bundledKeys, ...(past ?? []).map((r) => r.prompt_key)]);
 
   // Lovable gateway when hosted on Lovable; the user's own OpenAI key when self-hosted (e.g. Cloudflare).
   const provider = apiKey
     ? createOpenAI({ baseURL: "https://ai.gateway.lovable.dev/v1", apiKey, headers: { "Lovable-API-Key": apiKey, "X-Lovable-AIG-SDK": "vercel-ai-sdk" } })
     : createOpenAI({ apiKey: openaiKey ?? "" });
   const usedKeys = [...used];
+  const aiKeys = (past ?? []).map((r) => r.prompt_key as string);
   const picked: WireQuestion[] = [];
   // Many candidates legitimately overlap the bundled bank and get rejected, so generate in batches until 7 fresh ones survive.
   for (let attempt = 0; attempt < 3 && picked.length < 7; attempt++) {
@@ -179,9 +183,11 @@ async function generate(day: string, track: Track): Promise<WireQuestion[]> {
     const out = await result.output;
     for (const q of out.questions) {
       const key = normalize(q.prompt);
-      // Reject exact repeats AND reworded repeats of any past or bundled prompt, so a question never comes back.
-      if (!key || q.answers.length < 15 || isRepeatPrompt(q.prompt, usedKeys)) continue;
+      // Reject exact repeats of any past or bundled prompt, and reworded repeats of past daily prompts,
+      // so a daily question never comes back.
+      if (!key || q.answers.length < 15 || bundledKeys.has(key) || isRepeatPrompt(q.prompt, aiKeys)) continue;
       usedKeys.push(key);
+      aiKeys.push(key);
       picked.push({
         id: track === "main" ? `ai-${day}-${picked.length}` : `ai-${track}-${day}-${picked.length}`,
         category: q.category.trim().slice(0, 40),
