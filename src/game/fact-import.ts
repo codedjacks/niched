@@ -3,7 +3,7 @@ import { CAREER_SCOPE, FACT_METRICS, SEASON_SCOPES } from "./facts";
 
 const sourceSchema = z.object({
   league: z.enum(["nba", "nfl", "mlb", "nhl"]), provider: z.enum(["espn", "pfr"]).default("espn"),
-  player_id: z.string().regex(/^[A-Za-z0-9]+$/), player_name: z.string().min(1),
+  player_id: z.string().regex(/^[A-Za-z0-9.]+$/), player_name: z.string().min(1),
   scope: z.string().default(CAREER_SCOPE), url: z.url(), retrieved_at: z.iso.datetime({ offset: true }),
   payload: z.object({ season: z.number().int().optional(), athlete: z.object({ id: z.string(), displayName: z.string() }), categories: z.array(z.object({ name: z.string(), names: z.array(z.string()), totals: z.array(z.string()) })) }),
   facts: z.array(z.object({ metric: z.string(), value: z.number().int().nonnegative(), category: z.string() })).min(1),
