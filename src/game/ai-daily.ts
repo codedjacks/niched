@@ -51,15 +51,21 @@ export function isRepeatPrompt(prompt: string, usedKeys: Iterable<string>): bool
   for (const used of usedKeys) {
     if (used === key) return true;
     const otherAngles = angleTokens(used);
-    // Compare angle words when both prompts have them; otherwise fall back to all content words.
-    const a = angles.size > 0 ? angles : full;
-    const b = otherAngles.size > 0 ? otherAngles : promptTokens(used);
+    if (angles.size > 0 && otherAngles.size > 0) {
+      // Both prompts have angle words: a repeat shares at least one angle word covering
+      // most of the smaller prompt's angle ("nickname" matches "nickname"; "championship" doesn't match "mvp").
+      let sharedAngles = 0;
+      for (const t of angles) if (otherAngles.has(t)) sharedAngles++;
+      const smallerAngle = Math.min(angles.size, otherAngles.size);
+      if (sharedAngles >= 1 && sharedAngles / smallerAngle >= 0.5) return true;
+      continue;
+    }
+    // A prompt with no angle words (e.g. "Name an NBA player") falls back to full content-word overlap.
+    const other = promptTokens(used);
     let shared = 0;
-    for (const t of a) if (b.has(t)) shared++;
-    const smaller = Math.min(a.size, b.size);
-    if (smaller === 0) continue;
-    if (shared === smaller) return true; // one question's angle is fully inside the other's
-    if (shared >= 3 && shared / smaller >= 0.8) return true;
+    for (const t of full) if (other.has(t)) shared++;
+    const smaller = Math.min(full.size, other.size);
+    if (smaller >= 3 && shared >= 3 && shared / smaller >= 0.8) return true;
   }
   return false;
 }
