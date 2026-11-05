@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX ai_questions_prompt_key_uidx ON public.ai_questions (prompt_key);

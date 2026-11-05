@@ -4,7 +4,7 @@ import { z } from "zod";
 import { ALL_QUESTIONS } from "./questions";
 import { normalize, TIER_ORDER } from "./scoring";
 import type { TierId } from "./types";
-import { SPORTS_DAILY_FROM, toQuestion, type WireQuestion } from "./ai-daily";
+import { SPORTS_DAILY_FROM, isRepeatPrompt, toQuestion, type WireQuestion } from "./ai-daily";
 import { CHALLENGES, challengePool, type ChallengeId } from "./challenges";
 import type { Question } from "./types";
 
@@ -174,12 +174,13 @@ async function generate(day: string, track: Track): Promise<WireQuestion[]> {
     providerOptions: { openai: { store: false, forceReasoning: true, reasoningEffort: "low" } },
   });
   const out = await result.output;
-  const seen = new Set(used);
+  const usedKeys = [...used];
   const picked: WireQuestion[] = [];
   for (const q of out.questions) {
     const key = normalize(q.prompt);
-    if (!key || seen.has(key) || q.answers.length < 15) continue;
-    seen.add(key);
+    // Reject exact repeats AND reworded repeats of any past or bundled prompt, so a question never comes back.
+    if (!key || q.answers.length < 15 || isRepeatPrompt(q.prompt, usedKeys)) continue;
+    usedKeys.push(key);
     picked.push({
       id: track === "main" ? `ai-${day}-${picked.length}` : `ai-${track}-${day}-${picked.length}`,
       category: q.category.trim().slice(0, 40),
