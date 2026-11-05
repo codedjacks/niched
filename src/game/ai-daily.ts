@@ -22,22 +22,44 @@ export function promptTokens(prompt: string): Set<string> {
   return new Set(normalize(prompt).split(" ").filter((w) => w.length > 1 && !PROMPT_STOPWORDS.has(w)));
 }
 
+/** Structural sports words that recur in almost every prompt; they don't define a question's angle. */
+const STRUCTURAL_WORDS = new Set([
+  "nba", "nfl", "mlb", "nhl", "player", "players", "team", "teams", "athlete", "athletes", "season", "seasons",
+  "game", "games", "won", "win", "wins", "league", "leagues", "sport", "sports", "pro", "professional", "college",
+  "coach", "coaches", "champion", "champions",
+]);
+
+/** Light plural stripping so "medals" and "medal" compare equal. */
+const stem = (w: string) => (w.length > 3 && w.endsWith("s") ? w.slice(0, -1) : w);
+
+/** The words that define what a question is actually about (structural words removed). */
+function angleTokens(prompt: string): Set<string> {
+  return new Set([...promptTokens(prompt)].filter((w) => !STRUCTURAL_WORDS.has(w)).map(stem));
+}
+
 /**
  * True when `prompt` repeats an already-used prompt: either the exact normalized text,
- * or a rewording whose content words mostly overlap (≥75% of the smaller prompt's words,
- * with at least 3 shared words) so "known by a nickname" and "famous for his nickname" both count as the same question.
+ * or a rewording whose "angle" words are contained in the used prompt's angle words —
+ * so "known by a nickname" and "famous for his nickname" count as the same question,
+ * while "won a championship" and "won MVP" stay distinct.
  */
 export function isRepeatPrompt(prompt: string, usedKeys: Iterable<string>): boolean {
   const key = normalize(prompt);
   if (!key) return true;
-  const tokens = promptTokens(prompt);
+  const angles = angleTokens(prompt);
+  const full = promptTokens(prompt);
   for (const used of usedKeys) {
     if (used === key) return true;
-    const other = promptTokens(used);
+    const otherAngles = angleTokens(used);
+    // Compare angle words when both prompts have them; otherwise fall back to all content words.
+    const a = angles.size > 0 ? angles : full;
+    const b = otherAngles.size > 0 ? otherAngles : promptTokens(used);
     let shared = 0;
-    for (const t of tokens) if (other.has(t)) shared++;
-    const smaller = Math.min(tokens.size, other.size);
-    if (shared >= 3 && smaller >= 3 && shared / smaller >= 0.75) return true;
+    for (const t of a) if (b.has(t)) shared++;
+    const smaller = Math.min(a.size, b.size);
+    if (smaller === 0) continue;
+    if (shared === smaller) return true; // one question's angle is fully inside the other's
+    if (shared >= 3 && shared / smaller >= 0.8) return true;
   }
   return false;
 }
