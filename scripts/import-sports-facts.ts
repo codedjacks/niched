@@ -19,8 +19,9 @@ let count = 0;
 try {
     for (const record of records) {
       const hash = createHash("sha256").update(JSON.stringify(record.payload)).digest("hex");
-      const sourceId = `espn:${record.league}:${record.player_id}:${hash}`;
-      const { error: sourceError } = await db.from('sports_fact_sources').upsert({ id: sourceId, provider: 'ESPN', url: record.url, retrieved_at: record.retrieved_at, payload: record.payload, payload_hash: hash }, { onConflict: 'id', ignoreDuplicates: true });
+      const sourceId = `${record.provider}:${record.league}:${record.player_id}:${hash}`;
+      const providerName = record.provider === "pfr" ? "Pro Football Reference" : "ESPN";
+      const { error: sourceError } = await db.from('sports_fact_sources').upsert({ id: sourceId, provider: providerName, url: record.url, retrieved_at: record.retrieved_at, payload: record.payload, payload_hash: hash }, { onConflict: 'id', ignoreDuplicates: true });
       if (sourceError) throw new Error(`Source import failed: ${sourceError.message}`);
       for (const fact of record.facts) {
         const spec = FACT_METRICS[`${record.league}:${fact.metric}`];
