@@ -26,9 +26,12 @@ function careerCells(html: string, tableId: string): Map<string, string> | null 
   if (!t) return null;
   const foot = t[0].match(/<tfoot[\s\S]*?<\/tfoot>/);
   if (!foot) return null;
-  // The career totals row is the first tfoot row with a year_id cell; some pages
-  // lead the tfoot with a grouped header row, and a "17 Game Avg" row follows.
-  const careerRow = [...foot[0].matchAll(/<tr[\s\S]*?<\/tr>/g)].find((r) => r[0].includes('data-stat="year_id"'));
+  // The career totals row is the tfoot row whose year_id reads "N Yrs" or "Career";
+  // header rows, per-team splits, per-league splits and the "17 Game Avg" row are skipped.
+  const careerRow = [...foot[0].matchAll(/<tr[\s\S]*?<\/tr>/g)].find((r) => {
+    const y = r[0].match(/data-stat="year_id"[^>]*>([\s\S]*?)<\/t[dh]>/);
+    return y && /^(Career|\d+ Yrs?)$/.test(strip(y[1]!));
+  });
   if (!careerRow) return null;
   const cells = new Map<string, string>();
   for (const m of careerRow[0].matchAll(/data-stat="([^"]+)"[^>]*>([\s\S]*?)<\/t[dh]>/g)) cells.set(m[1]!, strip(m[2]!));
