@@ -53,6 +53,18 @@ describe("isRepeatPrompt", () => {
   it("treats an empty prompt as a repeat so it is never picked", () => {
     expect(isRepeatPrompt("   ", used("Name an NBA team"))).toBe(true);
   });
+
+  it("keeps different achievements in the same league as separate questions", () => {
+    expect(
+      isRepeatPrompt("Name an NBA player who has won a championship", used("Name an NBA player who has won MVP")),
+    ).toBe(false);
+  });
+
+  it("rejects a shorter reask of a past question", () => {
+    expect(
+      isRepeatPrompt("Name a famous sports trade", used("Name an MLB player involved in a famous trade")),
+    ).toBe(true);
+  });
 });
 
 describe("promptTokens", () => {
