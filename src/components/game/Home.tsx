@@ -18,7 +18,6 @@ const GAMES = [
   { to: "/locker-number", icon: "👕", name: "Locker Number", blurb: "Who wore this number?" },
   { to: "/stat-line", icon: "📊", name: "Stat Line", blurb: "Whose season was this?" },
   { to: "/team-trio", icon: "🤝", name: "Team Trio", blurb: "Name the team of three teammates" },
-  { to: "/silhouette", icon: "👤", name: "Silhouette", blurb: "Who's the pixel athlete?" },
   { to: "/jersey-chain", icon: "⛓️", name: "Jersey Chain", blurb: "Everyone who wore the number" },
   { to: "/trade-machine", icon: "🔁", name: "Trade Machine", blurb: "Who was traded?" },
   { to: "/award-ballot", icon: "🗳️", name: "Award Ballot", blurb: "Rank the MVP finalists" },
