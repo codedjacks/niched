@@ -59,25 +59,6 @@ export function ClueGuess({ game, name, clues, points, answer, isAnswer, visual 
   );
 }
 
-/** Blocky pixel athlete that sharpens as clues are revealed. */
-export function PixelAthlete({ kit, number, pose, shown }: { kit: string; number: string; pose: string; shown: number }) {
-  const fill = { primary: "bg-primary", destructive: "bg-destructive", secondary: "bg-secondary", accent: "bg-accent" }[kit] ?? "bg-primary";
-  const arm = pose === "shoot" || pose === "throw" ? "-translate-y-6 -rotate-45" : pose === "swing" ? "rotate-90" : "rotate-12";
-  return (
-    <div className="arcade-panel flex h-56 items-end justify-center overflow-hidden rounded-xl pb-4" aria-label="Mystery athlete silhouette">
-      <div className="relative transition-[filter] duration-500" style={{ filter: `blur(${Math.max(0, 8 - shown * 2)}px)`, imageRendering: "pixelated" }}>
-        <div className="mx-auto h-10 w-10 bg-foreground" />
-        <div className={cn("relative mx-auto mt-1 flex h-20 w-16 items-center justify-center", fill)}>
-          <span className="font-jersey text-3xl text-background">{shown >= 3 ? number : "?"}</span>
-          <span className={cn("absolute -right-6 top-1 h-4 w-8 origin-left bg-foreground", arm)} />
-          <span className="absolute -left-6 top-1 h-4 w-8 bg-foreground" />
-        </div>
-        <div className="mx-auto mt-1 flex w-16 justify-between"><span className="h-14 w-6 bg-foreground" /><span className={cn("h-14 w-6 bg-foreground", pose === "kick" && "-rotate-45")} /></div>
-      </div>
-    </div>
-  );
-}
-
 export function Skyline({ heights, shown }: { heights: number[]; shown: number }) {
   return (
     <div className="arcade-panel flex h-40 items-end gap-1 overflow-hidden rounded-xl px-4" aria-label="Pixel skyline">

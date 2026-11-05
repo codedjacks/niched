@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { TOP10, top10ForDay, top10Points, top10Slot, TOP10_MAX } from "./top10";
-import { SILHOUETTES, cluePoints, isSilhouette } from "./silhouette";
+import { cluePoints } from "./clues";
 import { CHAINS, chainOver, chainIndex } from "./jerseychain";
 import { TRADES, isTradePlayer } from "./trades";
 import { BALLOTS, scoreBallot, ballotStart } from "./ballot";
@@ -19,10 +19,8 @@ describe("seven new daily games", () => {
     expect(top10Slot(TOP10[0]!, "barry bonds", [])).toBe(0);
     expect(top10Slot(TOP10[0]!, "barry bonds", [0])).toBe(-1);
   });
-  it("Silhouette scores 100/80/60/40/20 by clue", () => {
+  it("clue games score 100/80/60/40/20 by clue", () => {
     expect([1, 2, 3, 4, 5].map(cluePoints)).toEqual([100, 80, 60, 40, 20]);
-    expect(isSilhouette(SILHOUETTES[0]!, "jordan")).toBe(true);
-    expect(isSilhouette(SILHOUETTES[0]!, "Micheal Jordan")).toBe(true);
   });
   it("Jersey Chain ends after three misses", () => {
     const ch = CHAINS[0]!;
@@ -44,7 +42,7 @@ describe("seven new daily games", () => {
   it("no empty or duplicate puzzles", () => {
     expect(TOP10.every((l) => l.names.length === 10)).toBe(true);
     expect(BALLOTS.every((b) => b.order.length === 5 && new Set(b.order).size === 5)).toBe(true);
-    for (const list of [SILHOUETTES.map((s) => s.name[0]), TRADES.map((t) => t.player[0]), STADIUMS.map((s) => s.name[0]), CHAINS.map((c) => c.league + c.number)]) {
+    for (const list of [TRADES.map((t) => t.player[0]), STADIUMS.map((s) => s.name[0]), CHAINS.map((c) => c.league + c.number)]) {
       expect(new Set(list).size).toBe(list.length);
     }
   });

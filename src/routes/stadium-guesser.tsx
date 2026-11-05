@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { GameFrame, useDailyGame } from "@/components/game/SportsGame";
 import { ClueGuess, Skyline } from "@/components/game/MoreModes";
-import { CLUE_POINTS } from "@/game/silhouette";
+import { CLUE_POINTS } from "@/game/clues";
 import { STADIUMS, isStadium, skyline, stadiumClues, stadiumForDay } from "@/game/stadiums";
 import { stadiumDeck, useTeamFacts } from "@/game/team-facts";
 

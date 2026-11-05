@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { GameFrame, useDailyGame } from "@/components/game/SportsGame";
 import { ClueGuess } from "@/components/game/MoreModes";
-import { CLUE_POINTS } from "@/game/silhouette";
+import { CLUE_POINTS } from "@/game/clues";
 import { isTradePlayer, tradeClues, tradeForDay } from "@/game/trades";
 
 export const Route = createFileRoute("/trade-machine")({
